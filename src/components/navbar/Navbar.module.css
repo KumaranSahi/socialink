@@ -1,0 +1,18 @@
+.navbar-container {
+  height: 4.4rem;
+  width: 100%;
+  position: fixed;
+  top: 0%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  box-shadow: 6px -4px 20px 2px;
+  z-index: var(--z-index-high);
+}
+
+.navbar-logo {
+  color: var(--primary);
+  margin: 0;
+  cursor: pointer;
+}

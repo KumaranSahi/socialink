@@ -1,0 +1,36 @@
+.name-avatar-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.name-container {
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  margin-bottom: 1.7rem;
+  font-weight: 600;
+  color: black;
+  cursor: pointer;
+  display: none;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.avatar-container {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  position: relative;
+}
+
+@media (min-width: 700px) {
+  .name-container {
+    display: block;
+  }
+}

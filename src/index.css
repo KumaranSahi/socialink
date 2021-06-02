@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --primary: #f68121;
+  --success: green;
+  --success-mild: #016c5d;
+  --success-bright: limegreen;
+  --failure: red;
+  --failure-mild: salmon;
+  --neutral: gray;
+  --neutral-mild: lightgrey;
+  --z-index-high: 200;
+  --z-index-mid: 100;
+  --z-index-low: 1;
+}

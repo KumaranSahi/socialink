@@ -64,6 +64,19 @@ const authSlice = createSlice({
     setAuthLoading: (state, action) => {
       state.authLoading = action.payload;
     },
+    setUserDetailsAfterReload: (state, action) => {
+      state.token = action.payload.token;
+      state.userId = action.payload.userId;
+      state.image = action.payload.image;
+      state.userName = action.payload.userName;
+    },
+    signoutUser: (state) => {
+      localStorage.clear();
+      state.token = null;
+      state.userId = null;
+      state.image = null;
+      state.userName = null;
+    },
   },
   extraReducers: {
     [signUpUser.pending.toString()]: (state) => {
@@ -99,6 +112,10 @@ const authSlice = createSlice({
       action.payload?.image && localStorage.setItem("image", image);
       const expiresIn = new Date(new Date().getTime() + 3600000);
       localStorage.setItem("expiresIn", "" + expiresIn);
+      state.token = token;
+      state.userId = userId;
+      state.image = image;
+      state.userName = userName;
     },
     [signinUser.rejected.toString()]: (state, error) => {
       warningToast("Invalid username or password");
@@ -122,4 +139,9 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { switchPage, setAuthLoading } = authSlice.actions;
+export const {
+  switchPage,
+  setAuthLoading,
+  setUserDetailsAfterReload,
+  signoutUser,
+} = authSlice.actions;

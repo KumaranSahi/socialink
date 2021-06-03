@@ -3,10 +3,13 @@ import { useState, SyntheticEvent } from "react";
 import profileImage from "../../../assets/profile_image.jpg";
 import { Menu, MenuItem } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signoutUser } from "../../../features/auth/authSlice";
 
 export const Avatar = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const { push } = useHistory();
+  const dispatch = useDispatch();
 
   const handleClick = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget);
@@ -17,7 +20,7 @@ export const Avatar = () => {
   };
 
   const handleLogout = () => {
-    // signOutUser(dispatch, setAuthLoading);
+    dispatch(signoutUser());
     handleClose();
   };
 

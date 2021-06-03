@@ -1,7 +1,9 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import authReducer from "../features/auth/authSlice";
 
 export const store = configureStore({
   reducer: {
+    auth: authReducer,
   },
 });
 
@@ -13,3 +15,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+
+export const authSlice=(state: RootState) => state.auth;

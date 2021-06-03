@@ -76,7 +76,4 @@
     flex-direction: row;
     justify-content: space-evenly;
   }
-  .signin-signup-container {
-    margin-top: 5rem;
-  }
 }

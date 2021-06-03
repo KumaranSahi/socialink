@@ -124,6 +124,7 @@ export const SignupContainer = ({
               value={dob}
               onChange={addDob}
               fullWidth
+              required
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}

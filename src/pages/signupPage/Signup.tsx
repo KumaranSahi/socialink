@@ -1,5 +1,5 @@
 import classes from "./Singup.module.css";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent } from "react";
 import { successToast, warningToast } from "../../components/";
 import { useSignupReducer } from "./SignupReducer";
 import axios from "axios";
@@ -11,21 +11,19 @@ import {
 import { SigninPages } from "../../features/auth/auth.types";
 import { Button } from "@material-ui/core";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import {
+  signUpUser,
+  signinUser,
+  switchPage,
+  changePassword,
+  setAuthLoading,
+} from "../../features/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { authSlice } from "../../app/store";
 
 export const Signup = () => {
-  // const {
-  //   signUpUser,
-  //   signInUser,
-  //   currentPage,
-  //   setCurrentPage,
-  //   changePassword,
-  //   setAuthLoading,
-  //   authLoading,
-  //   dispatch,
-  // } = useAuth();
-
-  const [authLoading, setAuthLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState<SigninPages>("SIGNUP_PAGE");
+  const dispatch = useDispatch();
+  const { authLoading, currentPage } = useSelector(authSlice);
   const {
     dispatch: signupDispatch,
     state: {
@@ -65,7 +63,7 @@ export const Signup = () => {
       file[0].size <= 4000000
     ) {
       try {
-        setAuthLoading(true);
+        dispatch(setAuthLoading(true));
         const data = new FormData();
         data.append("file", file[0]);
         data.append("upload_preset", "conclave");
@@ -78,10 +76,11 @@ export const Signup = () => {
           type: "ADD_IMAGE",
           payload: imageData.url,
         });
-        setAuthLoading(false);
+        dispatch(setAuthLoading(false));
         successToast("Image uploaded successfully");
       } catch (error) {
         console.log(error);
+        dispatch(setAuthLoading(false));
         warningToast("Unable to upload image");
       }
     } else {
@@ -115,50 +114,45 @@ export const Signup = () => {
     event.preventDefault();
     validateUserName();
     validateEmail();
-    // if (userNameValid && emailValid) {
-    //   signUpUser(
-    //     {
-    //       name: userName,
-    //       email: email,
-    //       password: password,
-    //       image: image,
-    //       isAdmin: isAdmin,
-    //     },
-    //     setAuthLoading,
-    //     setCurrentPage
-    //   );
-    // }
+    if (userNameValid && emailValid) {
+      dispatch(
+        signUpUser({
+          name: userName,
+          email: email,
+          password: password,
+          image: image,
+          DOB: DOB,
+        })
+      );
+    }
   };
 
   const signInSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     validateEmail();
-    // if (emailValid)
-    //   signInUser(
-    //     {
-    //       email: email,
-    //       password: password,
-    //     },
-    //     dispatch,
-    //     setAuthLoading
-    //   );
+    if (emailValid)
+      dispatch(
+        signinUser({
+          email: email,
+          password: password,
+        })
+      );
   };
 
   const changePasswordSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     validateEmail();
-    // if (password === confirmPassword) {
-    //   changePassword(
-    //     {
-    //       email: email,
-    //       password: password,
-    //       confirmPassword: confirmPassword,
-    //     },
-    //     setAuthLoading
-    //   );
-    // } else {
-    //   warningToast("Passwords do not match");
-    // }
+    if (password === confirmPassword) {
+      dispatch(
+        changePassword({
+          email: email,
+          password: password,
+          confirmPassword: confirmPassword,
+        })
+      );
+    } else {
+      warningToast("Passwords do not match");
+    }
   };
 
   const pageToRender = (currentPage: SigninPages) => {
@@ -239,7 +233,7 @@ export const Signup = () => {
         {currentPage === "SIGNIN_PAGE" && (
           <Button
             color="primary"
-            onClick={() => setCurrentPage("CHANGE_PASSWORD")}
+            onClick={() => dispatch(switchPage("CHANGE_PASSWORD"))}
           >
             Forgot Password
           </Button>
@@ -249,7 +243,7 @@ export const Signup = () => {
             variant="outlined"
             color="primary"
             fullWidth
-            onClick={() => setCurrentPage("SIGNUP_PAGE")}
+            onClick={() => dispatch(switchPage("SIGNUP_PAGE"))}
           >
             New to Socialink? Sign up!
           </Button>
@@ -258,7 +252,7 @@ export const Signup = () => {
             variant="outlined"
             color="primary"
             fullWidth
-            onClick={() => setCurrentPage("SIGNIN_PAGE")}
+            onClick={() => dispatch(switchPage("SIGNIN_PAGE"))}
           >
             Already have an Account? Sign In!
           </Button>

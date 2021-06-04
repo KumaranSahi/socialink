@@ -1,0 +1,33 @@
+.create-post-container {
+  width: 95%;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px lightgrey;
+}
+
+.upload-post-buttons {
+  padding: 0.5rem;
+  margin: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upload-image {
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.post-picture {
+  width: 15rem;
+  height: 10rem;
+}
+
+.image-error-model{
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}

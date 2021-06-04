@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import authReducer from "../features/auth/authSlice";
+import postReducer from "../features/post/postSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    post: postReducer,
   },
 });
 
@@ -16,5 +18,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 
+export const authSlice = (state: RootState) => state.auth;
 
-export const authSlice=(state: RootState) => state.auth;
+export const postSlice = (state: RootState) => state.post;

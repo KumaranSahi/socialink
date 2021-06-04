@@ -28,7 +28,7 @@ const LockSignup = ({ ...props }) => {
 function App() {
   const { authLoading, token } = useSelector(authSlice);
   const dispatch = useDispatch();
-  
+
   const checkAuthTimeout = (expirationTime: number) => {
     setTimeout(() => {
       dispatch(signoutUser());
@@ -52,7 +52,6 @@ function App() {
         setUserDetailsAfterReload({
           token: token,
           userName: userName,
-          expiresIn: expiresIn,
           image: image,
           userId: userId,
         })

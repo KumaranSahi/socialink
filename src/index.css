@@ -23,6 +23,7 @@ a {
 :root {
   --primary: #f68121;
   --primary-mild: #e8d9cb;
+  --background: #e8e8e8;
   --success: green;
   --success-mild: #016c5d;
   --success-bright: limegreen;

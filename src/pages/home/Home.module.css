@@ -1,0 +1,37 @@
+.homepage {
+  width: 100vw;
+  height: calc(100vh - 4.4rem);
+}
+
+.homepage-container {
+  margin: auto;
+  width: 100%;
+  display: flex;
+}
+
+.posts-container {
+  overflow-y: auto;
+  display: inline-flex;
+  margin: 1rem;
+  width: 95%;
+  height: 100%;
+}
+
+.people-you-may-know-container {
+  border: 1px solid black;
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .people-you-may-know-container {
+    display: inline-flex;
+    margin: 1rem;
+    flex: 2;
+  }
+  .posts-container {
+    flex: 3;
+  }
+  .homepage-container {
+    width: 80%;
+  }
+}

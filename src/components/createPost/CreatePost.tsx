@@ -2,9 +2,9 @@ import classes from "./CreatePost.module.css";
 import { TextField, Button, IconButton } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
 import { SyntheticEvent, useState } from "react";
-import { postSlice } from "../../app/store";
+import { postSlice, authSlice } from "../../app/store";
 import { useSelector, useDispatch } from "react-redux";
-import { setPostLoading } from "../../features/post/postSlice";
+import { setPostLoading, createPost } from "../../features/post/postSlice";
 import { warningToast, successToast } from "../../components";
 import axios from "../../useAxios";
 import { Modal } from "../";
@@ -13,9 +13,11 @@ export const CreatePost = () => {
   const [post, setPost] = useState("");
   const [image, setImage] = useState("");
   const [openImageErrorModal, setOpenImageErrorModal] = useState(false);
+  const [postEmptyModal, setPostEmptyModal] = useState(false);
 
   const dispatch = useDispatch();
   const { postLoading } = useSelector(postSlice);
+  const { token } = useSelector(authSlice);
 
   const fileUpload = async (file: FileList | null) => {
     const allowedExtensions = new RegExp("^.*(.jpg|.jpeg|.png)");
@@ -49,7 +51,21 @@ export const CreatePost = () => {
 
   const addPost = (event: SyntheticEvent) => {
     event.preventDefault();
-
+    if (post.length > 0) {
+      dispatch(
+        createPost({
+          data: {
+            content: post,
+            image: image.length > 0 ? image : undefined,
+          },
+          token: token!,
+        })
+      );
+      setImage("");
+      setPost("");
+    } else {
+      setPostEmptyModal(true);
+    }
   };
 
   return (
@@ -66,11 +82,7 @@ export const CreatePost = () => {
         />
         <div className={classes["upload-post-buttons"]}>
           {image ? (
-              <img
-                src={image}
-                alt="Post"
-                className={classes["post-picture"]}
-              />
+            <img src={image} alt="Post" className={classes["post-picture"]} />
           ) : (
             <>
               <input
@@ -110,6 +122,18 @@ export const CreatePost = () => {
             color="primary"
             variant="contained"
             onClick={() => setOpenImageErrorModal(false)}
+          >
+            Ok
+          </Button>
+        </div>
+      </Modal>
+      <Modal open={postEmptyModal} handleClose={setPostEmptyModal}>
+        <div className={classes["image-error-model"]}>
+          <p>Please add a few words for your fans</p>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => setPostEmptyModal(false)}
           >
             Ok
           </Button>

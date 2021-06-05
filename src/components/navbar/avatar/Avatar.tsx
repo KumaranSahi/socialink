@@ -26,7 +26,7 @@ export const Avatar = () => {
   };
 
   const myProfileClicked = () => {
-    push("/my-scores");
+    push("/my-profile");
     handleClose();
   };
 

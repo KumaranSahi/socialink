@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect } from "react";
 import { Navbar } from "./components";
-import { Signup, Home } from "./pages";
+import { Signup, Home, MyProfile } from "./pages";
 import { useSelector, useDispatch } from "react-redux";
 import { authSlice } from "./app/store";
 import {
@@ -9,7 +9,13 @@ import {
   setUserDetailsAfterReload,
 } from "./features/auth/authSlice";
 import { Spinner } from "./components";
-import { Switch, Route, useHistory, Redirect } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  useHistory,
+  Redirect,
+  useLocation,
+} from "react-router-dom";
 
 const PrivateLink = ({ ...props }) => {
   const { token } = useSelector(authSlice);
@@ -28,6 +34,7 @@ const LockSignup = ({ ...props }) => {
 function App() {
   const { authLoading, token } = useSelector(authSlice);
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   const checkAuthTimeout = (expirationTime: number) => {
     setTimeout(() => {
@@ -63,12 +70,16 @@ function App() {
     onReload();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   return (
     <div className="App">
       {token && <Navbar />}
       <div className={token ? "main-container" : ""}>
         <Switch>
           <LockSignup path="/sign-up" component={Signup} />
+          <PrivateLink path="/my-profile" component={MyProfile}/>
           {token ? (
             <PrivateLink path="/" component={Home} />
           ) : (

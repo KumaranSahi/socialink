@@ -5,9 +5,13 @@ import {
   SignedInUserInfo,
   SigninUser,
   ChangePassword,
+  EditUserData,
 } from "./auth.types";
 import axios from "../../useAxios";
-import { ResponseTemplate } from "../../Generics.types";
+import {
+  ResponseTemplate,
+  AuthenticatedRequestsPayload,
+} from "../../Generics.types";
 import { warningToast, successToast, infoToast } from "../../components";
 
 const initialState: AuthState = {
@@ -17,7 +21,31 @@ const initialState: AuthState = {
   userName: null,
   authLoading: false,
   currentPage: "SIGNIN_PAGE",
+  bio: null,
+  privacy: false,
 };
+
+export const editProfile = createAsyncThunk(
+  "user/edit-profile",
+  async ({
+    data: EditUserData,
+    token,
+  }: AuthenticatedRequestsPayload<EditUserData>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.put<ResponseTemplate>(
+      "/api/users/edit",
+      EditUserData,
+      config
+    );
+    return data;
+  }
+);
 
 export const signUpUser = createAsyncThunk(
   "user/signup",
@@ -69,6 +97,13 @@ const authSlice = createSlice({
       state.userId = action.payload.userId;
       state.image = action.payload.image;
       state.userName = action.payload.userName;
+      state.bio = action.payload.bio;
+      state.privacy = action.payload.privacy;
+    },
+    setUserAfterEdit: (state, action) => {
+      state.userName = action.payload.userName;
+      state.bio = action.payload.bio;
+      state.privacy = action.payload.privacy;
     },
     signoutUser: (state) => {
       localStorage.clear();
@@ -105,10 +140,12 @@ const authSlice = createSlice({
     },
     [signinUser.fulfilled.toString()]: (state, action) => {
       state.authLoading = false;
-      const { image, token, userId, userName } = action.payload;
+      const { image, token, userId, userName, bio, privacy } = action.payload;
       localStorage.setItem("token", token);
       localStorage.setItem("userName", userName);
       localStorage.setItem("userId", userId);
+      localStorage.setItem("bio", bio);
+      localStorage.setItem("privacy", privacy);
       action.payload?.image && localStorage.setItem("image", image);
       const expiresIn = new Date(new Date().getTime() + 3600000);
       localStorage.setItem("expiresIn", "" + expiresIn);
@@ -116,6 +153,8 @@ const authSlice = createSlice({
       state.userId = userId;
       state.image = image;
       state.userName = userName;
+      state.bio = bio;
+      state.privacy = privacy || false;
     },
     [signinUser.rejected.toString()]: (state, error) => {
       warningToast("Invalid username or password");
@@ -135,6 +174,25 @@ const authSlice = createSlice({
       warningToast("Unable to change password please try again later");
       console.log(action.error);
     },
+    [editProfile.pending.toString()]: (state) => {
+      state.authLoading = true;
+    },
+    [editProfile.fulfilled.toString()]: (state, action) => {
+      state.authLoading = false;
+      const { name, bio, privacy } = action.payload;
+      state.userName=name;
+      state.bio=bio;
+      state.privacy=privacy;
+      localStorage.setItem("userName", name);
+      localStorage.setItem("bio", bio);
+      localStorage.setItem("privacy", privacy);
+      successToast("User details updated");
+    },
+    [editProfile.rejected.toString()]: (state, action) => {
+      state.authLoading = false;
+      warningToast("Unable to edit user please try again later");
+      console.log(action.error);
+    },
   },
 });
 
@@ -144,4 +202,5 @@ export const {
   setAuthLoading,
   setUserDetailsAfterReload,
   signoutUser,
+  setUserAfterEdit,
 } = authSlice.actions;

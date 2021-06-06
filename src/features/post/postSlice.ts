@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../useAxios";
-import { ResponseTemplate } from "../../Generics.types";
+import {
+  ResponseTemplate,
+  AuthenticatedRequestsPayload,
+} from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
 import { PostState, PostData } from "./post.types";
-import { AuthenticatedRequestsPayload } from "../../Generics.types";
 
 const initialState: PostState = {
   postLoading: false,

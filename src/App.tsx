@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect } from "react";
 import { Navbar } from "./components";
-import { Signup, Home, MyProfile } from "./pages";
+import { Signup, Home, MyProfile, EditProfile } from "./pages";
 import { useSelector, useDispatch } from "react-redux";
 import { authSlice } from "./app/store";
 import {
@@ -54,6 +54,8 @@ function App() {
       const userName = localStorage.getItem("userName");
       const image = localStorage.getItem("image");
       const userId = localStorage.getItem("userId");
+      const privacy = localStorage.getItem("privacy");
+      const bio = localStorage.getItem("bio");
       checkAuthTimeout((expiresIn.getTime() - new Date().getTime()) / 1000);
       dispatch(
         setUserDetailsAfterReload({
@@ -61,6 +63,8 @@ function App() {
           userName: userName,
           image: image,
           userId: userId,
+          privacy: privacy,
+          bio: bio,
         })
       );
     }
@@ -79,7 +83,8 @@ function App() {
       <div className={token ? "main-container" : ""}>
         <Switch>
           <LockSignup path="/sign-up" component={Signup} />
-          <PrivateLink path="/my-profile" component={MyProfile}/>
+          <PrivateLink path="/my-profile" component={MyProfile} />
+          <PrivateLink path="/edit-profile" component={EditProfile} />
           {token ? (
             <PrivateLink path="/" component={Home} />
           ) : (

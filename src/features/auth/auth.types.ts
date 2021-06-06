@@ -5,6 +5,8 @@ export type AuthState = {
   userName: string | null;
   image?: string | null;
   token: string | null;
+  bio: string | null;
+  privacy: boolean;
   authLoading: boolean;
   currentPage: SigninPages;
 };
@@ -34,4 +36,11 @@ export type ChangePassword = {
   email: string;
   password: string;
   confirmPassword: string;
+};
+
+export type EditUserData = {
+  name: string;
+  bio: string;
+  privacy: boolean;
+  password: string | null;
 };

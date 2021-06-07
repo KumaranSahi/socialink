@@ -1,4 +1,4 @@
-import classes from "./profileDetails.module.css";
+import classes from "./ProfileDetails.module.css";
 import { useSelector } from "react-redux";
 import { authSlice } from "../../../app/store";
 import defaultProfileImage from "../../../assets/profile_image.jpg";
@@ -6,8 +6,8 @@ import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 export const ProfileDetails = () => {
-  const { userName, image } = useSelector(authSlice);
-  const {push} = useHistory();
+  const { userName, image, bio } = useSelector(authSlice);
+  const { push } = useHistory();
 
   return (
     <div className={classes["profile-details-container"]}>
@@ -31,10 +31,14 @@ export const ProfileDetails = () => {
             </p>
           </div>
         </div>
-        <p className={classes["profile-description"]}>
-          Description will show up here
-        </p>
-        <Button variant="outlined" fullWidth onClick={()=>push("/edit-profile")}>
+        {bio && bio.length > 0 && (
+          <p className={classes["profile-description"]}>{bio}</p>
+        )}
+        <Button
+          variant="outlined"
+          fullWidth
+          onClick={() => push("/edit-profile")}
+        >
           Edit Profile
         </Button>
       </div>

@@ -1,0 +1,51 @@
+.post-container {
+  margin: 1rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  border: 0.5px solid lightgrey;
+  text-align: left;
+}
+
+.user-info {
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+}
+
+.post-content{
+  padding: 1rem;
+  margin: 0;
+}
+
+.user-image {
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+}
+
+.post-image {
+  width: 20rem;
+  height: 15rem;
+  align-self: center;
+}
+
+.username-timestamp {
+  margin-left: 1rem;
+  text-align: left;
+}
+
+.username {
+  margin: 0;
+  font-weight: bolder;
+}
+
+.timestamp {
+  margin: 0;
+}
+
+.like-comment{
+  display: flex;
+  margin-top: 2rem;
+}

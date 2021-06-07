@@ -3,6 +3,7 @@
   height: 22rem;
   display: flex;
   padding: 1rem;
+  box-shadow: 1px 0px 20px 0px;
 }
 
 .profile-image {

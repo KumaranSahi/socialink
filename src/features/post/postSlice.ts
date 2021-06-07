@@ -5,17 +5,17 @@ import {
   AuthenticatedRequestsPayload,
 } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
-import { PostState, PostData } from "./post.types";
+import { PostState, PostData, Post } from "./post.types";
 
 const initialState: PostState = {
   postLoading: false,
-  feedPosts:[],
-  userPosts:[]
+  feedPosts: [],
+  userPosts: [],
 };
 
 export const createPost = createAsyncThunk(
   "post/create-post",
-  async ({data:postData,token}: AuthenticatedRequestsPayload<PostData>) => {
+  async ({ data: postData, token }: AuthenticatedRequestsPayload<PostData>) => {
     const config = {
       headers: {
         Authorization: "Bearer " + token,
@@ -24,6 +24,21 @@ export const createPost = createAsyncThunk(
     const {
       data: { data },
     } = await axios.post<ResponseTemplate>("/api/posts", postData, config);
+    return data;
+  }
+);
+
+export const getUserPosts = createAsyncThunk(
+  "posts/load-user-posts",
+  async (token: string) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.get<ResponseTemplate>("/api/posts/user-posts", config);
     return data;
   }
 );
@@ -40,17 +55,27 @@ export const postSlice = createSlice({
     [createPost.pending.toString()]: (state) => {
       state.postLoading = true;
     },
-    [createPost.fulfilled.toString()]:(state,action)=>{
-      console.log(action.payload)
+    [createPost.fulfilled.toString()]: (state, action) => {
       state.userPosts.push(action.payload);
       state.feedPosts.push(action.payload);
       state.postLoading = false;
       successToast("Post added");
     },
-    [createPost.rejected.toString()]:(state)=>{
+    [createPost.rejected.toString()]: (state) => {
       warningToast("Unable to add post please try again later");
       state.postLoading = false;
-    }
+    },
+    [getUserPosts.pending.toString()]: (state) => {
+      state.postLoading = true;
+    },
+    [getUserPosts.fulfilled.toString()]: (state, action) => {
+      state.userPosts = action.payload;
+      state.postLoading = false;
+    },
+    [getUserPosts.rejected.toString()]: (state) => {
+      warningToast("Unable to laod user post please try again later");
+      state.postLoading = false;
+    },
   },
 });
 

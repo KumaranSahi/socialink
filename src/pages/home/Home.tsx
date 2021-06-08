@@ -1,5 +1,5 @@
 import classes from "./Home.module.css";
-import { CreatePost } from "../../components";
+import { CreatePost, TopUsers } from "../../components";
 
 export const Home = () => {
   return (
@@ -9,7 +9,7 @@ export const Home = () => {
           <CreatePost />
         </div>
         <div className={classes["people-you-may-know-container"]}>
-          People you may know
+          <TopUsers />
         </div>
       </div>
     </div>

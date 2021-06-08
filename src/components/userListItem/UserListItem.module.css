@@ -1,0 +1,25 @@
+.user-list-item-container {
+  display: flex;
+  padding: 0.5rem;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.user-image-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 8rem;
+}
+
+.user-name {
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.user-image {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}

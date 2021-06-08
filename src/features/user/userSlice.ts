@@ -5,8 +5,7 @@ import {
   AuthenticatedRequestsPayload,
 } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
-import { UserInitialState, EditUserData } from "./user.types";
-import { setUserAfterEdit } from "../auth/authSlice";
+import { UserInitialState } from "./user.types";
 
 const initialState: UserInitialState = {
   userLoading: false,
@@ -24,7 +23,28 @@ export const getTopUsers = createAsyncThunk(
     };
     const {
       data: { data },
-    } = await axios.get("/api/friends/top-users", config);
+    } = await axios.get<ResponseTemplate>("/api/friends/top-users", config);
+    return data;
+  }
+);
+
+export const sendFriendRequest = createAsyncThunk(
+  "user/send-request",
+  async ({ data: linkTo, token }: AuthenticatedRequestsPayload<string>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.post(
+      "/api/friends/send-request",
+      {
+        linkTo: linkTo,
+      },
+      config
+    );
     return data;
   }
 );
@@ -45,10 +65,24 @@ const userSlice = createSlice({
       state.userLoading = false;
       state.topUsers = action.payload;
     },
-    [getTopUsers.rejected.toString()]:(state,action)=>{
-       state.userLoading = false;
-       warningToast("Unable to load top users")
-    }
+    [getTopUsers.rejected.toString()]: (state) => {
+      state.userLoading = false;
+      warningToast("Unable to load top users");
+    },
+    [sendFriendRequest.pending.toString()]: (state) => {
+      state.userLoading = true;
+    },
+    [sendFriendRequest.fulfilled.toString()]: (state, action) => {
+      state.userLoading = false;
+      successToast("Friend request sent");
+      state.topUsers = state.topUsers.filter(
+        ({ userId }) => action.payload.toUser !== userId
+      );
+    },
+    [sendFriendRequest.rejected.toString()]: (state) => {
+      state.userLoading = false;
+      warningToast("Unable to load send friend request");
+    },
   },
 });
 

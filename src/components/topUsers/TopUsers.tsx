@@ -9,6 +9,7 @@ export const TopUsers = () => {
   const dispatch = useDispatch();
   const { topUsers } = useSelector(userSlice);
   const { token } = useSelector(authSlice);
+  
   useEffect(() => {
     if (token) dispatch(getTopUsers(token));
   },[]);

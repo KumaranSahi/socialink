@@ -9,13 +9,6 @@ export type User = {
   post?: Post[];
 };
 
-export type EditUserData = {
-  name: string;
-  bio: string;
-  privacy: boolean;
-  password: string | null;
-};
-
 export type UserInitialState = {
   topUsers: User[];
   userProfile: User | null;

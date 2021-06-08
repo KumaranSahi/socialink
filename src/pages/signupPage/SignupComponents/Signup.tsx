@@ -1,12 +1,21 @@
 import classes from "../Singup.module.css";
-import { TextField, Button, IconButton } from "@material-ui/core";
-import { PhotoCamera } from "@material-ui/icons";
+import {
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Input,
+  InputAdornment,
+  IconButton,
+} from "@material-ui/core";
+import { Visibility, VisibilityOff, PhotoCamera } from "@material-ui/icons";
 import { SignupContainerProps } from "../Signup.types";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { useState } from "react";
 
 export const SignupContainer = ({
   image,
@@ -24,7 +33,7 @@ export const SignupContainer = ({
   dob,
   dobValid,
 }: SignupContainerProps) => {
-
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <>
       <h1>Sign Up:</h1>
@@ -64,7 +73,6 @@ export const SignupContainer = ({
         <div>
           <TextField
             label="Username"
-            variant="outlined"
             required
             fullWidth
             value={userName}
@@ -84,7 +92,6 @@ export const SignupContainer = ({
         <div>
           <TextField
             label="Email"
-            variant="outlined"
             type="email"
             required
             fullWidth
@@ -100,20 +107,34 @@ export const SignupContainer = ({
             <p className={classes["error-text"]}>Please enter a valid email</p>
           )}
         </div>
-        <TextField
-          label="Password"
-          variant="outlined"
-          type="password"
-          required
-          fullWidth
-          value={password}
-          onChange={(event) =>
-            signupDispatch({
-              type: "ADD_PASSWORD",
-              payload: event.target.value,
-            })
-          }
-        />
+        <FormControl fullWidth>
+          <InputLabel htmlFor="standard-adornment-password">
+            Password
+          </InputLabel>
+          <Input
+            type={showPassword ? "text" : "password"}
+            className={classes["edit-form-element"]}
+            value={password}
+            required={true}
+            onChange={(event) =>
+              signupDispatch({
+                type: "ADD_PASSWORD",
+                payload: event.target.value,
+              })
+            }
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword((state) => !state)}
+                  onMouseDown={(event) => event.preventDefault()}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
         <div>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
@@ -131,7 +152,9 @@ export const SignupContainer = ({
             />
           </MuiPickersUtilsProvider>
           {!dobValid && (
-            <p className={classes["error-text"]}>You should be above the age of 13 to open an account</p>
+            <p className={classes["error-text"]}>
+              You should be above the age of 13 to open an account
+            </p>
           )}
         </div>
         <Button

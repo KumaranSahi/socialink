@@ -20,7 +20,6 @@ export const ConfirmPasswordContainer = ({
         <TextField
           label="Email"
           type="email"
-          variant="outlined"
           required
           fullWidth
           value={email}
@@ -33,7 +32,6 @@ export const ConfirmPasswordContainer = ({
         />
         <TextField
           label="Password"
-          variant="outlined"
           type="password"
           required
           value={password}
@@ -46,7 +44,6 @@ export const ConfirmPasswordContainer = ({
         />
         <TextField
           label="Confirm Password"
-          variant="outlined"
           type="password"
           required
           fullWidth

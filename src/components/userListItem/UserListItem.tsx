@@ -5,6 +5,7 @@ import defaultProfileImage from "../../assets/profile_image.jpg";
 import {
   sendFriendRequest,
   deleteFriendRequest,
+  acceptFriendRequest,
 } from "../../features/user/userSlice";
 import { authSlice } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +30,7 @@ export const UserListItem = ({
             onClick={() =>
               dispatch(sendFriendRequest({ data: userId!, token: token! }))
             }
+            className={classes["response-button"]}
           >
             Link up
           </Button>
@@ -42,6 +44,7 @@ export const UserListItem = ({
               requestId &&
               dispatch(deleteFriendRequest({ data: requestId, token: token! }))
             }
+            className={classes["response-button"]}
           >
             Delete
           </Button>
@@ -50,13 +53,17 @@ export const UserListItem = ({
         return (
           <div>
             <Button
-              variant="outlined"
+              variant="contained"
               color="primary"
               onClick={() =>
-                dispatch(sendFriendRequest({ data: userId!, token: token! }))
+                requestId &&
+                dispatch(
+                  acceptFriendRequest({ data: requestId, token: token! })
+                )
               }
+              className={classes["response-button"]}
             >
-              Link up
+              Accept
             </Button>
             <Button
               variant="outlined"
@@ -67,6 +74,7 @@ export const UserListItem = ({
                   deleteFriendRequest({ data: requestId, token: token! })
                 )
               }
+              className={classes["response-button"]}
             >
               Delete
             </Button>
@@ -81,6 +89,7 @@ export const UserListItem = ({
             onClick={() =>
               dispatch(sendFriendRequest({ data: userId!, token: token! }))
             }
+            className={classes["response-button"]}
           >
             Follow
           </Button>

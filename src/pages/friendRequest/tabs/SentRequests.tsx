@@ -20,7 +20,7 @@ export const SentRequests = () => {
       ))}
     </ul>:
     <div>
-      <h1>No pending request😕</h1>
+      <h1>No pending requests😃</h1>
     </div>
   );
 };

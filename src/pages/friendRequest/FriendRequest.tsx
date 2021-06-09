@@ -3,6 +3,7 @@ import { AppBar, Tabs, Tab, useTheme, Box } from "@material-ui/core";
 import SwipeableViews from "react-swipeable-views";
 import { useState } from "react";
 import { SentRequests } from "./tabs/SentRequests";
+import { ReceivedRequests } from "./tabs/ReceivedRequests";
 
 export const FriendRequest = () => {
   const [value, setValue] = useState(0);
@@ -36,7 +37,7 @@ export const FriendRequest = () => {
           onChangeIndex={handleChangeIndex}
         >
           <div role="tabpanel" hidden={value !== 0}>
-            {value === 0 && <Box p={3}>Recieved Requests</Box>}
+            {value === 0 && <ReceivedRequests />}
           </div>
           <div role="tabpanel" hidden={value !== 1}>
             {value === 1 && <SentRequests />}

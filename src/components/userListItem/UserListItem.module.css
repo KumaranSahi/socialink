@@ -23,3 +23,7 @@
   height: 2.5rem;
   border-radius: 50%;
 }
+
+.response-button {
+  border-radius: 0 !important;
+}

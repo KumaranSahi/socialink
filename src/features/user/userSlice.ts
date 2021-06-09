@@ -66,6 +66,21 @@ export const sendFriendRequest = createAsyncThunk(
   }
 );
 
+export const acceptFriendRequest = createAsyncThunk(
+  "user/accept-request",
+  async ({ data: requestId, token }: AuthenticatedRequestsPayload<string>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.put(`/api/friends/${requestId}`, null, config);
+    return data;
+  }
+);
+
 export const getUserRequests = createAsyncThunk(
   "user/get-user-requests",
   async (token: string) => {
@@ -144,6 +159,24 @@ const userSlice = createSlice({
     [deleteFriendRequest.rejected.toString()]: (state) => {
       state.userLoading = false;
       warningToast("Unable to delete request");
+    },
+    [acceptFriendRequest.pending.toString()]: (state) => {
+      state.userLoading = true;
+    },
+    [acceptFriendRequest.fulfilled.toString()]: (state, action) => {
+      state.userLoading = false;
+      successToast("Request accepted!");
+      const deletedRequestId = action.payload;
+      state.recievedRequests = state.recievedRequests.filter(
+        ({ requestId }) => requestId !== deletedRequestId
+      );
+      state.sentRequests = state.sentRequests.filter(
+        ({ requestId }) => requestId !== deletedRequestId
+      );
+    },
+    [acceptFriendRequest.rejected.toString()]: (state) => {
+      state.userLoading = false;
+      warningToast("Unable to accept request");
     },
   },
 });

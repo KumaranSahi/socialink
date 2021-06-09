@@ -13,4 +13,13 @@ export type UserInitialState = {
   topUsers: User[];
   userProfile: User | null;
   userLoading: boolean;
+  sentRequests: Request[];
+  recievedRequests: Request[];
+};
+
+export type Request = {
+  requestId: string;
+  userId: string;
+  name: string;
+  image?: string | null;
 };

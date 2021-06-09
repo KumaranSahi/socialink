@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect } from "react";
 import { Navbar } from "./components";
-import { Signup, Home, MyProfile, EditProfile } from "./pages";
+import { Signup, Home, MyProfile, EditProfile, FriendRequest } from "./pages";
 import { useSelector, useDispatch } from "react-redux";
 import { authSlice } from "./app/store";
 import {
@@ -85,6 +85,7 @@ function App() {
           <LockSignup path="/sign-up" component={Signup} />
           <PrivateLink path="/my-profile" component={MyProfile} />
           <PrivateLink path="/edit-profile" component={EditProfile} />
+          <PrivateLink path="/requests" component={FriendRequest} />
           {token ? (
             <PrivateLink path="/" component={Home} />
           ) : (

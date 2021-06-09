@@ -29,6 +29,12 @@
   position: relative;
 }
 
+.recieved-requests{
+  color: var(--primary);
+  margin-left: 1rem;
+  font-weight: 700;
+}
+
 @media (min-width: 700px) {
   .name-container {
     display: block;

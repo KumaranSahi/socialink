@@ -5,7 +5,7 @@ import {
   AuthenticatedRequestsPayload,
 } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
-import { PostState, PostData, Post } from "./post.types";
+import { PostState, PostData } from "./post.types";
 
 const initialState: PostState = {
   postLoading: false,

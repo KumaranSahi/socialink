@@ -1,0 +1,10 @@
+.request-container {
+  width: 100%;
+  margin: auto;
+}
+
+@media (min-width: 700px) {
+  .request-container {
+    width: 70%;
+  }
+}

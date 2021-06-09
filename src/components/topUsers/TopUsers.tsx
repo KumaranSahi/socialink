@@ -9,10 +9,10 @@ export const TopUsers = () => {
   const dispatch = useDispatch();
   const { topUsers } = useSelector(userSlice);
   const { token } = useSelector(authSlice);
-  
+
   useEffect(() => {
     if (token) dispatch(getTopUsers(token));
-  },[]);
+  }, []);
 
   return (
     <div className={classes["top-users-container"]}>
@@ -24,6 +24,7 @@ export const TopUsers = () => {
               image={image || null}
               name={name}
               userId={userId}
+              userItemType="ONLY_LINK"
             />
           </li>
         ))}

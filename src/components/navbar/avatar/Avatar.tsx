@@ -3,15 +3,16 @@ import { useState, SyntheticEvent } from "react";
 import profileImage from "../../../assets/profile_image.jpg";
 import { Menu, MenuItem } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signoutUser } from "../../../features/auth/authSlice";
-import {authSlice} from "../../../app/store"
+import { authSlice, userSlice } from "../../../app/store";
 
 export const Avatar = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const { push } = useHistory();
   const dispatch = useDispatch();
-  const {userName,image}=useSelector(authSlice)
+  const { userName, image } = useSelector(authSlice);
+  const { recievedRequests } = useSelector(userSlice);
   const handleClick = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget);
   };
@@ -27,6 +28,11 @@ export const Avatar = () => {
 
   const myProfileClicked = () => {
     push("/my-profile");
+    handleClose();
+  };
+
+  const requestClicked = () => {
+    push("/requests");
     handleClose();
   };
 
@@ -48,6 +54,14 @@ export const Avatar = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <MenuItem onClick={requestClicked}>
+          Requests{" "}
+          {recievedRequests.length > 0 && (
+            <span className={classes["recieved-requests"]}>
+              {recievedRequests.length}
+            </span>
+          )}{" "}
+        </MenuItem>
         <MenuItem onClick={myProfileClicked}>My Profile</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>

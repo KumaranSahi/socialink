@@ -11,6 +11,8 @@ const initialState: UserInitialState = {
   userLoading: false,
   userProfile: null,
   topUsers: [],
+  sentRequests: [],
+  recievedRequests: [],
 };
 
 export const getTopUsers = createAsyncThunk(
@@ -24,6 +26,21 @@ export const getTopUsers = createAsyncThunk(
     const {
       data: { data },
     } = await axios.get<ResponseTemplate>("/api/friends/top-users", config);
+    return data;
+  }
+);
+
+export const deleteFriendRequest = createAsyncThunk(
+  "user/delete-request",
+  async ({ data: requestId, token }: AuthenticatedRequestsPayload<string>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.delete(`/api/friends/${requestId}`, config);
     return data;
   }
 );
@@ -45,6 +62,21 @@ export const sendFriendRequest = createAsyncThunk(
       },
       config
     );
+    return data;
+  }
+);
+
+export const getUserRequests = createAsyncThunk(
+  "user/get-user-requests",
+  async (token: string) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.get<ResponseTemplate>("/api/friends/requests", config);
     return data;
   }
 );
@@ -81,7 +113,37 @@ const userSlice = createSlice({
     },
     [sendFriendRequest.rejected.toString()]: (state) => {
       state.userLoading = false;
-      warningToast("Unable to load send friend request");
+      warningToast("Unable to send friend request");
+    },
+    [getUserRequests.pending.toString()]: (state) => {
+      state.userLoading = true;
+    },
+    [getUserRequests.fulfilled.toString()]: (state, action) => {
+      state.userLoading = false;
+      state.recievedRequests = action.payload.recievedRequests;
+      state.sentRequests = action.payload.sentRequests;
+    },
+    [getUserRequests.rejected.toString()]: (state) => {
+      state.userLoading = false;
+      warningToast("Unable to load user requests");
+    },
+    [deleteFriendRequest.pending.toString()]: (state) => {
+      state.userLoading = true;
+    },
+    [deleteFriendRequest.fulfilled.toString()]: (state, action) => {
+      state.userLoading = false;
+      successToast("Request deleted");
+      const deletedRequestId = action.payload;
+      state.recievedRequests = state.recievedRequests.filter(
+        ({ requestId }) => requestId !== deletedRequestId
+      );
+      state.sentRequests = state.sentRequests.filter(
+        ({ requestId }) => requestId !== deletedRequestId
+      );
+    },
+    [deleteFriendRequest.rejected.toString()]: (state) => {
+      state.userLoading = false;
+      warningToast("Unable to delete request");
     },
   },
 });

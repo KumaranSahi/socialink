@@ -1,5 +1,5 @@
 import classes from "./FriendRequest.module.css";
-import { AppBar, Tabs, Tab, useTheme, Box } from "@material-ui/core";
+import { AppBar, Tabs, Tab, useTheme } from "@material-ui/core";
 import SwipeableViews from "react-swipeable-views";
 import { useState } from "react";
 import { SentRequests } from "./tabs/SentRequests";

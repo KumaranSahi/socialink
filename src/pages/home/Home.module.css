@@ -12,8 +12,9 @@
 .posts-container {
   overflow-y: auto;
   display: inline-flex;
+  flex-direction: column;
   margin: 1rem;
-  width: 95%;
+  width: 98%;
   height: 100%;
 }
 
@@ -28,7 +29,7 @@
     flex: 2;
   }
   .posts-container {
-    flex: 3;
+    flex: 3.5;
   }
   .homepage-container {
     width: 80%;

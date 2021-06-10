@@ -2,7 +2,7 @@ import classes from "./Post.module.css";
 import { format } from "timeago.js";
 import { PostProps } from "./Post.types";
 import { Button } from "@material-ui/core";
-import { ThumbUp,AddComment } from "@material-ui/icons";
+import { ThumbUp, AddComment } from "@material-ui/icons";
 
 export const Post = ({
   userImage,
@@ -21,10 +21,10 @@ export const Post = ({
           <p className={classes["timestamp"]}>{format(createdAt)}</p>
         </div>
       </div>
-      <p className={classes["post-content"]}>{content}</p>
       {postImage && (
         <img src={postImage} alt="Post" className={classes["post-image"]} />
-      )}
+      )}{" "}
+      <p className={classes["post-content"]}>{content}</p>
       <div className={classes["like-comment"]}>
         <Button
           variant="contained"

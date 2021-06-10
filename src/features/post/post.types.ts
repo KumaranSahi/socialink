@@ -3,6 +3,8 @@ export type Post = {
   content: string;
   postId: string;
   createdAt: Date;
+  userName?: string;
+  userImage?: string;
 };
 
 export type PostState = {

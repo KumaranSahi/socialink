@@ -14,7 +14,7 @@
   padding: 1rem;
 }
 
-.post-content{
+.post-content {
   padding: 1rem;
   margin: 0;
 }
@@ -26,8 +26,8 @@
 }
 
 .post-image {
-  width: 20rem;
-  height: 15rem;
+  width: 100%;
+  height: 100%;
   align-self: center;
 }
 
@@ -45,7 +45,14 @@
   margin: 0;
 }
 
-.like-comment{
+.like-comment {
   display: flex;
   margin-top: 2rem;
+}
+
+@media (min-width: 600px) {
+  .post-image {
+    width: 37.5rem;
+    height: 37.5rem;
+  }
 }

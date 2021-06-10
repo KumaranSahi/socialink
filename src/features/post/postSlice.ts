@@ -13,6 +13,21 @@ const initialState: PostState = {
   userPosts: [],
 };
 
+export const getFeedPosts = createAsyncThunk(
+  "post/get-feed-posts",
+  async (token: string) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.get<ResponseTemplate>("/api/posts", config);
+    return data;
+  }
+);
+
 export const createPost = createAsyncThunk(
   "post/create-post",
   async ({ data: postData, token }: AuthenticatedRequestsPayload<PostData>) => {
@@ -74,6 +89,17 @@ export const postSlice = createSlice({
     },
     [getUserPosts.rejected.toString()]: (state) => {
       warningToast("Unable to laod user post please try again later");
+      state.postLoading = false;
+    },
+    [getFeedPosts.pending.toString()]: (state) => {
+      state.postLoading = true;
+    },
+    [getFeedPosts.fulfilled.toString()]: (state, action) => {
+      state.feedPosts = action.payload;
+      state.postLoading = false;
+    },
+    [getFeedPosts.rejected.toString()]: (state) => {
+      warningToast("Unable to laod feed post please try again later");
       state.postLoading = false;
     },
   },

@@ -24,10 +24,7 @@ export const ProfileDetails = () => {
               <span>90</span> posts
             </p>
             <p className={classes["stat"]}>
-              <span>90</span> followers
-            </p>
-            <p className={classes["stat"]}>
-              <span>90</span> following
+              <span>90</span> friends
             </p>
           </div>
         </div>

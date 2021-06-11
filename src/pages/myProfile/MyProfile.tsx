@@ -21,7 +21,7 @@ export const MyProfile = () => {
     <div className={classes["my-profile-container"]}>
       <ProfileDetails />
       {userPosts.length > 0 &&
-        userPosts.map(({ content, createdAt, postId, image }) => (
+        userPosts.map(({ content, createdAt, postId, image,likes }) => (
           <Post
             content={content}
             createdAt={createdAt}
@@ -30,6 +30,7 @@ export const MyProfile = () => {
             userName={userName!}
             postId={postId}
             key={postId}
+            likes={likes}
           />
         ))}
     </div>

@@ -1,3 +1,5 @@
+import { Like } from "../../features/post/post.types";
+
 export type PostProps = {
   userImage: string;
   userName: string;
@@ -5,4 +7,5 @@ export type PostProps = {
   postImage: string | null;
   createdAt: Date;
   postId: string;
+  likes: Like[];
 };

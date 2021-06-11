@@ -5,6 +5,14 @@ export type Post = {
   createdAt: Date;
   userName?: string;
   userImage?: string;
+  likes: Like[];
+};
+
+export type Like = {
+  likeId: string;
+  likeUserName: string;
+  likeUserImage?: string;
+  likeUserId: string;
 };
 
 export type PostState = {

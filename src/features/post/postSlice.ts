@@ -6,6 +6,7 @@ import {
 } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
 import { PostState, PostData } from "./post.types";
+import { id } from "date-fns/locale";
 
 const initialState: PostState = {
   postLoading: false,
@@ -58,6 +59,36 @@ export const getUserPosts = createAsyncThunk(
   }
 );
 
+export const postLikeButtonClicked = createAsyncThunk(
+  "posts/like-post",
+  async ({ data: postId, token }: AuthenticatedRequestsPayload<string>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.put<ResponseTemplate>(`/api/likes/${postId}`, null, config);
+    return data;
+  }
+);
+
+export const postActiveLikedButtonClicked = createAsyncThunk(
+  "posts/remove-post-like",
+  async ({ data: likeId, token }: AuthenticatedRequestsPayload<string>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.delete<ResponseTemplate>(`/api/likes/${likeId}`, config);
+    return data;
+  }
+);
+
 export const postSlice = createSlice({
   initialState: initialState,
   name: "post",
@@ -72,7 +103,6 @@ export const postSlice = createSlice({
     },
     [createPost.fulfilled.toString()]: (state, action) => {
       state.userPosts.push(action.payload);
-      state.feedPosts.push(action.payload);
       state.postLoading = false;
       successToast("Post added");
     },
@@ -88,7 +118,7 @@ export const postSlice = createSlice({
       state.postLoading = false;
     },
     [getUserPosts.rejected.toString()]: (state) => {
-      warningToast("Unable to laod user post please try again later");
+      warningToast("Unable to load user post please try again later");
       state.postLoading = false;
     },
     [getFeedPosts.pending.toString()]: (state) => {
@@ -99,7 +129,57 @@ export const postSlice = createSlice({
       state.postLoading = false;
     },
     [getFeedPosts.rejected.toString()]: (state) => {
-      warningToast("Unable to laod feed post please try again later");
+      warningToast("Unable to load feed post please try again later");
+      state.postLoading = false;
+    },
+    [postLikeButtonClicked.pending.toString()]: (state) => {
+      state.postLoading = false;
+    },
+    [postLikeButtonClicked.fulfilled.toString()]: (state, action) => {
+      const feedPostIndex = state.feedPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (feedPostIndex !== -1) {
+        state.feedPosts[feedPostIndex].likes.push(action.payload.like);
+      }
+      const userPostIndex = state.userPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (userPostIndex !== -1) {
+        state.feedPosts[userPostIndex].likes.push(action.payload.like);
+      }
+      state.postLoading = false;
+      successToast("Post liked");
+    },
+    [postLikeButtonClicked.rejected.toString()]: (state) => {
+      warningToast("Unable to like post please try again later");
+      state.postLoading = false;
+    },
+    [postActiveLikedButtonClicked.pending.toString()]: (state) => {
+      state.postLoading = false;
+    },
+    [postActiveLikedButtonClicked.fulfilled.toString()]: (state, action) => {
+      const feedPostIndex = state.feedPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (feedPostIndex !== -1) {
+        state.feedPosts[feedPostIndex].likes = state.feedPosts[
+          feedPostIndex
+        ].likes.filter(({ likeId }) => likeId !== action.payload.likeId);
+      }
+      const userPostIndex = state.userPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (userPostIndex !== -1) {
+        state.feedPosts[userPostIndex].likes = state.feedPosts[
+          userPostIndex
+        ].likes.filter(({ likeId }) => likeId !== action.payload.likeId);
+      }
+      state.postLoading = false;
+      successToast("Post liked");
+    },
+    [postActiveLikedButtonClicked.rejected.toString()]: (state) => {
+      warningToast("Unable to remove like please try again later");
       state.postLoading = false;
     },
   },

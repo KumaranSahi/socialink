@@ -27,7 +27,15 @@ export const Home = () => {
           <CreatePost />
           {feedPosts.length > 0 &&
             feedPosts.map(
-              ({ content, createdAt, postId, image, userImage, userName }) => (
+              ({
+                content,
+                createdAt,
+                postId,
+                image,
+                userImage,
+                userName,
+                likes,
+              }) => (
                 <Post
                   content={content}
                   createdAt={createdAt}
@@ -35,6 +43,7 @@ export const Home = () => {
                   userImage={userImage ? userImage : defaultProfileImage}
                   userName={userName!}
                   postId={postId}
+                  likes={likes}
                   key={postId}
                 />
               )

@@ -1,8 +1,14 @@
 import classes from "./Post.module.css";
 import { format } from "timeago.js";
 import { PostProps } from "./Post.types";
-import { Button } from "@material-ui/core";
-import { ThumbUp, AddComment } from "@material-ui/icons";
+import { authSlice } from "../../app/store";
+import {
+  postLikeButtonClicked,
+  postActiveLikedButtonClicked,
+} from "../../features/post/postSlice";
+import { IconButton } from "@material-ui/core";
+import { AddComment, ThumbUpAltTwoTone } from "@material-ui/icons";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Post = ({
   userImage,
@@ -11,7 +17,58 @@ export const Post = ({
   postImage,
   createdAt,
   postId,
+  likes,
 }: PostProps) => {
+  const { token, userId } = useSelector(authSlice);
+  const dispatch = useDispatch();
+
+  const likeButtonToBeRendered = () => {
+    const like = likes.find(({ likeUserId }) => likeUserId === userId);
+    if (like) {
+      return (
+        <div
+          className={`${classes["post-like"]} ${classes["post-liked"]}`}
+          onClick={() =>
+            dispatch(
+              postActiveLikedButtonClicked({
+                data: like.likeId,
+                token: token!,
+              })
+            )
+          }
+        >
+          {likes && likes.length > 0 ? (
+            <span className={classes["like-count"]}>{likes.length}</span>
+          ) : null}
+          <IconButton aria-label="like">
+            <ThumbUpAltTwoTone />
+          </IconButton>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={classes["post-like"]}
+          onClick={() =>
+            dispatch(
+              postLikeButtonClicked({
+                data: postId,
+                token: token!,
+              })
+            )
+          }
+        >
+          {likes && likes.length > 0 ? (
+            <span className={classes["like-count"]}>{likes.length}</span>
+          ) : null}
+          <IconButton aria-label="like">
+            <ThumbUpAltTwoTone />
+          </IconButton>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className={classes["post-container"]}>
       <div className={classes["user-info"]}>
@@ -26,25 +83,10 @@ export const Post = ({
       )}{" "}
       <p className={classes["post-content"]}>{content}</p>
       <div className={classes["like-comment"]}>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ borderRadius: 0 }}
-          startIcon={<ThumbUp />}
-          size="large"
-          fullWidth
-        >
-          Like
-        </Button>
-        <Button
-          color="default"
-          style={{ borderRadius: 0 }}
-          startIcon={<AddComment />}
-          size="large"
-          fullWidth
-        >
-          Comment
-        </Button>
+        {likeButtonToBeRendered()}
+        <IconButton aria-label="like">
+          <AddComment />
+        </IconButton>
       </div>
     </div>
   );

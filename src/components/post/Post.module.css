@@ -50,6 +50,25 @@
   margin-top: 2rem;
 }
 
+.post-like {
+  display: flex;
+  align-items: center;
+}
+
+.post-liked {
+  color: var(--primary);
+}
+
+.post-liked svg {
+  color: var(--primary);
+}
+
+.like-count {
+  margin-left: 1rem;
+  margin-right: -0.5rem;
+  font-weight: 700;
+}
+
 @media (min-width: 600px) {
   .post-image {
     width: 37.5rem;

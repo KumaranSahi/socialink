@@ -1,12 +1,11 @@
 import classes from "./ProfileDetails.module.css";
-import { useSelector } from "react-redux";
-import { authSlice } from "../../../app/store";
+import { useAuthSlice } from "../../../app/store";
 import defaultProfileImage from "../../../assets/profile_image.jpg";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 export const ProfileDetails = () => {
-  const { userName, image, bio } = useSelector(authSlice);
+  const { userName, image, bio } = useAuthSlice();
   const { push } = useHistory();
 
   return (

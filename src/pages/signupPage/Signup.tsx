@@ -18,12 +18,12 @@ import {
   changePassword,
   setAuthLoading,
 } from "../../features/auth/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { authSlice } from "../../app/store";
+import { useDispatch } from "react-redux";
+import { useAuthSlice } from "../../app/store";
 
 export const Signup = () => {
   const dispatch = useDispatch();
-  const { authLoading, currentPage } = useSelector(authSlice);
+  const { authLoading, currentPage } = useAuthSlice();
   const {
     dispatch: signupDispatch,
     state: {

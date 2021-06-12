@@ -1,16 +1,16 @@
 import classes from "./Home.module.css";
 import { CreatePost, TopUsers, Post } from "../../components";
-import { authSlice, postSlice } from "../../app/store";
+import { useAuthSlice, usePostSlice } from "../../app/store";
 import { getUserRequests } from "../../features/user/userSlice";
 import { getFeedPosts } from "../../features/post/postSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import defaultProfileImage from "../../assets/profile_image.jpg";
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const { token } = useSelector(authSlice);
-  const { feedPosts } = useSelector(postSlice);
+  const { token } = useAuthSlice();
+  const { feedPosts } = usePostSlice();
 
   useEffect(() => {
     if (token) dispatch(getUserRequests(token));

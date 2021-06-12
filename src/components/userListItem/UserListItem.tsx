@@ -7,8 +7,8 @@ import {
   deleteFriendRequest,
   acceptFriendRequest,
 } from "../../features/user/userSlice";
-import { authSlice } from "../../app/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useAuthSlice } from "../../app/store";
+import { useDispatch } from "react-redux";
 
 export const UserListItem = ({
   image,
@@ -17,7 +17,7 @@ export const UserListItem = ({
   userItemType,
   requestId,
 }: UserListItemProps) => {
-  const { token } = useSelector(authSlice);
+  const { token } = useAuthSlice();
   const dispatch = useDispatch();
 
   const buttonToRender = (buttonToRender: ButtonToRender) => {

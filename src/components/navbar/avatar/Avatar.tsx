@@ -3,16 +3,16 @@ import { useState, SyntheticEvent } from "react";
 import profileImage from "../../../assets/profile_image.jpg";
 import { Menu, MenuItem } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { signoutUser } from "../../../features/auth/authSlice";
-import { authSlice, userSlice } from "../../../app/store";
+import { useAuthSlice, useUserSlice } from "../../../app/store";
 
 export const Avatar = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const { push } = useHistory();
   const dispatch = useDispatch();
-  const { userName, image } = useSelector(authSlice);
-  const { recievedRequests } = useSelector(userSlice);
+  const { userName, image } = useAuthSlice();
+  const { recievedRequests } = useUserSlice();
   const handleClick = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget);
   };

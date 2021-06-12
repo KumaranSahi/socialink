@@ -1,9 +1,16 @@
 import "./App.css";
 import { useEffect } from "react";
 import { Navbar } from "./components";
-import { Signup, Home, MyProfile, EditProfile, FriendRequest } from "./pages";
-import { useSelector, useDispatch } from "react-redux";
-import { authSlice } from "./app/store";
+import {
+  Signup,
+  Home,
+  MyProfile,
+  EditProfile,
+  FriendRequest,
+  Post,
+} from "./pages";
+import { useDispatch } from "react-redux";
+import { useAuthSlice } from "./app/store";
 import {
   signoutUser,
   setUserDetailsAfterReload,
@@ -18,7 +25,7 @@ import {
 } from "react-router-dom";
 
 const PrivateLink = ({ ...props }) => {
-  const { token } = useSelector(authSlice);
+  const { token } = useAuthSlice();
   const { push } = useHistory();
   useEffect(() => {
     if (!token) push("/sign-up");
@@ -27,12 +34,12 @@ const PrivateLink = ({ ...props }) => {
 };
 
 const LockSignup = ({ ...props }) => {
-  const { token } = useSelector(authSlice);
+  const { token } = useAuthSlice();
   return token ? <Redirect to="/" /> : <Route {...props} />;
 };
 
 function App() {
-  const { authLoading, token } = useSelector(authSlice);
+  const { authLoading, token } = useAuthSlice();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -86,6 +93,7 @@ function App() {
           <PrivateLink path="/my-profile" component={MyProfile} />
           <PrivateLink path="/edit-profile" component={EditProfile} />
           <PrivateLink path="/requests" component={FriendRequest} />
+          <PrivateLink path="/post" component={Post} />
           {token ? (
             <PrivateLink path="/" component={Home} />
           ) : (

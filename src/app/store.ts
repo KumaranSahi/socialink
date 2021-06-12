@@ -1,4 +1,5 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import authReducer from "../features/auth/authSlice";
 import postReducer from "../features/post/postSlice";
 import userReducer from "../features/user/userSlice";
@@ -25,3 +26,9 @@ export const authSlice = (state: RootState) => state.auth;
 export const postSlice = (state: RootState) => state.post;
 
 export const userSlice = (state: RootState) => state.user;
+
+export const useAuthSlice = () => useSelector(authSlice);
+
+export const usePostSlice = () => useSelector(postSlice);
+
+export const useUserSlice = () => useSelector(userSlice);

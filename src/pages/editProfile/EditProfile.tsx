@@ -1,6 +1,6 @@
 import classes from "./EditProfile.module.css";
-import { useSelector, useDispatch } from "react-redux";
-import { authSlice } from "../../app/store";
+import { useDispatch } from "react-redux";
+import { useAuthSlice } from "../../app/store";
 import defaultProfileImage from "../../assets/profile_image.jpg";
 import {
   TextField,
@@ -26,7 +26,7 @@ export const EditProfile = () => {
     authLoading,
     bio: currentBio,
     privacy: currentPrivacy,
-  } = useSelector(authSlice);
+  } = useAuthSlice();
   const dispatch = useDispatch();
   const { editProfileDispatch, name, bio, password, privacy } =
     useEditProfileReducer();

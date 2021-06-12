@@ -1,14 +1,15 @@
 import classes from "./Post.module.css";
 import { format } from "timeago.js";
 import { PostProps } from "./Post.types";
-import { authSlice } from "../../app/store";
+import { useAuthSlice } from "../../app/store";
 import {
   postLikeButtonClicked,
   postActiveLikedButtonClicked,
 } from "../../features/post/postSlice";
 import { IconButton } from "@material-ui/core";
 import { AddComment, ThumbUpAltTwoTone } from "@material-ui/icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 export const Post = ({
   userImage,
@@ -19,8 +20,9 @@ export const Post = ({
   postId,
   likes,
 }: PostProps) => {
-  const { token, userId } = useSelector(authSlice);
+  const { token, userId } = useAuthSlice();
   const dispatch = useDispatch();
+  const { push } = useHistory();
 
   const likeButtonToBeRendered = () => {
     const like = likes.find(({ likeUserId }) => likeUserId === userId);
@@ -84,7 +86,10 @@ export const Post = ({
       <p className={classes["post-content"]}>{content}</p>
       <div className={classes["like-comment"]}>
         {likeButtonToBeRendered()}
-        <IconButton aria-label="like">
+        <IconButton
+          aria-label="comment"
+          onClick={() => push({ pathname: "/post", search: postId })}
+        >
           <AddComment />
         </IconButton>
       </div>

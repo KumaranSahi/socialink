@@ -1,14 +1,14 @@
 import classes from "./TopUsers.module.css";
 import { getTopUsers } from "../../features/user/userSlice";
-import { userSlice, authSlice } from "../../app/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useAuthSlice, useUserSlice } from "../../app/store";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { UserListItem } from "../";
 
 export const TopUsers = () => {
   const dispatch = useDispatch();
-  const { topUsers } = useSelector(userSlice);
-  const { token } = useSelector(authSlice);
+  const { topUsers } = useUserSlice();
+  const { token } = useAuthSlice();
 
   useEffect(() => {
     if (token) dispatch(getTopUsers(token));

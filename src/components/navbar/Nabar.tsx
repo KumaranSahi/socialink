@@ -3,8 +3,7 @@ import { Avatar } from "./avatar/Avatar";
 import { useHistory, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { userSlice } from "../../app/store";
-import { useSelector } from "react-redux";
+import { useUserSlice } from "../../app/store";
 
 export const Navbar = () => {
   const { push } = useHistory();
@@ -13,7 +12,7 @@ export const Navbar = () => {
     push("/requests");
   };
 
-  const { recievedRequests } = useSelector(userSlice);
+  const { recievedRequests } = useUserSlice();
   return (
     <div className={classes["navbar-container"]}>
       <h1 className={classes["navbar-logo"]} onClick={() => push("/")}>
@@ -21,7 +20,7 @@ export const Navbar = () => {
       </h1>
       <div className={classes["requests-avatar-container"]}>
         <div className={classes["request"]} onClick={requestClicked}>
-          { pathname !== "/requests" && (
+          {pathname !== "/requests" && (
             <FontAwesomeIcon
               icon={faUser}
               className={classes["recieved-request-icon"]}

@@ -2,8 +2,8 @@ import classes from "./CreatePost.module.css";
 import { TextField, Button, IconButton } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
 import { SyntheticEvent, useState } from "react";
-import { postSlice, authSlice } from "../../app/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useAuthSlice,usePostSlice } from "../../app/store";
+import { useDispatch } from "react-redux";
 import { setPostLoading, createPost } from "../../features/post/postSlice";
 import { warningToast, successToast } from "../../components";
 import axios from "../../useAxios";
@@ -16,8 +16,8 @@ export const CreatePost = () => {
   const [postEmptyModal, setPostEmptyModal] = useState(false);
 
   const dispatch = useDispatch();
-  const { postLoading } = useSelector(postSlice);
-  const { token } = useSelector(authSlice);
+  const { postLoading } = usePostSlice();
+  const { token } = useAuthSlice();
 
   const fileUpload = async (file: FileList | null) => {
     const allowedExtensions = new RegExp("^.*(.jpg|.jpeg|.png)");

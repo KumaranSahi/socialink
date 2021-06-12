@@ -15,6 +15,15 @@ export type Like = {
   likeUserId: string;
 };
 
+export type Comment = {
+  commentId: string;
+  commentContent: string;
+  commentUserName: string;
+  commentUserImage: string;
+  commentUserId: string;
+  commentEdited: boolean;
+};
+
 export type PostState = {
   postLoading: boolean;
   userPosts: Post[];

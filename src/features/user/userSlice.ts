@@ -5,7 +5,8 @@ import {
   AuthenticatedRequestsPayload,
 } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
-import { UserInitialState } from "./user.types";
+import { UserInitialState, User, Request } from "./user.types";
+import defaultImage from "../../assets/profile_image.jpg";
 
 const initialState: UserInitialState = {
   userLoading: false,
@@ -110,7 +111,10 @@ const userSlice = createSlice({
     },
     [getTopUsers.fulfilled.toString()]: (state, action) => {
       state.userLoading = false;
-      state.topUsers = action.payload;
+      state.topUsers = action.payload.map((user: User) => ({
+        ...user,
+        image: user.image ? user.image : defaultImage,
+      }));
     },
     [getTopUsers.rejected.toString()]: (state) => {
       state.userLoading = false;
@@ -135,8 +139,18 @@ const userSlice = createSlice({
     },
     [getUserRequests.fulfilled.toString()]: (state, action) => {
       state.userLoading = false;
-      state.recievedRequests = action.payload.recievedRequests;
-      state.sentRequests = action.payload.sentRequests;
+      state.recievedRequests = action.payload.recievedRequests.map(
+        (request: Request) => ({
+          ...request,
+          image: request.image ? request.image : defaultImage,
+        })
+      );
+      state.sentRequests = action.payload.sentRequests.map(
+        (request: Request) => ({
+          ...request,
+          image: request.image ? request.image : defaultImage,
+        })
+      );
     },
     [getUserRequests.rejected.toString()]: (state) => {
       state.userLoading = false;

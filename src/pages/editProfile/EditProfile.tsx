@@ -1,7 +1,6 @@
 import classes from "./EditProfile.module.css";
 import { useDispatch } from "react-redux";
 import { useAuthSlice } from "../../app/store";
-import defaultProfileImage from "../../assets/profile_image.jpg";
 import {
   TextField,
   InputLabel,
@@ -68,15 +67,7 @@ export const EditProfile = () => {
 
   return (
     <div className={classes["edit-profile-container"]}>
-      {image ? (
-        <img src={image} alt="Profile" className={classes["profile-picture"]} />
-      ) : (
-        <img
-          src={defaultProfileImage}
-          alt="Profile"
-          className={classes["profile-picture"]}
-        />
-      )}
+      <img src={image!} alt="Profile" className={classes["profile-picture"]} />
       <form
         className={classes["edit-profile-form"]}
         onSubmit={editProfileSubmit}

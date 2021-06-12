@@ -8,4 +8,5 @@ export type PostProps = {
   createdAt: Date;
   postId: string;
   likes: Like[];
+  isUserPost: boolean;
 };

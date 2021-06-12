@@ -1,7 +1,6 @@
 import classes from "./UserListItem.module.css";
 import { UserListItemProps, ButtonToRender } from "./UserListItem.types";
 import { Button } from "@material-ui/core";
-import defaultProfileImage from "../../assets/profile_image.jpg";
 import {
   sendFriendRequest,
   deleteFriendRequest,
@@ -100,11 +99,7 @@ export const UserListItem = ({
   return (
     <div className={classes["user-list-item-container"]}>
       <div className={classes["user-image-name"]}>
-        <img
-          src={image ? image : defaultProfileImage}
-          alt="users"
-          className={classes["user-image"]}
-        />
+        <img src={image!} alt="users" className={classes["user-image"]} />
         <p className={classes["user-name"]}>{name}</p>
       </div>
       {buttonToRender(userItemType)}

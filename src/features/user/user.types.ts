@@ -4,7 +4,7 @@ export type User = {
   name: string;
   userId: string;
   bio?: string;
-  image?: string;
+  image: string | null;
   privacy: boolean;
   post?: Post[];
 };
@@ -21,5 +21,5 @@ export type Request = {
   requestId: string;
   userId: string;
   name: string;
-  image?: string | null;
+  image: string | null;
 };

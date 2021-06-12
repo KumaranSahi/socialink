@@ -5,7 +5,6 @@ import { getUserRequests } from "../../features/user/userSlice";
 import { getFeedPosts } from "../../features/post/postSlice";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import defaultProfileImage from "../../assets/profile_image.jpg";
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -40,10 +39,11 @@ export const Home = () => {
                   content={content}
                   createdAt={createdAt}
                   postImage={image ? image : null}
-                  userImage={userImage ? userImage : defaultProfileImage}
+                  userImage={userImage!}
                   userName={userName!}
                   postId={postId}
                   likes={likes}
+                  isUserPost={false}
                   key={postId}
                 />
               )

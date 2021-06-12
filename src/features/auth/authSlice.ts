@@ -13,6 +13,7 @@ import {
   AuthenticatedRequestsPayload,
 } from "../../Generics.types";
 import { warningToast, successToast, infoToast } from "../../components";
+import defaultImage from "../../assets/profile_image.jpg";
 
 const initialState: AuthState = {
   image: null,
@@ -95,7 +96,7 @@ const authSlice = createSlice({
     setUserDetailsAfterReload: (state, action) => {
       state.token = action.payload.token;
       state.userId = action.payload.userId;
-      state.image = action.payload.image;
+      state.image = action.payload.image ? action.payload.image : defaultImage;
       state.userName = action.payload.userName;
       state.bio = action.payload.bio;
       state.privacy = action.payload.privacy;
@@ -151,7 +152,7 @@ const authSlice = createSlice({
       localStorage.setItem("expiresIn", "" + expiresIn);
       state.token = token;
       state.userId = userId;
-      state.image = image;
+      state.image = image ? image : defaultImage;
       state.userName = userName;
       state.bio = bio;
       state.privacy = privacy || false;
@@ -180,9 +181,9 @@ const authSlice = createSlice({
     [editProfile.fulfilled.toString()]: (state, action) => {
       state.authLoading = false;
       const { name, bio, privacy } = action.payload;
-      state.userName=name;
-      state.bio=bio;
-      state.privacy=privacy;
+      state.userName = name;
+      state.bio = bio;
+      state.privacy = privacy;
       localStorage.setItem("userName", name);
       localStorage.setItem("bio", bio);
       localStorage.setItem("privacy", privacy);

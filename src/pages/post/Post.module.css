@@ -1,0 +1,51 @@
+.post-page-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: white;
+  flex-direction: column;
+  border-radius: 1rem;
+  border: 0.5px solid lightgrey;
+  text-align: left;
+}
+
+.user-info {
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+}
+
+.post-content {
+  padding: 1rem;
+  margin: 0;
+}
+
+.user-image {
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+}
+
+.add-comment {
+  display: flex;
+}
+
+.username-timestamp {
+  margin-left: 1rem;
+  text-align: left;
+}
+
+.username {
+  margin: 0;
+  font-weight: bolder;
+}
+
+.timestamp {
+  margin: 0;
+}
+
+@media (min-width: 700px) {
+  .post-page-container {
+    width: 37.5rem;
+    min-height: 100vh;
+  }
+}

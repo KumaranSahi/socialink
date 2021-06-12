@@ -18,6 +18,7 @@ export const Post = ({
   postImage,
   createdAt,
   postId,
+  isUserPost,
   likes,
 }: PostProps) => {
   const { token, userId } = useAuthSlice();
@@ -88,7 +89,13 @@ export const Post = ({
         {likeButtonToBeRendered()}
         <IconButton
           aria-label="comment"
-          onClick={() => push({ pathname: "/post", search: postId })}
+          onClick={() =>
+            push({
+              pathname: "/post",
+              search: postId,
+              state: { isUserPost: isUserPost },
+            })
+          }
         >
           <AddComment />
         </IconButton>

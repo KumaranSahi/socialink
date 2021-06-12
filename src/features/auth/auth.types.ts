@@ -3,7 +3,7 @@ export type SigninPages = "SIGNIN_PAGE" | "SIGNUP_PAGE" | "CHANGE_PASSWORD";
 export type AuthState = {
   userId: string | null;
   userName: string | null;
-  image?: string | null;
+  image: string | null;
   token: string | null;
   bio: string | null;
   privacy: boolean;
@@ -15,7 +15,7 @@ export type UserData = {
   name: string;
   email: string;
   password: string;
-  image?: string;
+  image: string | null;
   DOB: Date;
 };
 
@@ -23,7 +23,7 @@ export type SignedInUserInfo = {
   token: string;
   userName: string;
   expiresIn: Date;
-  image?: string;
+  image: string | null;
   userId: string;
 };
 

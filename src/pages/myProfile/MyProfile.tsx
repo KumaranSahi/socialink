@@ -5,7 +5,6 @@ import { useAuthSlice, usePostSlice } from "../../app/store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Post } from "../../components";
-import defaultProfileImage from "../../assets/profile_image.jpg";
 
 export const MyProfile = () => {
   const dispatch = useDispatch();
@@ -25,9 +24,10 @@ export const MyProfile = () => {
             content={content}
             createdAt={createdAt}
             postImage={image ? image : null}
-            userImage={userImage ? userImage : defaultProfileImage}
+            userImage={userImage!}
             userName={userName!}
             postId={postId}
+            isUserPost={true}
             key={postId}
             likes={likes}
           />

@@ -10,8 +10,10 @@ import { useDispatch } from "react-redux";
 import {
   postLikeButtonClicked,
   postActiveLikedButtonClicked,
+  addCommentButtonClicked,
 } from "../../features/post/postSlice";
 import { AddComment } from "@material-ui/icons";
+import { Comment } from "../../components";
 
 export type RouterState = {
   isUserPost: boolean;
@@ -25,6 +27,7 @@ export const Post = () => {
   const dispatch = useDispatch();
 
   const [post, setPost] = useState<PostType | null>(null);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     if ((state as RouterState).isUserPost) {
@@ -119,15 +122,57 @@ export const Post = () => {
         <div>
           <div className={classes["add-comment"]}>
             <TextField
-              id="filled-basic"
               label="Filled"
               variant="filled"
               fullWidth
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
             />
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                if (comment.length > 0)
+                  dispatch(
+                    addCommentButtonClicked({
+                      data: {
+                        content: comment,
+                        postId: postIdToLoad,
+                      },
+                      token: token!,
+                    })
+                  );
+              }}
+            >
               <AddComment />
             </IconButton>
           </div>
+          {post.comments && (
+            <ul className={classes["comment-list"]}>
+              {post.comments.map(
+                ({
+                  commentContent,
+                  commentEdited,
+                  commentId,
+                  commentUserId,
+                  commentUserImage,
+                  commentUserName,
+                  createdAt,
+                }) => (
+                  <li key={commentId}>
+                    <Comment
+                      commentContent={commentContent}
+                      commentEdited={commentEdited}
+                      commentId={commentId}
+                      commentUserId={commentUserId}
+                      commentUserImage={commentUserImage}
+                      commentUserName={commentUserName}
+                      createdAt={createdAt}
+                    />
+                    <hr />
+                  </li>
+                )
+              )}
+            </ul>
+          )}
         </div>
       </div>
     )

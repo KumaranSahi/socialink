@@ -5,8 +5,8 @@ import {
   AuthenticatedRequestsPayload,
 } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
-import { PostState, PostData } from "./post.types";
-import { id } from "date-fns/locale";
+import { PostState, PostData, Post, CommentData } from "./post.types";
+import defaultImage from "../../assets/profile_image.jpg";
 
 const initialState: PostState = {
   postLoading: false,
@@ -89,6 +89,31 @@ export const postActiveLikedButtonClicked = createAsyncThunk(
   }
 );
 
+export const addCommentButtonClicked = createAsyncThunk(
+  "posts/add-post-comment",
+  async ({
+    data: { content: commentContent, postId },
+
+    token,
+  }: AuthenticatedRequestsPayload<CommentData>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.post<ResponseTemplate>(
+      `/api/comments/${postId}`,
+      {
+        content: commentContent,
+      },
+      config
+    );
+    return data;
+  }
+);
+
 export const postSlice = createSlice({
   initialState: initialState,
   name: "post",
@@ -125,7 +150,10 @@ export const postSlice = createSlice({
       state.postLoading = true;
     },
     [getFeedPosts.fulfilled.toString()]: (state, action) => {
-      state.feedPosts = action.payload;
+      state.feedPosts = action.payload.map((post: Post) => ({
+        ...post,
+        userImage: post.userImage || defaultImage,
+      }));
       state.postLoading = false;
     },
     [getFeedPosts.rejected.toString()]: (state) => {
@@ -180,6 +208,30 @@ export const postSlice = createSlice({
     },
     [postActiveLikedButtonClicked.rejected.toString()]: (state) => {
       warningToast("Unable to remove like please try again later");
+      state.postLoading = false;
+    },
+    [addCommentButtonClicked.pending.toString()]: (state) => {
+      state.postLoading = true;
+    },
+    [addCommentButtonClicked.fulfilled.toString()]: (state, action) => {
+      state.postLoading = false;
+      const feedPostIndex = state.feedPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (feedPostIndex !== -1) {
+        state.feedPosts[feedPostIndex].comments.push(action.payload.comment);
+      }
+      const userPostIndex = state.userPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (userPostIndex !== -1) {
+        state.feedPosts[userPostIndex].comments.push(action.payload.comment);
+      }
+      state.postLoading = false;
+      successToast("Comment added");
+    },
+    [addCommentButtonClicked.rejected.toString()]: (state) => {
+      warningToast("Unable to add comment please try again later");
       state.postLoading = false;
     },
   },

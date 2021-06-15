@@ -3,7 +3,6 @@
   min-height: 100vh;
   background-color: white;
   flex-direction: column;
-  border-radius: 1rem;
   border: 0.5px solid lightgrey;
   text-align: left;
 }
@@ -27,6 +26,11 @@
 
 .add-comment {
   display: flex;
+  padding: 1rem;
+}
+
+.add-comment svg {
+  color: var(--primary);
 }
 
 .username-timestamp {
@@ -43,9 +47,33 @@
   margin: 0;
 }
 
+.comment-list {
+  list-style: none;
+}
+
+.post-like {
+  display: flex;
+  align-items: center;
+}
+
+.post-liked {
+  color: var(--primary);
+}
+
+.post-liked svg {
+  color: var(--primary);
+}
+
+.like-count {
+  margin-left: 1rem;
+  margin-right: -0.5rem;
+  font-weight: 700;
+}
+
 @media (min-width: 700px) {
   .post-page-container {
     width: 37.5rem;
     min-height: 100vh;
+    margin: auto;
   }
 }

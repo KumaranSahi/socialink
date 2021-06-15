@@ -26,7 +26,7 @@ export const Post = ({
   const { push } = useHistory();
 
   const likeButtonToBeRendered = () => {
-    const like = likes.find(({ likeUserId }) => likeUserId === userId);
+    const like = likes && likes.find(({ likeUserId }) => likeUserId === userId);
     if (like) {
       return (
         <div

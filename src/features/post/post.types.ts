@@ -6,6 +6,7 @@ export type Post = {
   userName?: string;
   userImage?: string;
   likes: Like[];
+  comments: Comment[];
 };
 
 export type Like = {
@@ -22,6 +23,7 @@ export type Comment = {
   commentUserImage: string;
   commentUserId: string;
   commentEdited: boolean;
+  createdAt: Date;
 };
 
 export type PostState = {
@@ -33,4 +35,9 @@ export type PostState = {
 export type PostData = {
   content: string;
   image: string | undefined;
+};
+
+export type CommentData = {
+  content: string;
+  postId: string;
 };

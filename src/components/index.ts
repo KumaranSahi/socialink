@@ -6,3 +6,4 @@ export { Modal } from "./modal/Modal";
 export { Post } from "./post/Post";
 export { UserListItem } from "./userListItem/UserListItem";
 export { TopUsers } from "./topUsers/TopUsers";
+export { Comment } from "./comment/Comment";

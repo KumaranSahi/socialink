@@ -113,7 +113,7 @@ const userSlice = createSlice({
       state.userLoading = false;
       state.topUsers = action.payload.map((user: User) => ({
         ...user,
-        image: user.image ? user.image : defaultImage,
+        image: user.image || defaultImage,
       }));
     },
     [getTopUsers.rejected.toString()]: (state) => {
@@ -142,13 +142,13 @@ const userSlice = createSlice({
       state.recievedRequests = action.payload.recievedRequests.map(
         (request: Request) => ({
           ...request,
-          image: request.image ? request.image : defaultImage,
+          image: request.image || defaultImage,
         })
       );
       state.sentRequests = action.payload.sentRequests.map(
         (request: Request) => ({
           ...request,
-          image: request.image ? request.image : defaultImage,
+          image: request.image || defaultImage,
         })
       );
     },

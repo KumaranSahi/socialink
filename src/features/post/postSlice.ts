@@ -81,7 +81,7 @@ export const postLikeButtonClicked = createAsyncThunk(
   }
 );
 
-export const postEditButtonClicked = createAsyncThunk(
+export const editPostButtonClicked = createAsyncThunk(
   "posts/edit-post",
   async ({
     data: { content: postContent, postId },
@@ -105,7 +105,7 @@ export const postEditButtonClicked = createAsyncThunk(
   }
 );
 
-export const postDeleteButtonClicked = createAsyncThunk(
+export const deletePostButtonClicked = createAsyncThunk(
   "posts/delete-post",
   async ({ data: postId, token }: AuthenticatedRequestsPayload<string>) => {
     const config = {
@@ -223,10 +223,10 @@ export const postSlice = createSlice({
       warningToast("Unable to add post please try again later");
       state.postLoading = false;
     },
-    [postEditButtonClicked.pending.toString()]: (state) => {
+    [editPostButtonClicked.pending.toString()]: (state) => {
       state.postLoading = true;
     },
-    [postEditButtonClicked.fulfilled.toString()]: (state, action) => {
+    [editPostButtonClicked.fulfilled.toString()]: (state, action) => {
       const feedPostIndex = state.feedPosts.findIndex(
         ({ postId }) => postId === action.payload.postId
       );
@@ -242,14 +242,14 @@ export const postSlice = createSlice({
       state.postLoading = false;
       successToast("Post editted");
     },
-    [postEditButtonClicked.rejected.toString()]: (state) => {
+    [editPostButtonClicked.rejected.toString()]: (state) => {
       warningToast("Unable to edit post please try again later");
       state.postLoading = false;
     },
-    [postDeleteButtonClicked.pending.toString()]: (state) => {
+    [deletePostButtonClicked.pending.toString()]: (state) => {
       state.postLoading = true;
     },
-    [postDeleteButtonClicked.fulfilled.toString()]: (state, action) => {
+    [deletePostButtonClicked.fulfilled.toString()]: (state, action) => {
       state.feedPosts = state.feedPosts.filter(
         ({ postId }) => postId !== action.payload.postId
       );
@@ -259,7 +259,7 @@ export const postSlice = createSlice({
       state.postLoading = false;
       successToast("Post deleted");
     },
-    [postDeleteButtonClicked.rejected.toString()]: (state) => {
+    [deletePostButtonClicked.rejected.toString()]: (state) => {
       warningToast("Unable to delete post please try again later");
       state.postLoading = false;
     },

@@ -8,7 +8,7 @@ import { Post } from "../../components";
 
 export const MyProfile = () => {
   const dispatch = useDispatch();
-  const { token, userName, image: userImage } = useAuthSlice();
+  const { token, userName, image: userImage, userId } = useAuthSlice();
   const { userPosts } = usePostSlice();
 
   useEffect(() => {
@@ -19,19 +19,23 @@ export const MyProfile = () => {
     <div className={classes["my-profile-container"]}>
       <ProfileDetails />
       {userPosts.length > 0 &&
-        userPosts.map(({ content, createdAt, postId, image, likes }) => (
-          <Post
-            content={content}
-            createdAt={createdAt}
-            postImage={image ? image : null}
-            userImage={userImage!}
-            userName={userName!}
-            postId={postId}
-            isUserPost={true}
-            key={postId}
-            likes={likes}
-          />
-        ))}
+        userPosts.map(
+          ({ content, createdAt, postId, image, likes, postEdited }) => (
+            <Post
+              content={content}
+              createdAt={createdAt}
+              postImage={image ? image : null}
+              userImage={userImage!}
+              userName={userName!}
+              postId={postId}
+              isUserPost={true}
+              key={postId}
+              likes={likes}
+              postUserId={userId!}
+              postEdited={postEdited}
+            />
+          )
+        )}
     </div>
   );
 };

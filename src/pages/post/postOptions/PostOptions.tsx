@@ -1,20 +1,18 @@
-import classes from "./CommentOptions.module.css";
+import classes from "./PostOptions.module.css";
 import { useState, SyntheticEvent } from "react";
 import { MoreVert } from "@material-ui/icons";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
-import { deleteCommentButtonClicked } from "../../../features/post/postSlice";
 import { useDispatch } from "react-redux";
-import { CommentOptionsProps } from "./CommentOptions.types";
+import { PostOptionsTypes } from "./PostOptions.types";
+import { deletePostButtonClicked } from "../../../features/post/postSlice";
 
-export const CommentOptions = ({
-  commentUserId,
-  setComment,
+export const PostOptions = ({
+  postContent,
+  postId,
   setEditMode,
-  userId,
-  commentContent,
-  commentId,
+  setPost,
   token,
-}: CommentOptionsProps) => {
+}: PostOptionsTypes) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const dispatch = useDispatch();
 
@@ -26,23 +24,21 @@ export const CommentOptions = ({
     setAnchorEl(null);
   };
 
-  const handleEditComment = () => {
+  const handleEditPost = () => {
     setEditMode(true);
-    setComment(commentContent);
+    setPost(postContent);
     handleClose();
   };
 
-  const handleDeleteComment = () => {
+  const handleDeleteEdit = () => {
     dispatch(
-      deleteCommentButtonClicked({
-        data: commentId,
+      deletePostButtonClicked({
+        data: postId,
         token: token,
       })
     );
     handleClose();
   };
-
-  const displayEdit = () => commentUserId! === userId!;
 
   return (
     <div>
@@ -51,7 +47,7 @@ export const CommentOptions = ({
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
-        className={classes["comment-option"]}
+        className={classes["post-option"]}
       >
         <MoreVert />
       </IconButton>
@@ -61,14 +57,12 @@ export const CommentOptions = ({
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem key="Delete" onClick={handleDeleteComment}>
+        <MenuItem key="Delete" onClick={handleDeleteEdit}>
           Delete
         </MenuItem>
-        {displayEdit() && (
-          <MenuItem key="Edit" onClick={handleEditComment}>
-            Edit
-          </MenuItem>
-        )}
+        <MenuItem key="Edit" onClick={handleEditPost}>
+          Edit
+        </MenuItem>
       </Menu>
     </div>
   );

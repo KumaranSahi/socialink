@@ -9,4 +9,6 @@ export type PostProps = {
   postId: string;
   likes: Like[];
   isUserPost: boolean;
+  postUserId: string;
+  postEdited: boolean;
 };

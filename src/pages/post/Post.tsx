@@ -13,6 +13,8 @@ import {
   addCommentButtonClicked,
 } from "../../features/post/postSlice";
 import { Comment } from "../../components";
+import { EditPost } from "./editPost/EditPost";
+import { PostOptions } from "./postOptions/PostOptions";
 
 export type RouterState = {
   isUserPost: boolean;
@@ -27,6 +29,8 @@ export const Post = () => {
 
   const [post, setPost] = useState<PostType | null>(null);
   const [comment, setComment] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [postContent, setPostContent] = useState("");
 
   useEffect(() => {
     if ((state as RouterState).isUserPost) {
@@ -98,6 +102,9 @@ export const Post = () => {
             <div className={classes["username-timestamp"]}>
               <p className={classes["username"]}>{userName}</p>
               <p className={classes["timestamp"]}>{format(post.createdAt)}</p>
+              {post.postEdited && (
+                <span className={classes["edited-tag"]}>(Edited)</span>
+              )}
             </div>
           </div>
         ) : (
@@ -113,10 +120,28 @@ export const Post = () => {
             </div>
           </div>
         )}
+        {(state as RouterState).isUserPost && !editMode && (
+          <PostOptions
+            postContent={post.content}
+            postId={post.postId}
+            setEditMode={setEditMode}
+            setPost={setPostContent}
+            token={token!}
+          />
+        )}
         {post.image && (
           <img src={post.image} alt="Post" className={classes["post-image"]} />
         )}{" "}
-        <p className={classes["post-content"]}>{post.content}</p>
+        {editMode ? (
+          <EditPost
+            postContent={postContent}
+            setPostContent={setPostContent}
+            setEditMode={setEditMode}
+            postId={postIdToLoad}
+          />
+        ) : (
+          <p className={classes["post-content"]}>{post.content}</p>
+        )}
         {likeButtonToBeRendered()}
         <div>
           <div className={classes["add-comment"]}>

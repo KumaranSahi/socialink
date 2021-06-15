@@ -5,7 +5,8 @@ export type Post = {
   createdAt: Date;
   userName?: string;
   userImage?: string;
-  userId?: string;
+  postUserId?: string;
+  postEdited: boolean;
   likes: Like[];
   comments: Comment[];
 };
@@ -43,12 +44,10 @@ export type CommentData = {
   postId: string;
 };
 
-
 export type PostEditData = {
   content: string;
   postId: string;
 };
-
 
 export type CommentEditData = {
   content: string;

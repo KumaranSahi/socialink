@@ -20,6 +20,7 @@ export const Post = ({
   postId,
   isUserPost,
   likes,
+  postEdited,
 }: PostProps) => {
   const { token, userId } = useAuthSlice();
   const dispatch = useDispatch();
@@ -79,6 +80,9 @@ export const Post = ({
         <div className={classes["username-timestamp"]}>
           <p className={classes["username"]}>{userName}</p>
           <p className={classes["timestamp"]}>{format(createdAt)}</p>
+          {postEdited && (
+            <span className={classes["edited-tag"]}>(Edited)</span>
+          )}
         </div>
       </div>
       {postImage && (

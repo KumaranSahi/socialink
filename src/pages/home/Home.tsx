@@ -34,6 +34,8 @@ export const Home = () => {
                 userImage,
                 userName,
                 likes,
+                postUserId,
+                postEdited,
               }) => (
                 <Post
                   content={content}
@@ -45,6 +47,8 @@ export const Home = () => {
                   likes={likes}
                   isUserPost={false}
                   key={postId}
+                  postUserId={postUserId!}
+                  postEdited={postEdited}
                 />
               )
             )}

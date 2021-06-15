@@ -75,6 +75,8 @@ export const Comment = ({
           setEditMode={setEditMode}
           userId={userId!}
           commentContent={commentContent}
+          commentId={commentId}
+          token={token!}
         />
       )}
       {editMode && (

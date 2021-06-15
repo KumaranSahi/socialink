@@ -124,7 +124,6 @@ export const editCommentButtonClicked = createAsyncThunk(
   "posts/edit-post-comment",
   async ({
     data: { content: commentContent, commentId },
-
     token,
   }: AuthenticatedRequestsPayload<CommentEditData>) => {
     const config = {
@@ -139,6 +138,24 @@ export const editCommentButtonClicked = createAsyncThunk(
       {
         content: commentContent,
       },
+      config
+    );
+    return data;
+  }
+);
+
+export const deleteCommentButtonClicked = createAsyncThunk(
+  "posts/delete-post-comment",
+  async ({ data: commentId, token }: AuthenticatedRequestsPayload<string>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.delete<ResponseTemplate>(
+      `/api/comments/${commentId}`,
       config
     );
     return data;
@@ -258,7 +275,6 @@ export const postSlice = createSlice({
       if (userPostIndex !== -1) {
         state.feedPosts[userPostIndex].comments.push(action.payload.comment);
       }
-      state.postLoading = false;
       successToast("Comment added");
     },
     [addCommentButtonClicked.rejected.toString()]: (state) => {
@@ -269,7 +285,6 @@ export const postSlice = createSlice({
       state.postLoading = true;
     },
     [editCommentButtonClicked.fulfilled.toString()]: (state, action) => {
-      state.postLoading = false;
       state.postLoading = false;
       const feedPostIndex = state.feedPosts.findIndex(
         ({ postId }) => postId === action.payload.postId
@@ -295,10 +310,41 @@ export const postSlice = createSlice({
             : comment
         );
       }
-      state.postLoading = false;
+      successToast("Comment Edited");
     },
     [editCommentButtonClicked.rejected.toString()]: (state) => {
       warningToast("Unable to edit comment please try again later");
+      state.postLoading = false;
+    },
+    [deleteCommentButtonClicked.pending.toString()]: (state) => {
+      state.postLoading = true;
+    },
+    [deleteCommentButtonClicked.fulfilled.toString()]: (state, action) => {
+      state.postLoading = false;
+      const feedPostIndex = state.feedPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (feedPostIndex !== -1) {
+        state.feedPosts[feedPostIndex].comments = state.feedPosts[
+          feedPostIndex
+        ].comments.filter(
+          ({ commentId }) => commentId !== action.payload.commentId
+        );
+      }
+      const userPostIndex = state.userPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (userPostIndex !== -1) {
+        state.feedPosts[userPostIndex].comments = state.feedPosts[
+          userPostIndex
+        ].comments.filter(
+          ({ commentId }) => commentId !== action.payload.commentId
+        );
+      }
+      successToast("Comment Deleted");
+    },
+    [deleteCommentButtonClicked.rejected.toString()]: (state) => {
+      warningToast("Unable to delete comment please try again later");
       state.postLoading = false;
     },
   },

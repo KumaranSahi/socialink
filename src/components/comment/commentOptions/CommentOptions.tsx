@@ -2,6 +2,8 @@ import classes from "./CommentOptions.module.css";
 import { useState, SyntheticEvent, SetStateAction, Dispatch } from "react";
 import { MoreVert } from "@material-ui/icons";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
+import { deleteCommentButtonClicked } from "../../../features/post/postSlice";
+import { useDispatch } from "react-redux";
 
 export type CommentOptionsProps = {
   setEditMode: Dispatch<SetStateAction<boolean>>;
@@ -9,6 +11,8 @@ export type CommentOptionsProps = {
   commentUserId: string;
   userId: string;
   commentContent: string;
+  commentId: string;
+  token: string;
 };
 
 export const CommentOptions = ({
@@ -17,8 +21,12 @@ export const CommentOptions = ({
   setEditMode,
   userId,
   commentContent,
+  commentId,
+  token,
 }: CommentOptionsProps) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
+  const dispatch = useDispatch();
+
   const handleClick = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget);
   };
@@ -33,7 +41,15 @@ export const CommentOptions = ({
     handleClose();
   };
 
-  const handleDeleteComment = () => {};
+  const handleDeleteComment = () => {
+    dispatch(
+      deleteCommentButtonClicked({
+        data: commentId,
+        token: token,
+      })
+    );
+    handleClose();
+  };
 
   const displayEdit = () => commentUserId! === userId!;
 
@@ -54,7 +70,7 @@ export const CommentOptions = ({
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem key="Delete" onClick={handleClose}>
+        <MenuItem key="Delete" onClick={handleDeleteComment}>
           Delete
         </MenuItem>
         {displayEdit() && (

@@ -5,7 +5,13 @@ import {
   AuthenticatedRequestsPayload,
 } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
-import { PostState, PostData, Post, CommentData } from "./post.types";
+import {
+  PostState,
+  PostData,
+  Post,
+  CommentData,
+  CommentEditData,
+} from "./post.types";
 import defaultImage from "../../assets/profile_image.jpg";
 
 const initialState: PostState = {
@@ -105,6 +111,31 @@ export const addCommentButtonClicked = createAsyncThunk(
       data: { data },
     } = await axios.post<ResponseTemplate>(
       `/api/comments/${postId}`,
+      {
+        content: commentContent,
+      },
+      config
+    );
+    return data;
+  }
+);
+
+export const editCommentButtonClicked = createAsyncThunk(
+  "posts/edit-post-comment",
+  async ({
+    data: { content: commentContent, commentId },
+
+    token,
+  }: AuthenticatedRequestsPayload<CommentEditData>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.put<ResponseTemplate>(
+      `/api/comments/${commentId}`,
       {
         content: commentContent,
       },
@@ -232,6 +263,42 @@ export const postSlice = createSlice({
     },
     [addCommentButtonClicked.rejected.toString()]: (state) => {
       warningToast("Unable to add comment please try again later");
+      state.postLoading = false;
+    },
+    [editCommentButtonClicked.pending.toString()]: (state) => {
+      state.postLoading = true;
+    },
+    [editCommentButtonClicked.fulfilled.toString()]: (state, action) => {
+      state.postLoading = false;
+      state.postLoading = false;
+      const feedPostIndex = state.feedPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (feedPostIndex !== -1) {
+        state.feedPosts[feedPostIndex].comments = state.feedPosts[
+          feedPostIndex
+        ].comments.map((comment) =>
+          comment.commentId === action.payload.comment.commentId
+            ? action.payload.comment
+            : comment
+        );
+      }
+      const userPostIndex = state.userPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (userPostIndex !== -1) {
+        state.feedPosts[userPostIndex].comments = state.feedPosts[
+          userPostIndex
+        ].comments.map((comment) =>
+          comment.commentId === action.payload.comment.commentId
+            ? action.payload.comment
+            : comment
+        );
+      }
+      state.postLoading = false;
+    },
+    [editCommentButtonClicked.rejected.toString()]: (state) => {
+      warningToast("Unable to edit comment please try again later");
       state.postLoading = false;
     },
   },

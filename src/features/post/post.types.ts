@@ -41,3 +41,9 @@ export type CommentData = {
   content: string;
   postId: string;
 };
+
+
+export type CommentEditData = {
+  content: string;
+  commentId: string;
+};

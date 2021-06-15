@@ -28,3 +28,18 @@
   margin: 0;
   color: gray;
 }
+
+.edited-tag{
+  color: gray;
+  font-size: 0.7rem;
+}
+
+.add-comment {
+  display: flex;
+  padding: 1rem;
+}
+
+
+.comment-container {
+  position: relative;
+}

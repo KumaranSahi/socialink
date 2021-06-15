@@ -5,14 +5,13 @@ import { useAuthSlice, usePostSlice } from "../../app/store";
 import { Post as PostType } from "../../features/post/post.types";
 import { format } from "timeago.js";
 import { IconButton, TextField } from "@material-ui/core";
-import { ThumbUpAltTwoTone } from "@material-ui/icons";
+import { ThumbUpAltTwoTone, AddComment } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
 import {
   postLikeButtonClicked,
   postActiveLikedButtonClicked,
   addCommentButtonClicked,
 } from "../../features/post/postSlice";
-import { AddComment } from "@material-ui/icons";
 import { Comment } from "../../components";
 
 export type RouterState = {
@@ -140,6 +139,7 @@ export const Post = () => {
                       token: token!,
                     })
                   );
+                setComment("");
               }}
             >
               <AddComment />
@@ -166,6 +166,7 @@ export const Post = () => {
                       commentUserImage={commentUserImage}
                       commentUserName={commentUserName}
                       createdAt={createdAt}
+                      commentPostId={post.postId}
                     />
                     <hr />
                   </li>

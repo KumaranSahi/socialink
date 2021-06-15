@@ -11,6 +11,7 @@ import {
   Post,
   CommentData,
   CommentEditData,
+  PostEditData,
 } from "./post.types";
 import defaultImage from "../../assets/profile_image.jpg";
 
@@ -76,6 +77,45 @@ export const postLikeButtonClicked = createAsyncThunk(
     const {
       data: { data },
     } = await axios.put<ResponseTemplate>(`/api/likes/${postId}`, null, config);
+    return data;
+  }
+);
+
+export const postEditButtonClicked = createAsyncThunk(
+  "posts/edit-post",
+  async ({
+    data: { content: postContent, postId },
+    token,
+  }: AuthenticatedRequestsPayload<PostEditData>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.put<ResponseTemplate>(
+      `/api/posts/${postId}`,
+      {
+        content: postContent,
+      },
+      config
+    );
+    return data;
+  }
+);
+
+export const postDeleteButtonClicked = createAsyncThunk(
+  "posts/delete-post",
+  async ({ data: postId, token }: AuthenticatedRequestsPayload<string>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.delete<ResponseTemplate>(`/api/posts/${postId}`, config);
     return data;
   }
 );
@@ -183,6 +223,46 @@ export const postSlice = createSlice({
       warningToast("Unable to add post please try again later");
       state.postLoading = false;
     },
+    [postEditButtonClicked.pending.toString()]: (state) => {
+      state.postLoading = true;
+    },
+    [postEditButtonClicked.fulfilled.toString()]: (state, action) => {
+      const feedPostIndex = state.feedPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (feedPostIndex !== -1) {
+        state.feedPosts[feedPostIndex].content = action.payload.content;
+      }
+      const userPostIndex = state.userPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (userPostIndex !== -1) {
+        state.userPosts[userPostIndex].content = action.payload.content;
+      }
+      state.postLoading = false;
+      successToast("Post editted");
+    },
+    [postEditButtonClicked.rejected.toString()]: (state) => {
+      warningToast("Unable to edit post please try again later");
+      state.postLoading = false;
+    },
+    [postDeleteButtonClicked.pending.toString()]: (state) => {
+      state.postLoading = true;
+    },
+    [postDeleteButtonClicked.fulfilled.toString()]: (state, action) => {
+      state.feedPosts = state.feedPosts.filter(
+        ({ postId }) => postId !== action.payload.postId
+      );
+      state.userPosts = state.userPosts.filter(
+        ({ postId }) => postId !== action.payload.postId
+      );
+      state.postLoading = false;
+      successToast("Post deleted");
+    },
+    [postDeleteButtonClicked.rejected.toString()]: (state) => {
+      warningToast("Unable to delete post please try again later");
+      state.postLoading = false;
+    },
     [getUserPosts.pending.toString()]: (state) => {
       state.postLoading = true;
     },
@@ -222,7 +302,7 @@ export const postSlice = createSlice({
         ({ postId }) => postId === action.payload.postId
       );
       if (userPostIndex !== -1) {
-        state.feedPosts[userPostIndex].likes.push(action.payload.like);
+        state.userPosts[userPostIndex].likes.push(action.payload.like);
       }
       state.postLoading = false;
       successToast("Post liked");
@@ -247,7 +327,7 @@ export const postSlice = createSlice({
         ({ postId }) => postId === action.payload.postId
       );
       if (userPostIndex !== -1) {
-        state.feedPosts[userPostIndex].likes = state.feedPosts[
+        state.userPosts[userPostIndex].likes = state.feedPosts[
           userPostIndex
         ].likes.filter(({ likeId }) => likeId !== action.payload.likeId);
       }
@@ -273,7 +353,7 @@ export const postSlice = createSlice({
         ({ postId }) => postId === action.payload.postId
       );
       if (userPostIndex !== -1) {
-        state.feedPosts[userPostIndex].comments.push(action.payload.comment);
+        state.userPosts[userPostIndex].comments.push(action.payload.comment);
       }
       successToast("Comment added");
     },
@@ -302,7 +382,7 @@ export const postSlice = createSlice({
         ({ postId }) => postId === action.payload.postId
       );
       if (userPostIndex !== -1) {
-        state.feedPosts[userPostIndex].comments = state.feedPosts[
+        state.userPosts[userPostIndex].comments = state.feedPosts[
           userPostIndex
         ].comments.map((comment) =>
           comment.commentId === action.payload.comment.commentId
@@ -335,7 +415,7 @@ export const postSlice = createSlice({
         ({ postId }) => postId === action.payload.postId
       );
       if (userPostIndex !== -1) {
-        state.feedPosts[userPostIndex].comments = state.feedPosts[
+        state.userPosts[userPostIndex].comments = state.feedPosts[
           userPostIndex
         ].comments.filter(
           ({ commentId }) => commentId !== action.payload.commentId

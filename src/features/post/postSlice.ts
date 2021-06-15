@@ -251,10 +251,10 @@ export const postSlice = createSlice({
     },
     [deletePostButtonClicked.fulfilled.toString()]: (state, action) => {
       state.feedPosts = state.feedPosts.filter(
-        ({ postId }) => postId !== action.payload.postId
+        ({ postId }) => postId !== action.payload
       );
       state.userPosts = state.userPosts.filter(
-        ({ postId }) => postId !== action.payload.postId
+        ({ postId }) => postId !== action.payload
       );
       state.postLoading = false;
       successToast("Post deleted");

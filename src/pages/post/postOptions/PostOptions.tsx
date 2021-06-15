@@ -5,6 +5,7 @@ import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { PostOptionsTypes } from "./PostOptions.types";
 import { deletePostButtonClicked } from "../../../features/post/postSlice";
+import { useHistory } from "react-router-dom";
 
 export const PostOptions = ({
   postContent,
@@ -15,6 +16,7 @@ export const PostOptions = ({
 }: PostOptionsTypes) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const dispatch = useDispatch();
+  const { push } = useHistory();
 
   const handleClick = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget);
@@ -37,6 +39,7 @@ export const PostOptions = ({
         token: token,
       })
     );
+    push("/my-profile");
     handleClose();
   };
 

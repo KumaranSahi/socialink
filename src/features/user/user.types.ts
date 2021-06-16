@@ -9,12 +9,19 @@ export type User = {
   post?: Post[];
 };
 
+export type Friend = {
+  friendId: string;
+  friendName: string;
+  friendImage: string;
+};
+
 export type UserInitialState = {
   topUsers: User[];
   userProfile: User | null;
   userLoading: boolean;
   sentRequests: Request[];
   recievedRequests: Request[];
+  friends: Friend[];
 };
 
 export type Request = {
@@ -46,4 +53,9 @@ export type UserListItemProps = {
   userItemType: ButtonToRender;
 };
 
-export type ButtonToRender = "ONLY_LINK" | "ONLY_DELETE" | "LINK_AND_DELETE";
+export type ButtonToRender =
+  | "ONLY_LINK"
+  | "ONLY_DELETE"
+  | "LINK_AND_DELETE"
+  | "UNLINK"
+  | null;

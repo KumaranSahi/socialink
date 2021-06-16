@@ -87,10 +87,15 @@ export type PostOptionsTypes = {
   token: string;
 };
 
-
 export type EditPostProps = {
   postContent: string;
   setPostContent: Dispatch<SetStateAction<string>>;
   setEditMode: Dispatch<SetStateAction<boolean>>;
   postId: string;
+};
+
+export type LikeListProps = {
+  likes: Like[];
+  open: boolean;
+  handleClose: Dispatch<SetStateAction<boolean>>;
 };

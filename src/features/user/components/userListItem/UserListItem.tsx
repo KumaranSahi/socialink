@@ -79,20 +79,10 @@ export const UserListItem = ({
             </Button>
           </div>
         );
-
+      case "UNLINK":
+        return <div></div>
       default:
-        return (
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() =>
-              dispatch(sendFriendRequest({ data: userId!, token: token! }))
-            }
-            className={classes["response-button"]}
-          >
-            Follow
-          </Button>
-        );
+        return <div></div>;
     }
   };
 

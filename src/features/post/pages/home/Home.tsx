@@ -2,7 +2,7 @@ import classes from "./Home.module.css";
 import { CreatePost, Post } from "../../components";
 import { TopUsers } from "../../../user/components";
 import { useAuthSlice, usePostSlice } from "../../../../app/store";
-import { getUserRequests } from "../../../user/userSlice";
+import { getUserRequests, getUserfriends } from "../../../user/userSlice";
 import { getFeedPosts } from "../../../post/postSlice";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -18,6 +18,10 @@ export const Home = () => {
 
   useEffect(() => {
     if (token) dispatch(getFeedPosts(token));
+  }, [token]);
+
+  useEffect(() => {
+    if (token) dispatch(getUserfriends(token));
   }, [token]);
 
   return (

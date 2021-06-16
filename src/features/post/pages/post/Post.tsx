@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuthSlice, usePostSlice } from "../../../../app/store";
 import { Post as PostType } from "../../post.types";
 import { format } from "timeago.js";
-import { IconButton, TextField } from "@material-ui/core";
+import { IconButton, TextField, Button } from "@material-ui/core";
 import { ThumbUpAltTwoTone, AddComment } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
 import {
@@ -15,6 +15,7 @@ import {
 import { Comment } from "../../components";
 import { EditPost } from "./editPost/EditPost";
 import { PostOptions } from "./postOptions/PostOptions";
+import { LikeList } from "./likeList/LikeList";
 
 export type RouterState = {
   isUserPost: boolean;
@@ -31,6 +32,7 @@ export const Post = () => {
   const [comment, setComment] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [postContent, setPostContent] = useState("");
+  const [viewLikes, setViewLikes] = useState(false);
 
   useEffect(() => {
     if ((state as RouterState).isUserPost) {
@@ -143,6 +145,14 @@ export const Post = () => {
           <p className={classes["post-content"]}>{post.content}</p>
         )}
         {likeButtonToBeRendered()}
+        <Button color="primary" onClick={() => setViewLikes(true)}>
+          view likes
+        </Button>
+        <LikeList
+          handleClose={setViewLikes}
+          open={viewLikes}
+          likes={post.likes}
+        />
         <div>
           <div className={classes["add-comment"]}>
             <TextField

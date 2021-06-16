@@ -5,7 +5,7 @@ import {
   AuthenticatedRequestsPayload,
 } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
-import { UserInitialState, User, Request } from "./user.types";
+import { UserInitialState, User, Request, Friend } from "./user.types";
 import defaultImage from "../../assets/profile_image.jpg";
 
 const initialState: UserInitialState = {
@@ -14,6 +14,7 @@ const initialState: UserInitialState = {
   topUsers: [],
   sentRequests: [],
   recievedRequests: [],
+  friends: [],
 };
 
 export const getTopUsers = createAsyncThunk(
@@ -27,6 +28,21 @@ export const getTopUsers = createAsyncThunk(
     const {
       data: { data },
     } = await axios.get<ResponseTemplate>("/api/friends/top-users", config);
+    return data;
+  }
+);
+
+export const getUserfriends = createAsyncThunk(
+  "user/friends",
+  async (token: string) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.get(`/api/friends`, config);
     return data;
   }
 );
@@ -119,6 +135,20 @@ const userSlice = createSlice({
     [getTopUsers.rejected.toString()]: (state) => {
       state.userLoading = false;
       warningToast("Unable to load top users");
+    },
+    [getUserfriends.pending.toString()]: (state) => {
+      state.userLoading = true;
+    },
+    [getUserfriends.fulfilled.toString()]: (state, action) => {
+      state.userLoading = false;
+      state.friends = action.payload.map((friend: Friend) => ({
+        ...friend,
+        friendImage: friend.friendImage || defaultImage,
+      }));
+    },
+    [getUserfriends.rejected.toString()]: (state) => {
+      state.userLoading = false;
+      warningToast("Unable to load user friends");
     },
     [sendFriendRequest.pending.toString()]: (state) => {
       state.userLoading = true;

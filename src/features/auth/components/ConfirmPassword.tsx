@@ -1,6 +1,6 @@
-import classes from "../Singup.module.css";
+import classes from "./SingupComponent.module.css";
 import { TextField, Button } from "@material-ui/core";
-import { ConfirmPasswordContainerProps } from "../Signup.types";
+import { ConfirmPasswordContainerProps } from "../signup.types";
 
 export const ConfirmPasswordContainer = ({
   email,

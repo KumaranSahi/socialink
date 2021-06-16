@@ -1,14 +1,8 @@
 import "./App.css";
 import { useEffect } from "react";
 import { Navbar } from "./components";
-import {
-  Signup,
-  Home,
-  MyProfile,
-  EditProfile,
-  FriendRequest,
-  Post,
-} from "./pages";
+import { Home, MyProfile, EditProfile, FriendRequest, Post } from "./pages";
+import { Signup } from "./features/auth/pages";
 import { useDispatch } from "react-redux";
 import { useAuthSlice } from "./app/store";
 import {

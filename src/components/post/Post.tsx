@@ -86,9 +86,31 @@ export const Post = ({
         </div>
       </div>
       {postImage && (
-        <img src={postImage} alt="Post" className={classes["post-image"]} />
+        <img
+          src={postImage}
+          alt="Post"
+          className={classes["post-image"]}
+          onClick={() =>
+            push({
+              pathname: "/post",
+              search: postId,
+              state: { isUserPost: isUserPost },
+            })
+          }
+        />
       )}{" "}
-      <p className={classes["post-content"]}>{content}</p>
+      <p
+        className={classes["post-content"]}
+        onClick={() =>
+          push({
+            pathname: "/post",
+            search: postId,
+            state: { isUserPost: isUserPost },
+          })
+        }
+      >
+        {content}
+      </p>
       <div className={classes["like-comment"]}>
         {likeButtonToBeRendered()}
         <IconButton

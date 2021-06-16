@@ -1,0 +1,79 @@
+.signup-page-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-mild);
+}
+
+.signup-container {
+  height: 78%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.signin-signup-container {
+  border-radius: 1rem;
+  width: 22rem;
+  height: 35rem;
+  margin-top: 0;
+  padding: 1rem;
+  padding-bottom: 2rem;
+  background-color: white;
+  box-shadow: 8px 6px 20px 0px;
+}
+
+.signin-signup-container h1 {
+  margin: 0;
+  font-weight: 300;
+  color: var(--primary);
+}
+
+.error-text {
+  font-style: italic;
+  color: var(--failure);
+  margin: 0;
+}
+
+.upload-profile-picture {
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.file-upload-info {
+  color: var(--primary);
+}
+
+.profile-picture {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  align-self: center;
+}
+
+.about-box {
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.about-heading {
+  color: var(--primary);
+  font-size: -webkit-xxx-large;
+  margin-top: 0;
+}
+
+.about-text {
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+@media (min-width: 700px) {
+  .signup-page-container {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+}

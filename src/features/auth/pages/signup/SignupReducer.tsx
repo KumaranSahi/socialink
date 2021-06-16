@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { SignupInitialState, SignupAction } from "./Signup.types";
+import { SignupInitialState, SignupAction } from "../../signup.types";
 
 export const useSignupReducer = () => {
   const initialState: SignupInitialState = {

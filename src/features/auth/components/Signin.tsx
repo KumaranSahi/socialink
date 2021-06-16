@@ -1,4 +1,4 @@
-import classes from "../Singup.module.css";
+import classes from "./SingupComponent.module.css";
 import {
   TextField,
   Button,
@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
-import { SigninContainerProps } from "../Signup.types";
+import { SigninContainerProps } from "../signup.types";
 import { useState } from "react";
 
 export const SigninContainer = ({

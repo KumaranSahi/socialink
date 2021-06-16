@@ -1,4 +1,4 @@
-import classes from "../Singup.module.css";
+import classes from "./SingupComponent.module.css";
 import {
   TextField,
   Button,
@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff, PhotoCamera } from "@material-ui/icons";
-import { SignupContainerProps } from "../Signup.types";
+import { SignupContainerProps } from "../signup.types";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,

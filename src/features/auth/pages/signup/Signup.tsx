@@ -1,14 +1,14 @@
 import classes from "./Singup.module.css";
 import { SyntheticEvent } from "react";
-import { successToast, warningToast } from "../../components/";
+import { successToast, warningToast } from "../../../../components";
 import { useSignupReducer } from "./SignupReducer";
 import axios from "axios";
 import {
   SigninContainer,
   SignupContainer,
   ConfirmPasswordContainer,
-} from "./SignupComponents";
-import { SigninPages } from "../../features/auth/auth.types";
+} from "../../components";
+import { SigninPages } from "../../auth.types";
 import { Button } from "@material-ui/core";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import {
@@ -17,9 +17,9 @@ import {
   switchPage,
   changePassword,
   setAuthLoading,
-} from "../../features/auth/authSlice";
+} from "../../authSlice";
 import { useDispatch } from "react-redux";
-import { useAuthSlice } from "../../app/store";
+import { useAuthSlice } from "../../../../app/store";
 
 export const Signup = () => {
   const dispatch = useDispatch();

@@ -1,11 +1,11 @@
 import classes from "./Post.module.css";
 import { format } from "timeago.js";
-import { PostProps } from "./Post.types";
-import { useAuthSlice } from "../../app/store";
+import { PostProps } from "../../post.types";
+import { useAuthSlice } from "../../../../app/store";
 import {
   postLikeButtonClicked,
   postActiveLikedButtonClicked,
-} from "../../features/post/postSlice";
+} from "../../postSlice";
 import { IconButton } from "@material-ui/core";
 import { AddComment, ThumbUpAltTwoTone } from "@material-ui/icons";
 import { useDispatch } from "react-redux";

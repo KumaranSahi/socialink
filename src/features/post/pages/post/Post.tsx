@@ -1,8 +1,8 @@
 import classes from "./Post.module.css";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuthSlice, usePostSlice } from "../../app/store";
-import { Post as PostType } from "../../features/post/post.types";
+import { useAuthSlice, usePostSlice } from "../../../../app/store";
+import { Post as PostType } from "../../post.types";
 import { format } from "timeago.js";
 import { IconButton, TextField } from "@material-ui/core";
 import { ThumbUpAltTwoTone, AddComment } from "@material-ui/icons";
@@ -11,7 +11,7 @@ import {
   postLikeButtonClicked,
   postActiveLikedButtonClicked,
   addCommentButtonClicked,
-} from "../../features/post/postSlice";
+} from "../../postSlice";
 import { Comment } from "../../components";
 import { EditPost } from "./editPost/EditPost";
 import { PostOptions } from "./postOptions/PostOptions";

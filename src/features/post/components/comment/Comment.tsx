@@ -1,9 +1,9 @@
 import classes from "./Comment.module.css";
-import { Comment as CommentTypes } from "../../features/post/post.types";
+import { Comment as CommentTypes } from "../../post.types";
 import { format } from "timeago.js";
 import { useState } from "react";
-import { useAuthSlice, usePostSlice } from "../../app/store";
-import { editCommentButtonClicked } from "../../features/post/postSlice";
+import { useAuthSlice, usePostSlice } from "../../../../app/store";
+import { editCommentButtonClicked } from "../../postSlice";
 import { useDispatch } from "react-redux";
 import { AddComment } from "@material-ui/icons";
 import { TextField, IconButton } from "@material-ui/core";

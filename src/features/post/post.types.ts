@@ -1,3 +1,5 @@
+import { SetStateAction, Dispatch } from "react";
+
 export type Post = {
   image?: string;
   content: string;
@@ -52,4 +54,43 @@ export type PostEditData = {
 export type CommentEditData = {
   content: string;
   commentId: string;
+};
+
+export type CommentOptionsProps = {
+  setEditMode: Dispatch<SetStateAction<boolean>>;
+  setComment: Dispatch<SetStateAction<string>>;
+  commentUserId: string;
+  userId: string;
+  commentContent: string;
+  commentId: string;
+  token: string;
+};
+
+export type PostProps = {
+  userImage: string;
+  userName: string;
+  content: string;
+  postImage: string | null;
+  createdAt: Date;
+  postId: string;
+  likes: Like[];
+  isUserPost: boolean;
+  postUserId: string;
+  postEdited: boolean;
+};
+
+export type PostOptionsTypes = {
+  setEditMode: Dispatch<SetStateAction<boolean>>;
+  setPost: Dispatch<SetStateAction<string>>;
+  postContent: string;
+  postId: string;
+  token: string;
+};
+
+
+export type EditPostProps = {
+  postContent: string;
+  setPostContent: Dispatch<SetStateAction<string>>;
+  setEditMode: Dispatch<SetStateAction<boolean>>;
+  postId: string;
 };

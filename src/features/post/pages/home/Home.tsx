@@ -1,8 +1,8 @@
 import classes from "./Home.module.css";
 import { CreatePost, TopUsers, Post } from "../../components";
-import { useAuthSlice, usePostSlice } from "../../app/store";
-import { getUserRequests } from "../../features/user/userSlice";
-import { getFeedPosts } from "../../features/post/postSlice";
+import { useAuthSlice, usePostSlice } from "../../../../app/store";
+import { getUserRequests } from "../../../user/userSlice";
+import { getFeedPosts } from "../../../post/postSlice";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 

@@ -2,9 +2,9 @@ import classes from "./CommentOptions.module.css";
 import { useState, SyntheticEvent } from "react";
 import { MoreVert } from "@material-ui/icons";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
-import { deleteCommentButtonClicked } from "../../../features/post/postSlice";
+import { deleteCommentButtonClicked } from "../../../postSlice";
 import { useDispatch } from "react-redux";
-import { CommentOptionsProps } from "./CommentOptions.types";
+import { CommentOptionsProps } from "../../../post.types";
 
 export const CommentOptions = ({
   commentUserId,

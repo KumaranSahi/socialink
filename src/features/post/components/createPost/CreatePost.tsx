@@ -2,12 +2,11 @@ import classes from "./CreatePost.module.css";
 import { TextField, Button, IconButton } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
 import { SyntheticEvent, useState } from "react";
-import { useAuthSlice,usePostSlice } from "../../app/store";
+import { useAuthSlice, usePostSlice } from "../../../../app/store";
 import { useDispatch } from "react-redux";
-import { setPostLoading, createPost } from "../../features/post/postSlice";
-import { warningToast, successToast } from "../../components";
-import axios from "../../useAxios";
-import { Modal } from "../";
+import { setPostLoading, createPost } from "../../postSlice";
+import axios from "../../../../useAxios";
+import { Modal, warningToast, successToast } from "../../../../components";
 
 export const CreatePost = () => {
   const [post, setPost] = useState("");

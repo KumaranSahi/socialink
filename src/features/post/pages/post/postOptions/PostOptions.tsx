@@ -3,8 +3,8 @@ import { useState, SyntheticEvent } from "react";
 import { MoreVert } from "@material-ui/icons";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { PostOptionsTypes } from "./PostOptions.types";
-import { deletePostButtonClicked } from "../../../features/post/postSlice";
+import { PostOptionsTypes } from "../../../post.types";
+import { deletePostButtonClicked } from "../../../postSlice";
 import { useHistory } from "react-router-dom";
 
 export const PostOptions = ({

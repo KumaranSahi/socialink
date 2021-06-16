@@ -1,7 +1,7 @@
 import { TextField, Button } from "@material-ui/core";
-import { useAuthSlice, usePostSlice } from "../../../app/store";
-import { EditPostProps } from "./EditPost.types";
-import { editPostButtonClicked } from "../../../features/post/postSlice";
+import { useAuthSlice, usePostSlice } from "../../../../../app/store";
+import { EditPostProps } from "../../../post.types";
+import { editPostButtonClicked } from "../../../postSlice";
 import { useDispatch } from "react-redux";
 import classes from "./EditPost.module.css";
 

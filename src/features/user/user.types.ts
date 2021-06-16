@@ -23,3 +23,27 @@ export type Request = {
   name: string;
   image: string | null;
 };
+
+export type EditProfile = {
+  name: string;
+  bio: string;
+  privacy: boolean;
+  password: string;
+  formTouched: boolean;
+};
+
+export type EditProfileAction =
+  | { type: "ADD_NAME"; payload: string }
+  | { type: "ADD_BIO"; payload: string }
+  | { type: "ADD_PASSWORD"; payload: string }
+  | { type: "SET_PRIVACY"; payload: boolean };
+
+export type UserListItemProps = {
+  name: string;
+  image: string | null;
+  userId?: string;
+  requestId?: string;
+  userItemType: ButtonToRender;
+};
+
+export type ButtonToRender = "ONLY_LINK" | "ONLY_DELETE" | "LINK_AND_DELETE";

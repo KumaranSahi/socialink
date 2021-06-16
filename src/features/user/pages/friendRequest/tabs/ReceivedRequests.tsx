@@ -1,6 +1,6 @@
 import classes from "./Tabs.module.css";
 import { UserListItem } from "../../../components";
-import { useUserSlice } from "../../../app/store";
+import { useUserSlice } from "../../../../../app/store";
 
 export const ReceivedRequests = () => {
   const { recievedRequests } = useUserSlice();

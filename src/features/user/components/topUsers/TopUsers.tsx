@@ -1,6 +1,6 @@
 import classes from "./TopUsers.module.css";
-import { getTopUsers } from "../../features/user/userSlice";
-import { useAuthSlice, useUserSlice } from "../../app/store";
+import { getTopUsers } from "../../userSlice";
+import { useAuthSlice, useUserSlice } from "../../../../app/store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { UserListItem } from "../";

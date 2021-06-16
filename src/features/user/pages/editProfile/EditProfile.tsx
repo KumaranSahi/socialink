@@ -1,6 +1,6 @@
 import classes from "./EditProfile.module.css";
 import { useDispatch } from "react-redux";
-import { useAuthSlice } from "../../app/store";
+import { useAuthSlice } from "../../../../app/store";
 import {
   TextField,
   InputLabel,
@@ -15,7 +15,7 @@ import {
 import { useEditProfileReducer } from "./EditProfileReducer";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
-import { editProfile } from "../../features/auth/authSlice";
+import { editProfile } from "../../../auth/authSlice";
 
 export const EditProfile = () => {
   const {

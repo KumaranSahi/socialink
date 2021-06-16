@@ -1,12 +1,12 @@
 import classes from "./UserListItem.module.css";
-import { UserListItemProps, ButtonToRender } from "./UserListItem.types";
+import { UserListItemProps, ButtonToRender } from "../../user.types";
 import { Button } from "@material-ui/core";
 import {
   sendFriendRequest,
   deleteFriendRequest,
   acceptFriendRequest,
-} from "../../features/user/userSlice";
-import { useAuthSlice } from "../../app/store";
+} from "../../userSlice";
+import { useAuthSlice } from "../../../../app/store";
 import { useDispatch } from "react-redux";
 
 export const UserListItem = ({

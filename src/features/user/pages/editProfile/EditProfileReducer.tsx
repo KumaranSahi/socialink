@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { EditProfile, EditProfileAction } from "./EditProfile.types";
+import { EditProfile, EditProfileAction } from "../../user.types";
 
 export const useEditProfileReducer = () => {
   const initialState: EditProfile = {

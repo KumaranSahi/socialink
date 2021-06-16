@@ -1,10 +1,10 @@
 import classes from "./MyProfile.module.css";
 import { ProfileDetails } from "./profileDetails/ProfileDetails";
-import { getUserPosts } from "../../features/post/postSlice";
-import { useAuthSlice, usePostSlice } from "../../app/store";
+import { getUserPosts } from "../../../post/postSlice";
+import { useAuthSlice, usePostSlice } from "../../../../app/store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { Post } from "../../components";
+import { Post } from "../../../post/components";
 
 export const MyProfile = () => {
   const dispatch = useDispatch();

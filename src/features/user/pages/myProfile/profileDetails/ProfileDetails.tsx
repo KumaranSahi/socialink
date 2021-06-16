@@ -1,6 +1,6 @@
 import classes from "./ProfileDetails.module.css";
-import { useAuthSlice } from "../../../app/store";
-import defaultProfileImage from "../../../assets/profile_image.jpg";
+import { useAuthSlice } from "../../../../../app/store";
+import defaultProfileImage from "../../../../../assets/profile_image.jpg";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 

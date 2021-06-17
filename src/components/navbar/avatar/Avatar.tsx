@@ -12,7 +12,7 @@ export const Avatar = () => {
   const { push } = useHistory();
   const dispatch = useDispatch();
   const { userName, image } = useAuthSlice();
-  const { recievedRequests } = useUserSlice();
+  const { receivedRequests } = useUserSlice();
   const handleClick = (event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget);
   };
@@ -56,9 +56,9 @@ export const Avatar = () => {
       >
         <MenuItem onClick={requestClicked}>
           Requests{" "}
-          {recievedRequests.length > 0 && (
+          {receivedRequests.length > 0 && (
             <span className={classes["recieved-requests"]}>
-              {recievedRequests.length}
+              {receivedRequests.length}
             </span>
           )}{" "}
         </MenuItem>

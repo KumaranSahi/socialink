@@ -16,6 +16,7 @@ import { Comment } from "../../components";
 import { EditPost } from "./editPost/EditPost";
 import { PostOptions } from "./postOptions/PostOptions";
 import { LikeList } from "./likeList/LikeList";
+import { useHistory } from "react-router-dom";
 
 export type RouterState = {
   isUserPost: boolean;
@@ -27,6 +28,7 @@ export const Post = () => {
   const { token, userName, image: userImage, userId } = useAuthSlice();
   const postIdToLoad = search.substring(1);
   const dispatch = useDispatch();
+  const { push } = useHistory();
 
   const [post, setPost] = useState<PostType | null>(null);
   const [comment, setComment] = useState("");
@@ -110,7 +112,15 @@ export const Post = () => {
             </div>
           </div>
         ) : (
-          <div className={classes["user-info"]}>
+          <div
+            className={classes["user-info"]}
+            onClick={() =>
+              push({
+                pathname: "/user-profile",
+                search: post!.postUserId!,
+              })
+            }
+          >
             <img
               src={post.userImage!}
               alt="Profile"

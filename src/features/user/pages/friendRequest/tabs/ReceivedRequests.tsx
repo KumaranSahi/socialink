@@ -3,10 +3,10 @@ import { UserListItem } from "../../../components";
 import { useUserSlice } from "../../../../../app/store";
 
 export const ReceivedRequests = () => {
-  const { recievedRequests } = useUserSlice();
-  return recievedRequests.length > 0 ? (
+  const { receivedRequests } = useUserSlice();
+  return receivedRequests.length > 0 ? (
     <ul className={classes["request-list"]}>
-      {recievedRequests.map(({ name, requestId, image }) => (
+      {receivedRequests.map(({ name, requestId, image }) => (
         <li className={classes["request-list-item"]}>
           <UserListItem
             image={image!}

@@ -20,8 +20,9 @@ export type UserInitialState = {
   userProfile: User | null;
   userLoading: boolean;
   sentRequests: Request[];
-  recievedRequests: Request[];
+  receivedRequests: Request[];
   friends: Friend[];
+  loadedUser: LoadedUser | null;
 };
 
 export type Request = {
@@ -64,4 +65,23 @@ export type ProfileDetailProps = {
   userName: string;
   image: string;
   bio: string;
+};
+
+export type FriendStatus =
+  | "FRIEND"
+  | "SENT_REQUEST_PENDING"
+  | "RECEIVED_REQUEST_PENDING"
+  | "STRANGER";
+
+export type LoadedUser = {
+  foundUserId: string;
+  foundUserName: string;
+  foundUserImage: string;
+  foundUserBio: string;
+  foundUserPosts: Post[];
+  foundUserPrivacy: boolean;
+  friend: {
+    friendStatus: FriendStatus;
+    requestId?: string;
+  };
 };

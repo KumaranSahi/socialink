@@ -3,7 +3,12 @@ import { useEffect } from "react";
 import { Navbar } from "./components";
 import { Signup } from "./features/auth/pages";
 import { Post, Home } from "./features/post/pages";
-import { EditProfile, FriendRequest, MyProfile } from "./features/user/pages";
+import {
+  EditProfile,
+  FriendRequest,
+  MyProfile,
+  UserProfile,
+} from "./features/user/pages";
 import { useDispatch } from "react-redux";
 import { useAuthSlice } from "./app/store";
 import {
@@ -89,6 +94,7 @@ function App() {
           <PrivateLink path="/edit-profile" component={EditProfile} />
           <PrivateLink path="/requests" component={FriendRequest} />
           <PrivateLink path="/post" component={Post} />
+          <PrivateLink path="/user-profile" component={UserProfile} />
           {token ? (
             <PrivateLink path="/" component={Home} />
           ) : (

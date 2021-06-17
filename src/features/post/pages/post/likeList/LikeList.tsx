@@ -5,7 +5,7 @@ import { LikeListProps } from "../../../post.types";
 import { useUserSlice } from "../../../../../app/store";
 
 export const LikeList = ({ handleClose, likes, open }: LikeListProps) => {
-  const { friends, recievedRequests, sentRequests } = useUserSlice();
+  const { friends, receivedRequests, sentRequests } = useUserSlice();
 
   const userItemListTypeToRender = ({
     likeUserId,
@@ -25,7 +25,7 @@ export const LikeList = ({ handleClose, likes, open }: LikeListProps) => {
           userId={likeUserId}
         />
       );
-    const recievedRequest = recievedRequests.find(
+    const recievedRequest = receivedRequests.find(
       ({ userId }) => userId === likeUserId
     );
     if (recievedRequest)

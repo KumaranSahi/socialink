@@ -12,6 +12,7 @@
   display: flex;
   width: 100%;
   padding: 1rem;
+  cursor: pointer;
 }
 
 .post-content {

@@ -20,6 +20,7 @@ export const Post = ({
   postId,
   isUserPost,
   likes,
+  postUserId,
   postEdited,
 }: PostProps) => {
   const { token, userId } = useAuthSlice();
@@ -75,7 +76,15 @@ export const Post = ({
 
   return (
     <div className={classes["post-container"]}>
-      <div className={classes["user-info"]}>
+      <div
+        className={classes["user-info"]}
+        onClick={() =>
+          push({
+            pathname: "/user-profile",
+            search: postUserId,
+          })
+        }
+      >
         <img src={userImage} alt="Profile" className={classes["user-image"]} />
         <div className={classes["username-timestamp"]}>
           <p className={classes["username"]}>{userName}</p>

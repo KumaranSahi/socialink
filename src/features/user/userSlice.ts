@@ -13,8 +13,9 @@ const initialState: UserInitialState = {
   userProfile: null,
   topUsers: [],
   sentRequests: [],
-  recievedRequests: [],
+  receivedRequests: [],
   friends: [],
+  loadedUser: null,
 };
 
 export const getTopUsers = createAsyncThunk(
@@ -113,6 +114,21 @@ export const getUserRequests = createAsyncThunk(
   }
 );
 
+export const getUserInfo = createAsyncThunk(
+  "user/get-user-info",
+  async ({ data: userId, token }: AuthenticatedRequestsPayload<string>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.get<ResponseTemplate>(`/api/friends/${userId}`, config);
+    return data;
+  }
+);
+
 const userSlice = createSlice({
   initialState: initialState,
   name: "user",
@@ -169,7 +185,7 @@ const userSlice = createSlice({
     },
     [getUserRequests.fulfilled.toString()]: (state, action) => {
       state.userLoading = false;
-      state.recievedRequests = action.payload.recievedRequests.map(
+      state.receivedRequests = action.payload.receivedRequests.map(
         (request: Request) => ({
           ...request,
           image: request.image || defaultImage,
@@ -193,7 +209,7 @@ const userSlice = createSlice({
       state.userLoading = false;
       successToast("Request deleted");
       const deletedRequestId = action.payload;
-      state.recievedRequests = state.recievedRequests.filter(
+      state.receivedRequests = state.receivedRequests.filter(
         ({ requestId }) => requestId !== deletedRequestId
       );
       state.sentRequests = state.sentRequests.filter(
@@ -211,7 +227,7 @@ const userSlice = createSlice({
       state.userLoading = false;
       successToast("Request accepted!");
       const deletedRequestId = action.payload;
-      state.recievedRequests = state.recievedRequests.filter(
+      state.receivedRequests = state.receivedRequests.filter(
         ({ requestId }) => requestId !== deletedRequestId
       );
       state.sentRequests = state.sentRequests.filter(
@@ -221,6 +237,20 @@ const userSlice = createSlice({
     [acceptFriendRequest.rejected.toString()]: (state) => {
       state.userLoading = false;
       warningToast("Unable to accept request");
+    },
+    [getUserInfo.pending.toString()]: (state) => {
+      state.userLoading = true;
+    },
+    [getUserInfo.fulfilled.toString()]: (state, action) => {
+      state.userLoading = false;
+      state.loadedUser = {
+        ...action.payload,
+        foundUserImage: action.payload.foundUserImage || defaultImage,
+      };
+    },
+    [getUserInfo.rejected.toString()]: (state) => {
+      state.userLoading = false;
+      warningToast("Unable to load the user");
     },
   },
 });

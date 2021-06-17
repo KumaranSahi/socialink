@@ -12,7 +12,7 @@ export const Navbar = () => {
     push("/requests");
   };
 
-  const { recievedRequests } = useUserSlice();
+  const { receivedRequests } = useUserSlice();
   return (
     <div className={classes["navbar-container"]}>
       <h1 className={classes["navbar-logo"]} onClick={() => push("/")}>
@@ -26,9 +26,9 @@ export const Navbar = () => {
               className={classes["recieved-request-icon"]}
             />
           )}
-          {recievedRequests.length > 0 && (
+          {receivedRequests.length > 0 && (
             <span className={classes["recieved-requests"]}>
-              {recievedRequests.length}
+              {receivedRequests.length}
             </span>
           )}
         </div>

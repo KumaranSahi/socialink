@@ -18,7 +18,7 @@ export const MyProfile = () => {
   return (
     <div className={classes["my-profile-container"]}>
       <ProfileDetails bio={bio!} image={userImage!} userName={userName!} />
-      {userPosts.length > 0 &&
+      {userPosts.length > 0 ? (
         userPosts.map(
           ({ content, createdAt, postId, image, likes, postEdited }) => (
             <Post
@@ -35,7 +35,10 @@ export const MyProfile = () => {
               postEdited={postEdited}
             />
           )
-        )}
+        )
+      ) : (
+        <h1>No Posts yet 😐</h1>
+      )}
     </div>
   );
 };

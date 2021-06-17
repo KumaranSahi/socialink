@@ -1,5 +1,5 @@
 import classes from "./MyProfile.module.css";
-import { ProfileDetails } from "./profileDetails/ProfileDetails";
+import { ProfileDetails } from "../../components";
 import { getUserPosts } from "../../../post/postSlice";
 import { useAuthSlice, usePostSlice } from "../../../../app/store";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { Post } from "../../../post/components";
 
 export const MyProfile = () => {
   const dispatch = useDispatch();
-  const { token, userName, image: userImage, userId } = useAuthSlice();
+  const { token, userName, image: userImage, userId, bio } = useAuthSlice();
   const { userPosts } = usePostSlice();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export const MyProfile = () => {
 
   return (
     <div className={classes["my-profile-container"]}>
-      <ProfileDetails />
+      <ProfileDetails bio={bio!} image={userImage!} userName={userName!} />
       {userPosts.length > 0 &&
         userPosts.map(
           ({ content, createdAt, postId, image, likes, postEdited }) => (

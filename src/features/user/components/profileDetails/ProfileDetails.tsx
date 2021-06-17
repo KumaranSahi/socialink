@@ -1,17 +1,19 @@
 import classes from "./ProfileDetails.module.css";
-import { useAuthSlice } from "../../../../../app/store";
-import defaultProfileImage from "../../../../../assets/profile_image.jpg";
+import { ProfileDetailProps } from "../../user.types";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
-export const ProfileDetails = () => {
-  const { userName, image, bio } = useAuthSlice();
+export const ProfileDetails = ({
+  userName,
+  image,
+  bio,
+}: ProfileDetailProps) => {
   const { push } = useHistory();
 
   return (
     <div className={classes["profile-details-container"]}>
       <img
-        src={image ? image : defaultProfileImage}
+        src={image}
         alt="Profile"
         className={classes["profile-image"]}
       />

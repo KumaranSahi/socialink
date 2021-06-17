@@ -59,3 +59,9 @@ export type ButtonToRender =
   | "LINK_AND_DELETE"
   | "UNLINK"
   | null;
+
+export type ProfileDetailProps = {
+  userName: string;
+  image: string;
+  bio: string;
+};

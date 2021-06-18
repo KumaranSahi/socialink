@@ -24,40 +24,43 @@ export const UserProfile = () => {
     );
   }, [userToLoad, dispatch, token]);
 
-    return (
-      loadedUser && (
-        <div className={classes["user-profile-container"]}>
-          <ProfileDetails
-            userName={loadedUser!.foundUserName}
-            bio={loadedUser!.foundUserBio}
-            image={loadedUser!.foundUserImage}
-          />
-          {loadedUser?.foundUserPrivacy && (
-            <h1>Link up with the user to see the posts</h1>
-          )}
-          {!loadedUser?.foundUserPrivacy &&
-          loadedUser!.foundUserPosts.length > 0 ? (
-            loadedUser!.foundUserPosts.map(
-              ({ content, createdAt, postId, image, likes, postEdited }) => (
-                <Post
-                  content={content}
-                  createdAt={createdAt}
-                  postImage={image ? image : null}
-                  userImage={loadedUser!.foundUserImage}
-                  userName={loadedUser!.foundUserName}
-                  postId={postId}
-                  isUserPost={true}
-                  key={postId}
-                  likes={likes}
-                  postUserId={postId}
-                  postEdited={postEdited}
-                />
-              )
+  return (
+    loadedUser && (
+      <div className={classes["user-profile-container"]}>
+        <ProfileDetails
+          userName={loadedUser!.foundUserName}
+          bio={loadedUser!.foundUserBio}
+          image={loadedUser!.foundUserImage}
+          postCount={loadedUser!.foundUserPostCount}
+          friends={loadedUser!.foundUserFriends || null}
+          friendsCount={loadedUser!.foundUserFriendsCount}
+        />
+        {loadedUser?.foundUserPrivacy && (
+          <h1>Link up with the user to see the posts</h1>
+        )}
+        {!loadedUser?.foundUserPrivacy &&
+        loadedUser!.foundUserPosts.length > 0 ? (
+          loadedUser!.foundUserPosts.map(
+            ({ content, createdAt, postId, image, likes, postEdited }) => (
+              <Post
+                content={content}
+                createdAt={createdAt}
+                postImage={image ? image : null}
+                userImage={loadedUser!.foundUserImage}
+                userName={loadedUser!.foundUserName}
+                postId={postId}
+                isUserPost={true}
+                key={postId}
+                likes={likes}
+                postUserId={postId}
+                postEdited={postEdited}
+              />
             )
-          ) : (
-            <h1>No Posts yet 😐</h1>
-          )}
-        </div>
-      )
-    );
+          )
+        ) : (
+          <h1>No Posts yet 😐</h1>
+        )}
+      </div>
+    )
+  );
 };

@@ -7,25 +7,24 @@ export const ProfileDetails = ({
   userName,
   image,
   bio,
+  friends,
+  postCount,
+  friendsCount,
 }: ProfileDetailProps) => {
   const { push } = useHistory();
 
   return (
     <div className={classes["profile-details-container"]}>
-      <img
-        src={image}
-        alt="Profile"
-        className={classes["profile-image"]}
-      />
+      <img src={image} alt="Profile" className={classes["profile-image"]} />
       <div className={classes["name-stats-description-container"]}>
         <div className={classes["name-stats"]}>
           <h1 className={classes["user-name"]}>{userName}</h1>
           <div className={classes["stats-container"]}>
             <p className={classes["stat"]}>
-              <span>90</span> posts
+              <span>{postCount}</span> posts
             </p>
             <p className={classes["stat"]}>
-              <span>90</span> friends
+              <span>{friendsCount}</span> friends
             </p>
           </div>
         </div>

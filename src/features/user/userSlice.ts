@@ -246,6 +246,12 @@ const userSlice = createSlice({
       state.loadedUser = {
         ...action.payload,
         foundUserImage: action.payload.foundUserImage || defaultImage,
+        foundUserFriends: action.payload.foundUserFriends.map(
+          (item: Friend) => ({
+            ...item,
+            friendImage: item.friendImage || defaultImage,
+          })
+        ),
       };
     },
     [getUserInfo.rejected.toString()]: (state) => {

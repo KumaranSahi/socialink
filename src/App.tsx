@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { Navbar } from "./components";
 import { Signup } from "./features/auth/pages";
 import { Post, Home } from "./features/post/pages";
@@ -43,13 +43,16 @@ function App() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
-  const checkAuthTimeout = (expirationTime: number) => {
-    setTimeout(() => {
-      dispatch(signoutUser());
-    }, expirationTime * 1000);
-  };
+  const checkAuthTimeout = useCallback(
+    (expirationTime: number) => {
+      setTimeout(() => {
+        dispatch(signoutUser());
+      }, expirationTime * 1000);
+    },
+    [dispatch]
+  );
 
-  const onReload = () => {
+  const onReload = useCallback(() => {
     const token = localStorage.getItem("token");
     let date = localStorage.getItem("expiresIn");
     let expiresIn: Date = new Date();
@@ -75,11 +78,11 @@ function App() {
         })
       );
     }
-  };
+  }, [checkAuthTimeout, dispatch]);
 
   useEffect(() => {
     onReload();
-  }, []);
+  }, [onReload]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

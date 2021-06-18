@@ -148,7 +148,7 @@ const authSlice = createSlice({
       localStorage.setItem("bio", bio);
       localStorage.setItem("privacy", privacy);
       action.payload?.image && localStorage.setItem("image", image);
-      const expiresIn = new Date(new Date().getTime() + 3600000);
+      const expiresIn = new Date(new Date().getTime() + 24 * 3600000);
       localStorage.setItem("expiresIn", "" + expiresIn);
       state.token = token;
       state.userId = userId;

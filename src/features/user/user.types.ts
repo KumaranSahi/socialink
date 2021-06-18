@@ -65,6 +65,9 @@ export type ProfileDetailProps = {
   userName: string;
   image: string;
   bio: string;
+  postCount: number;
+  friends: Friend[] | null;
+  friendsCount?: number;
 };
 
 export type FriendStatus =
@@ -79,7 +82,10 @@ export type LoadedUser = {
   foundUserImage: string;
   foundUserBio: string;
   foundUserPosts: Post[];
+  foundUserPostCount: number;
   foundUserPrivacy: boolean;
+  foundUserFriends: Friend[];
+  foundUserFriendsCount: number;
   friend: {
     friendStatus: FriendStatus;
     requestId?: string;

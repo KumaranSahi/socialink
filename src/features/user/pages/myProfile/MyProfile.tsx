@@ -1,7 +1,11 @@
 import classes from "./MyProfile.module.css";
 import { ProfileDetails } from "../../components";
 import { getUserPosts } from "../../../post/postSlice";
-import { useAuthSlice, usePostSlice } from "../../../../app/store";
+import {
+  useAuthSlice,
+  usePostSlice,
+  useUserSlice,
+} from "../../../../app/store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Post } from "../../../post/components";
@@ -10,6 +14,7 @@ export const MyProfile = () => {
   const dispatch = useDispatch();
   const { token, userName, image: userImage, userId, bio } = useAuthSlice();
   const { userPosts } = usePostSlice();
+  const { friends } = useUserSlice();
 
   useEffect(() => {
     if (token) dispatch(getUserPosts(token));
@@ -17,7 +22,13 @@ export const MyProfile = () => {
 
   return (
     <div className={classes["my-profile-container"]}>
-      <ProfileDetails bio={bio!} image={userImage!} userName={userName!} />
+      <ProfileDetails
+        bio={bio!}
+        image={userImage!}
+        userName={userName!}
+        friends={friends}
+        postCount={userPosts.length}
+      />
       {userPosts.length > 0 ? (
         userPosts.map(
           ({ content, createdAt, postId, image, likes, postEdited }) => (

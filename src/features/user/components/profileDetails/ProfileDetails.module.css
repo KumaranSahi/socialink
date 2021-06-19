@@ -39,6 +39,10 @@
   color: gray;
 }
 
+.friend-stat {
+  cursor: pointer;
+}
+
 .stat span {
   font-weight: bolder;
   font-size: larger;

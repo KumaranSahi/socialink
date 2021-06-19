@@ -1,4 +1,5 @@
 import { Post } from "../post/post.types";
+import { Dispatch, SetStateAction } from "react";
 
 export type User = {
   name: string;
@@ -90,4 +91,10 @@ export type LoadedUser = {
     friendStatus: FriendStatus;
     requestId?: string;
   };
+};
+
+export type FriendListProps = {
+  friendList: Friend[];
+  open: boolean;
+  handleClose: Dispatch<SetStateAction<boolean>>;
 };

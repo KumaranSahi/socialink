@@ -2,6 +2,8 @@ import classes from "./ProfileDetails.module.css";
 import { ProfileDetailProps } from "../../user.types";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
+import { FriendList } from "./friendList/FriendList";
 
 export const ProfileDetails = ({
   userName,
@@ -12,6 +14,7 @@ export const ProfileDetails = ({
   friendsCount,
 }: ProfileDetailProps) => {
   const { push } = useHistory();
+  const [viewFriends, setViewFriends] = useState(false);
 
   return (
     <div className={classes["profile-details-container"]}>
@@ -23,7 +26,7 @@ export const ProfileDetails = ({
             <p className={classes["stat"]}>
               <span>{postCount}</span> posts
             </p>
-            <p className={classes["stat"]}>
+            <p className={`${classes["stat"]} ${classes["friend-stat"]}`} onClick={()=>setViewFriends(true)}>
               <span>{friendsCount}</span> friends
             </p>
           </div>
@@ -38,6 +41,13 @@ export const ProfileDetails = ({
         >
           Edit Profile
         </Button>
+        {friends && (
+          <FriendList
+            handleClose={setViewFriends}
+            open={viewFriends}
+            friendList={friends}
+          />
+        )}
       </div>
     </div>
   );

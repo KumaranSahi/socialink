@@ -155,9 +155,11 @@ export const Post = () => {
           <p className={classes["post-content"]}>{post.content}</p>
         )}
         {likeButtonToBeRendered()}
-        <Button color="primary" onClick={() => setViewLikes(true)}>
-          view likes
-        </Button>
+        {post!.likes && post!.likes.length > 0 && (
+          <Button color="primary" onClick={() => setViewLikes(true)}>
+            view likes
+          </Button>
+        )}
         <LikeList
           handleClose={setViewLikes}
           open={viewLikes}
@@ -172,23 +174,28 @@ export const Post = () => {
               value={comment}
               onChange={(event) => setComment(event.target.value)}
             />
-            <IconButton
-              onClick={() => {
-                if (comment.length > 0)
-                  dispatch(
-                    addCommentButtonClicked({
-                      data: {
-                        content: comment,
-                        postId: postIdToLoad,
-                      },
-                      token: token!,
-                    })
-                  );
-                setComment("");
-              }}
-            >
-              <AddComment />
-            </IconButton>
+            <div>
+              <span className={classes["like-count"]}>
+                {post.comments.length}
+              </span>
+              <IconButton
+                onClick={() => {
+                  if (comment.length > 0)
+                    dispatch(
+                      addCommentButtonClicked({
+                        data: {
+                          content: comment,
+                          postId: postIdToLoad,
+                        },
+                        token: token!,
+                      })
+                    );
+                  setComment("");
+                }}
+              >
+                <AddComment />
+              </IconButton>
+            </div>
           </div>
           {post.comments && (
             <ul className={classes["comment-list"]}>

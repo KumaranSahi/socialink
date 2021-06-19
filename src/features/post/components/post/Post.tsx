@@ -22,6 +22,7 @@ export const Post = ({
   likes,
   postUserId,
   postEdited,
+  postCommentCount,
 }: PostProps) => {
   const { token, userId } = useAuthSlice();
   const dispatch = useDispatch();
@@ -122,18 +123,21 @@ export const Post = ({
       </p>
       <div className={classes["like-comment"]}>
         {likeButtonToBeRendered()}
-        <IconButton
-          aria-label="comment"
-          onClick={() =>
-            push({
-              pathname: "/post",
-              search: postId,
-              state: { isUserPost: isUserPost },
-            })
-          }
-        >
-          <AddComment />
-        </IconButton>
+        <div>
+          <span className={classes["like-count"]}>{postCommentCount}</span>
+          <IconButton
+            aria-label="comment"
+            onClick={() =>
+              push({
+                pathname: "/post",
+                search: postId,
+                state: { isUserPost: isUserPost },
+              })
+            }
+          >
+            <AddComment />
+          </IconButton>
+        </div>
       </div>
     </div>
   );

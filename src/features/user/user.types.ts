@@ -82,7 +82,6 @@ export type LoadedUser = {
   foundUserName: string;
   foundUserImage: string;
   foundUserBio: string;
-  foundUserPosts: Post[];
   foundUserPostCount: number;
   foundUserPrivacy: boolean;
   foundUserFriends: Friend[];

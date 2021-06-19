@@ -1,15 +1,21 @@
 import classes from "./userProfile.module.css";
 import { ProfileDetails } from "../../components";
-import { useAuthSlice, useUserSlice } from "../../../../app/store";
+import {
+  useAuthSlice,
+  usePostSlice,
+  useUserSlice,
+} from "../../../../app/store";
 import { useEffect } from "react";
 import { Post } from "../../../post/components";
 import { useLocation } from "react-router-dom";
 import { getUserInfo } from "../../userSlice";
+import { getLoadedUserPost } from "../../../post/postSlice";
 import { useDispatch } from "react-redux";
 
 export const UserProfile = () => {
   const { loadedUser } = useUserSlice();
   const { token } = useAuthSlice();
+  const { loadedUserPosts } = usePostSlice();
 
   const { search } = useLocation();
   const userToLoad = search.substring(1);
@@ -18,6 +24,15 @@ export const UserProfile = () => {
   useEffect(() => {
     dispatch(
       getUserInfo({
+        data: userToLoad,
+        token: token!,
+      })
+    );
+  }, [userToLoad, dispatch, token]);
+
+  useEffect(() => {
+    dispatch(
+      getLoadedUserPost({
         data: userToLoad,
         token: token!,
       })
@@ -38,10 +53,17 @@ export const UserProfile = () => {
         {loadedUser?.foundUserPrivacy && (
           <h1>Link up with the user to see the posts</h1>
         )}
-        {!loadedUser?.foundUserPrivacy &&
-        loadedUser!.foundUserPosts.length > 0 ? (
-          loadedUser!.foundUserPosts.map(
-            ({ content, createdAt, postId, image, likes, postEdited }) => (
+        {!loadedUser?.foundUserPrivacy && loadedUserPosts.length > 0 ? (
+          loadedUserPosts.map(
+            ({
+              content,
+              createdAt,
+              postId,
+              image,
+              likes,
+              postEdited,
+              comments,
+            }) => (
               <Post
                 content={content}
                 createdAt={createdAt}
@@ -49,9 +71,10 @@ export const UserProfile = () => {
                 userImage={loadedUser!.foundUserImage}
                 userName={loadedUser!.foundUserName}
                 postId={postId}
-                isUserPost={true}
+                isUserPost={false}
                 key={postId}
                 likes={likes}
+                postCommentCount={comments.length}
                 postUserId={postId}
                 postEdited={postEdited}
               />

@@ -19,6 +19,7 @@ const initialState: PostState = {
   postLoading: false,
   feedPosts: [],
   userPosts: [],
+  loadedUserPosts: [],
 };
 
 export const getFeedPosts = createAsyncThunk(
@@ -202,6 +203,21 @@ export const deleteCommentButtonClicked = createAsyncThunk(
   }
 );
 
+export const getLoadedUserPost = createAsyncThunk(
+  "posts/get-loaded-user-post",
+  async ({ data: userId, token }: AuthenticatedRequestsPayload<string>) => {
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    const {
+      data: { data },
+    } = await axios.get<ResponseTemplate>(`/api/posts/${userId}`, config);
+    return data;
+  }
+);
+
 export const postSlice = createSlice({
   initialState: initialState,
   name: "post",
@@ -223,6 +239,7 @@ export const postSlice = createSlice({
       warningToast("Unable to add post please try again later");
       state.postLoading = false;
     },
+
     [editPostButtonClicked.pending.toString()]: (state) => {
       state.postLoading = true;
     },
@@ -246,6 +263,7 @@ export const postSlice = createSlice({
       warningToast("Unable to edit post please try again later");
       state.postLoading = false;
     },
+
     [deletePostButtonClicked.pending.toString()]: (state) => {
       state.postLoading = true;
     },
@@ -263,6 +281,7 @@ export const postSlice = createSlice({
       warningToast("Unable to delete post please try again later");
       state.postLoading = false;
     },
+
     [getUserPosts.pending.toString()]: (state) => {
       state.postLoading = true;
     },
@@ -274,6 +293,7 @@ export const postSlice = createSlice({
       warningToast("Unable to load user post please try again later");
       state.postLoading = false;
     },
+
     [getFeedPosts.pending.toString()]: (state) => {
       state.postLoading = true;
     },
@@ -288,6 +308,7 @@ export const postSlice = createSlice({
       warningToast("Unable to load feed post please try again later");
       state.postLoading = false;
     },
+
     [postLikeButtonClicked.pending.toString()]: (state) => {
       state.postLoading = false;
     },
@@ -304,6 +325,14 @@ export const postSlice = createSlice({
       if (userPostIndex !== -1) {
         state.userPosts[userPostIndex].likes.push(action.payload.like);
       }
+      const loadedUserPostIndex = state.loadedUserPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (loadedUserPostIndex !== -1) {
+        state.loadedUserPosts[loadedUserPostIndex].likes.push(
+          action.payload.like
+        );
+      }
       state.postLoading = false;
       successToast("Post liked");
     },
@@ -311,6 +340,7 @@ export const postSlice = createSlice({
       warningToast("Unable to like post please try again later");
       state.postLoading = false;
     },
+
     [postActiveLikedButtonClicked.pending.toString()]: (state) => {
       state.postLoading = false;
     },
@@ -327,17 +357,26 @@ export const postSlice = createSlice({
         ({ postId }) => postId === action.payload.postId
       );
       if (userPostIndex !== -1) {
-        state.userPosts[userPostIndex].likes = state.feedPosts[
+        state.userPosts[userPostIndex].likes = state.userPosts[
           userPostIndex
         ].likes.filter(({ likeId }) => likeId !== action.payload.likeId);
       }
+      const loadedUserPostIndex = state.loadedUserPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (loadedUserPostIndex !== -1) {
+        state.loadedUserPosts[loadedUserPostIndex].likes =
+          state.loadedUserPosts[loadedUserPostIndex].likes.filter(
+            ({ likeId }) => likeId !== action.payload.likeId
+          );
+      }
       state.postLoading = false;
-      successToast("Post liked");
     },
     [postActiveLikedButtonClicked.rejected.toString()]: (state) => {
       warningToast("Unable to remove like please try again later");
       state.postLoading = false;
     },
+
     [addCommentButtonClicked.pending.toString()]: (state) => {
       state.postLoading = true;
     },
@@ -355,12 +394,21 @@ export const postSlice = createSlice({
       if (userPostIndex !== -1) {
         state.userPosts[userPostIndex].comments.push(action.payload.comment);
       }
+      const loadedUserPostIndex = state.loadedUserPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (loadedUserPostIndex !== -1) {
+        state.loadedUserPosts[loadedUserPostIndex].comments.push(
+          action.payload.comment
+        );
+      }
       successToast("Comment added");
     },
     [addCommentButtonClicked.rejected.toString()]: (state) => {
       warningToast("Unable to add comment please try again later");
       state.postLoading = false;
     },
+
     [editCommentButtonClicked.pending.toString()]: (state) => {
       state.postLoading = true;
     },
@@ -382,7 +430,7 @@ export const postSlice = createSlice({
         ({ postId }) => postId === action.payload.postId
       );
       if (userPostIndex !== -1) {
-        state.userPosts[userPostIndex].comments = state.feedPosts[
+        state.userPosts[userPostIndex].comments = state.userPosts[
           userPostIndex
         ].comments.map((comment) =>
           comment.commentId === action.payload.comment.commentId
@@ -390,12 +438,24 @@ export const postSlice = createSlice({
             : comment
         );
       }
+      const loadedUserPostIndex = state.loadedUserPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (loadedUserPostIndex !== -1) {
+        state.loadedUserPosts[loadedUserPostIndex].comments =
+          state.loadedUserPosts[loadedUserPostIndex].comments.map((comment) =>
+            comment.commentId === action.payload.comment.commentId
+              ? action.payload.comment
+              : comment
+          );
+      }
       successToast("Comment Edited");
     },
     [editCommentButtonClicked.rejected.toString()]: (state) => {
       warningToast("Unable to edit comment please try again later");
       state.postLoading = false;
     },
+
     [deleteCommentButtonClicked.pending.toString()]: (state) => {
       state.postLoading = true;
     },
@@ -415,16 +475,40 @@ export const postSlice = createSlice({
         ({ postId }) => postId === action.payload.postId
       );
       if (userPostIndex !== -1) {
-        state.userPosts[userPostIndex].comments = state.feedPosts[
+        state.userPosts[userPostIndex].comments = state.userPosts[
           userPostIndex
         ].comments.filter(
           ({ commentId }) => commentId !== action.payload.commentId
         );
       }
+      const loadedUserPostIndex = state.loadedUserPosts.findIndex(
+        ({ postId }) => postId === action.payload.postId
+      );
+      if (loadedUserPostIndex !== -1) {
+        state.loadedUserPosts[loadedUserPostIndex].comments =
+          state.loadedUserPosts[loadedUserPostIndex].comments.filter(
+            ({ commentId }) => commentId !== action.payload.commentId
+          );
+      }
       successToast("Comment Deleted");
     },
     [deleteCommentButtonClicked.rejected.toString()]: (state) => {
       warningToast("Unable to delete comment please try again later");
+      state.postLoading = false;
+    },
+
+    [getLoadedUserPost.pending.toString()]: (state) => {
+      state.postLoading = true;
+    },
+    [getLoadedUserPost.fulfilled.toString()]: (state, action) => {
+      state.loadedUserPosts = action.payload.map((post: Post) => ({
+        ...post,
+        userImage: post.userImage || defaultImage,
+      }));
+      state.postLoading = false;
+    },
+    [getLoadedUserPost.rejected.toString()]: (state) => {
+      warningToast("Unable to load feed post please try again later");
       state.postLoading = false;
     },
   },

@@ -34,6 +34,7 @@ export type PostState = {
   postLoading: boolean;
   userPosts: Post[];
   feedPosts: Post[];
+  loadedUserPosts: Post[];
 };
 
 export type PostData = {
@@ -74,6 +75,7 @@ export type PostProps = {
   createdAt: Date;
   postId: string;
   likes: Like[];
+  postCommentCount: number;
   isUserPost: boolean;
   postUserId: string;
   postEdited: boolean;

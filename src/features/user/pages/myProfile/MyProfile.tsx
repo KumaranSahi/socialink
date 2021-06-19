@@ -31,7 +31,15 @@ export const MyProfile = () => {
       />
       {userPosts.length > 0 ? (
         userPosts.map(
-          ({ content, createdAt, postId, image, likes, postEdited }) => (
+          ({
+            content,
+            createdAt,
+            postId,
+            image,
+            likes,
+            postEdited,
+            comments,
+          }) => (
             <Post
               content={content}
               createdAt={createdAt}
@@ -40,6 +48,7 @@ export const MyProfile = () => {
               userName={userName!}
               postId={postId}
               isUserPost={true}
+              postCommentCount={comments.length}
               key={postId}
               likes={likes}
               postUserId={userId!}

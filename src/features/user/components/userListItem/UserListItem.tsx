@@ -8,6 +8,7 @@ import {
 } from "../../userSlice";
 import { useAuthSlice } from "../../../../app/store";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 export const UserListItem = ({
   image,
@@ -18,6 +19,7 @@ export const UserListItem = ({
 }: UserListItemProps) => {
   const { token } = useAuthSlice();
   const dispatch = useDispatch();
+  const { push } = useHistory();
 
   const buttonToRender = (buttonToRender: ButtonToRender) => {
     switch (buttonToRender) {
@@ -80,14 +82,22 @@ export const UserListItem = ({
           </div>
         );
       case "UNLINK":
-        return <div></div>
+        return <div></div>;
       default:
         return <div></div>;
     }
   };
 
   return (
-    <div className={classes["user-list-item-container"]}>
+    <div
+      className={classes["user-list-item-container"]}
+      onClick={() =>
+        push({
+          pathname: "/user-profile",
+          search: userId,
+        })
+      }
+    >
       <div className={classes["user-image-name"]}>
         <img src={image!} alt="users" className={classes["user-image"]} />
         <p className={classes["user-name"]}>{name}</p>

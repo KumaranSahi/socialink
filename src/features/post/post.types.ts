@@ -64,7 +64,6 @@ export type CommentOptionsProps = {
   userId: string;
   commentContent: string;
   commentId: string;
-  token: string;
 };
 
 export type PostProps = {
@@ -87,7 +86,6 @@ export type PostOptionsTypes = {
   setPost: Dispatch<SetStateAction<string>>;
   postContent: string;
   postId: string;
-  token: string;
 };
 
 export type EditPostProps = {

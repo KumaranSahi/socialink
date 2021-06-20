@@ -25,7 +25,7 @@ export type RouterState = {
 export const Post = () => {
   const { search, state } = useLocation();
   const { feedPosts, userPosts, loadedUserPosts } = usePostSlice();
-  const { token, userName, image: userImage, userId } = useAuthSlice();
+  const { userName, image: userImage, userId } = useAuthSlice();
   const postIdToLoad = search.substring(1);
   const dispatch = useDispatch();
   const { push } = useHistory();
@@ -56,14 +56,7 @@ export const Post = () => {
       return (
         <div
           className={`${classes["post-like"]} ${classes["post-liked"]}`}
-          onClick={() =>
-            dispatch(
-              postActiveLikedButtonClicked({
-                data: like.likeId,
-                token: token!,
-              })
-            )
-          }
+          onClick={() => dispatch(postActiveLikedButtonClicked(like.likeId))}
         >
           {post!.likes && post!.likes.length > 0 ? (
             <span className={classes["like-count"]}>{post!.likes.length}</span>
@@ -77,14 +70,7 @@ export const Post = () => {
       return (
         <div
           className={classes["post-like"]}
-          onClick={() =>
-            dispatch(
-              postLikeButtonClicked({
-                data: post!.postId,
-                token: token!,
-              })
-            )
-          }
+          onClick={() => dispatch(postLikeButtonClicked(post!.postId))}
         >
           {post!.likes && post!.likes.length > 0 ? (
             <span className={classes["like-count"]}>{post!.likes.length}</span>
@@ -142,7 +128,6 @@ export const Post = () => {
             postId={post.postId}
             setEditMode={setEditMode}
             setPost={setPostContent}
-            token={token!}
           />
         )}
         {post.image && (
@@ -183,11 +168,8 @@ export const Post = () => {
                 if (comment.length > 0)
                   dispatch(
                     addCommentButtonClicked({
-                      data: {
-                        content: comment,
-                        postId: postIdToLoad,
-                      },
-                      token: token!,
+                      content: comment,
+                      postId: postIdToLoad,
                     })
                   );
                 setComment("");

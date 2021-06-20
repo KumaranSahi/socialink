@@ -12,7 +12,6 @@ export const PostOptions = ({
   postId,
   setEditMode,
   setPost,
-  token,
 }: PostOptionsTypes) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const dispatch = useDispatch();
@@ -33,12 +32,7 @@ export const PostOptions = ({
   };
 
   const handleDeleteEdit = () => {
-    dispatch(
-      deletePostButtonClicked({
-        data: postId,
-        token: token,
-      })
-    );
+    dispatch(deletePostButtonClicked(postId));
     push("/my-profile");
     handleClose();
   };

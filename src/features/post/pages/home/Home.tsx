@@ -14,15 +14,15 @@ export const Home = () => {
 
   useEffect(() => {
     if (token) dispatch(getUserRequests(token));
-  }, [token]);
+  }, [token, dispatch]);
 
   useEffect(() => {
-    if (token) dispatch(getFeedPosts(token));
-  }, [token]);
+    if (token) dispatch(getFeedPosts());
+  }, [token, dispatch]);
 
   useEffect(() => {
     if (token) dispatch(getUserfriends(token));
-  }, [token]);
+  }, [token, dispatch]);
 
   return (
     <div className={classes["homepage"]}>

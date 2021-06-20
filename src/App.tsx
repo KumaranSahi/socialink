@@ -25,7 +25,7 @@ import {
 } from "react-router-dom";
 
 const PrivateLink = ({ ...props }) => {
-  const { token } = useAuthSlice();
+  const token = localStorage.getItem("token");
   const { push } = useHistory();
   useEffect(() => {
     if (!token) push("/sign-up");
@@ -34,7 +34,7 @@ const PrivateLink = ({ ...props }) => {
 };
 
 const LockSignup = ({ ...props }) => {
-  const { token } = useAuthSlice();
+  const token = localStorage.getItem("token");
   return token ? <Redirect to="/" /> : <Route {...props} />;
 };
 
@@ -98,11 +98,7 @@ function App() {
           <PrivateLink path="/requests" component={FriendRequest} />
           <PrivateLink path="/post" component={Post} />
           <PrivateLink path="/user-profile" component={UserProfile} />
-          {token ? (
-            <PrivateLink path="/" component={Home} />
-          ) : (
-            <Route path="/" component={Signup} />
-          )}
+          <PrivateLink path="/" component={Home} />
         </Switch>
       </div>
       {authLoading && <Spinner />}

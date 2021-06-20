@@ -25,7 +25,7 @@ export const Post = ({
   postCommentCount,
   loadUser,
 }: PostProps) => {
-  const { token, userId } = useAuthSlice();
+  const { userId } = useAuthSlice();
   const dispatch = useDispatch();
   const { push } = useHistory();
 
@@ -35,14 +35,7 @@ export const Post = ({
       return (
         <div
           className={`${classes["post-like"]} ${classes["post-liked"]}`}
-          onClick={() =>
-            dispatch(
-              postActiveLikedButtonClicked({
-                data: like.likeId,
-                token: token!,
-              })
-            )
-          }
+          onClick={() => dispatch(postActiveLikedButtonClicked(like.likeId))}
         >
           {likes && likes.length > 0 ? (
             <span className={classes["like-count"]}>{likes.length}</span>
@@ -56,14 +49,7 @@ export const Post = ({
       return (
         <div
           className={classes["post-like"]}
-          onClick={() =>
-            dispatch(
-              postLikeButtonClicked({
-                data: postId,
-                token: token!,
-              })
-            )
-          }
+          onClick={() => dispatch(postLikeButtonClicked(postId))}
         >
           {likes && likes.length > 0 ? (
             <span className={classes["like-count"]}>{likes.length}</span>

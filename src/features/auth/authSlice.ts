@@ -83,6 +83,13 @@ export const changePassword = createAsyncThunk(
   }
 );
 
+export const setupAuthHeaderForServiceCalls = (token: string) => {
+  if (token) {
+    return (axios.defaults.headers.common["Authorization"] = "Bearer " + token);
+  }
+  delete axios.defaults.headers.common["Authorization"];
+};
+
 const authSlice = createSlice({
   initialState: initialState,
   name: "auth",
@@ -100,6 +107,7 @@ const authSlice = createSlice({
       state.userName = action.payload.userName;
       state.bio = action.payload.bio;
       state.privacy = action.payload.privacy;
+      setupAuthHeaderForServiceCalls(action.payload.token);
     },
     setUserAfterEdit: (state, action) => {
       state.userName = action.payload.userName;
@@ -156,6 +164,7 @@ const authSlice = createSlice({
       state.userName = userName;
       state.bio = bio;
       state.privacy = privacy || false;
+      setupAuthHeaderForServiceCalls(token);
     },
     [signinUser.rejected.toString()]: (state, error) => {
       warningToast("Invalid username or password");

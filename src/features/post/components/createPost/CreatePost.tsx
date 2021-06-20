@@ -2,7 +2,7 @@ import classes from "./CreatePost.module.css";
 import { TextField, Button, IconButton } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
 import { SyntheticEvent, useState } from "react";
-import { useAuthSlice, usePostSlice } from "../../../../app/store";
+import { usePostSlice } from "../../../../app/store";
 import { useDispatch } from "react-redux";
 import { setPostLoading, createPost } from "../../postSlice";
 import axios from "../../../../useAxios";
@@ -16,7 +16,6 @@ export const CreatePost = () => {
 
   const dispatch = useDispatch();
   const { postLoading } = usePostSlice();
-  const { token } = useAuthSlice();
 
   const fileUpload = async (file: FileList | null) => {
     const allowedExtensions = new RegExp("^.*(.jpg|.jpeg|.png)");
@@ -53,11 +52,8 @@ export const CreatePost = () => {
     if (post.length > 0) {
       dispatch(
         createPost({
-          data: {
-            content: post,
-            image: image.length > 0 ? image : undefined,
-          },
-          token: token!,
+          content: post,
+          image: image.length > 0 ? image : undefined,
         })
       );
       setImage("");

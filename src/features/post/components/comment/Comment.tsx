@@ -26,7 +26,7 @@ export const Comment = ({
   const [comment, setComment] = useState("");
   const [editMode, setEditMode] = useState(false);
 
-  const { userId, token } = useAuthSlice();
+  const { userId } = useAuthSlice();
   const { userPosts } = usePostSlice();
 
   const dispatch = useDispatch();
@@ -39,11 +39,8 @@ export const Comment = ({
     if (comment.length > 0)
       dispatch(
         editCommentButtonClicked({
-          data: {
-            content: comment,
-            commentId: commentId,
-          },
-          token: token!,
+          content: comment,
+          commentId: commentId,
         })
       );
     setComment("");
@@ -76,7 +73,6 @@ export const Comment = ({
           userId={userId!}
           commentContent={commentContent}
           commentId={commentId}
-          token={token!}
         />
       )}
       {editMode && (

@@ -1,9 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../useAxios";
-import {
-  ResponseTemplate,
-  AuthenticatedRequestsPayload,
-} from "../../Generics.types";
+import { ResponseTemplate } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
 import {
   PostState,
@@ -24,196 +21,116 @@ const initialState: PostState = {
 
 export const getFeedPosts = createAsyncThunk(
   "post/get-feed-posts",
-  async (token: string) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async () => {
     const {
       data: { data },
-    } = await axios.get<ResponseTemplate>("/api/posts", config);
+    } = await axios.get<ResponseTemplate>("/api/posts");
     return data;
   }
 );
 
 export const createPost = createAsyncThunk(
   "post/create-post",
-  async ({ data: postData, token }: AuthenticatedRequestsPayload<PostData>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (postData: PostData) => {
     const {
       data: { data },
-    } = await axios.post<ResponseTemplate>("/api/posts", postData, config);
+    } = await axios.post<ResponseTemplate>("/api/posts", postData);
     return data;
   }
 );
 
 export const getUserPosts = createAsyncThunk(
   "posts/load-user-posts",
-  async (token: string) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async () => {
     const {
       data: { data },
-    } = await axios.get<ResponseTemplate>("/api/posts/user-posts", config);
+    } = await axios.get<ResponseTemplate>("/api/posts/user-posts");
     return data;
   }
 );
 
 export const postLikeButtonClicked = createAsyncThunk(
   "posts/like-post",
-  async ({ data: postId, token }: AuthenticatedRequestsPayload<string>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (postId: string) => {
     const {
       data: { data },
-    } = await axios.put<ResponseTemplate>(`/api/likes/${postId}`, null, config);
+    } = await axios.put<ResponseTemplate>(`/api/likes/${postId}`, null);
     return data;
   }
 );
 
 export const editPostButtonClicked = createAsyncThunk(
   "posts/edit-post",
-  async ({
-    data: { content: postContent, postId },
-    token,
-  }: AuthenticatedRequestsPayload<PostEditData>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async ({ content: postContent, postId }: PostEditData) => {
     const {
       data: { data },
-    } = await axios.put<ResponseTemplate>(
-      `/api/posts/${postId}`,
-      {
-        content: postContent,
-      },
-      config
-    );
+    } = await axios.put<ResponseTemplate>(`/api/posts/${postId}`, {
+      content: postContent,
+    });
     return data;
   }
 );
 
 export const deletePostButtonClicked = createAsyncThunk(
   "posts/delete-post",
-  async ({ data: postId, token }: AuthenticatedRequestsPayload<string>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (postId: string) => {
     const {
       data: { data },
-    } = await axios.delete<ResponseTemplate>(`/api/posts/${postId}`, config);
+    } = await axios.delete<ResponseTemplate>(`/api/posts/${postId}`);
     return data;
   }
 );
 
 export const postActiveLikedButtonClicked = createAsyncThunk(
   "posts/remove-post-like",
-  async ({ data: likeId, token }: AuthenticatedRequestsPayload<string>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (likeId: string) => {
     const {
       data: { data },
-    } = await axios.delete<ResponseTemplate>(`/api/likes/${likeId}`, config);
+    } = await axios.delete<ResponseTemplate>(`/api/likes/${likeId}`);
     return data;
   }
 );
 
 export const addCommentButtonClicked = createAsyncThunk(
   "posts/add-post-comment",
-  async ({
-    data: { content: commentContent, postId },
-
-    token,
-  }: AuthenticatedRequestsPayload<CommentData>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async ({ content: commentContent, postId }: CommentData) => {
     const {
       data: { data },
-    } = await axios.post<ResponseTemplate>(
-      `/api/comments/${postId}`,
-      {
-        content: commentContent,
-      },
-      config
-    );
+    } = await axios.post<ResponseTemplate>(`/api/comments/${postId}`, {
+      content: commentContent,
+    });
     return data;
   }
 );
 
 export const editCommentButtonClicked = createAsyncThunk(
   "posts/edit-post-comment",
-  async ({
-    data: { content: commentContent, commentId },
-    token,
-  }: AuthenticatedRequestsPayload<CommentEditData>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async ({ content: commentContent, commentId }: CommentEditData) => {
     const {
       data: { data },
-    } = await axios.put<ResponseTemplate>(
-      `/api/comments/${commentId}`,
-      {
-        content: commentContent,
-      },
-      config
-    );
+    } = await axios.put<ResponseTemplate>(`/api/comments/${commentId}`, {
+      content: commentContent,
+    });
     return data;
   }
 );
 
 export const deleteCommentButtonClicked = createAsyncThunk(
   "posts/delete-post-comment",
-  async ({ data: commentId, token }: AuthenticatedRequestsPayload<string>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (commentId: string) => {
     const {
       data: { data },
-    } = await axios.delete<ResponseTemplate>(
-      `/api/comments/${commentId}`,
-      config
-    );
+    } = await axios.delete<ResponseTemplate>(`/api/comments/${commentId}`);
     return data;
   }
 );
 
 export const getLoadedUserPost = createAsyncThunk(
   "posts/get-loaded-user-post",
-  async ({ data: userId, token }: AuthenticatedRequestsPayload<string>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (userId: string) => {
     const {
       data: { data },
-    } = await axios.get<ResponseTemplate>(`/api/posts/${userId}`, config);
+    } = await axios.get<ResponseTemplate>(`/api/posts/${userId}`);
     return data;
   }
 );

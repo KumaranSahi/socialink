@@ -1,5 +1,5 @@
 import { TextField, Button } from "@material-ui/core";
-import { useAuthSlice, usePostSlice } from "../../../../../app/store";
+import { usePostSlice } from "../../../../../app/store";
 import { EditPostProps } from "../../../post.types";
 import { editPostButtonClicked } from "../../../postSlice";
 import { useDispatch } from "react-redux";
@@ -11,7 +11,6 @@ export const EditPost = ({
   setEditMode,
   postId,
 }: EditPostProps) => {
-  const { token } = useAuthSlice();
   const { postLoading } = usePostSlice();
   const dispatch = useDispatch();
 
@@ -19,11 +18,8 @@ export const EditPost = ({
     if (postContent.length > 0)
       dispatch(
         editPostButtonClicked({
-          data: {
-            content: postContent,
-            postId: postId,
-          },
-          token: token!,
+          content: postContent,
+          postId: postId,
         })
       );
     setEditMode(false);

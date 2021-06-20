@@ -13,7 +13,6 @@ export const CommentOptions = ({
   userId,
   commentContent,
   commentId,
-  token,
 }: CommentOptionsProps) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const dispatch = useDispatch();
@@ -33,12 +32,7 @@ export const CommentOptions = ({
   };
 
   const handleDeleteComment = () => {
-    dispatch(
-      deleteCommentButtonClicked({
-        data: commentId,
-        token: token,
-      })
-    );
+    dispatch(deleteCommentButtonClicked(commentId));
     handleClose();
   };
 

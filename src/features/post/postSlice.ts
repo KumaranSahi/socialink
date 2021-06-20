@@ -207,7 +207,6 @@ export const postSlice = createSlice({
       state.postLoading = false;
     },
     [getUserPosts.rejected.toString()]: (state) => {
-      warningToast("Unable to load user post please try again later");
       state.postLoading = false;
     },
 
@@ -222,7 +221,6 @@ export const postSlice = createSlice({
       state.postLoading = false;
     },
     [getFeedPosts.rejected.toString()]: (state) => {
-      warningToast("Unable to load feed post please try again later");
       state.postLoading = false;
     },
 

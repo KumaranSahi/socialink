@@ -6,9 +6,10 @@ import { useState } from "react";
 import { FriendList } from "./friendList/FriendList";
 import { useDispatch } from "react-redux";
 import {
-  sendFriendRequest,
-  deleteFriendRequest,
-  acceptFriendRequest,
+  sendFriendRequestClicked,
+  deleteFriendRequestClicked,
+  acceptFriendRequestClicked,
+  unlinkUserClicked,
 } from "../../userSlice";
 
 export const ProfileDetails = ({
@@ -44,7 +45,7 @@ export const ProfileDetails = ({
               color="primary"
               onClick={() => {
                 buttonType.payload &&
-                  dispatch(acceptFriendRequest(buttonType.payload));
+                  dispatch(acceptFriendRequestClicked(buttonType.payload));
                 push("/");
               }}
               className={classes["response-button"]}
@@ -56,7 +57,7 @@ export const ProfileDetails = ({
               color="primary"
               onClick={() => {
                 buttonType.payload &&
-                  dispatch(deleteFriendRequest(buttonType.payload));
+                  dispatch(deleteFriendRequestClicked(buttonType.payload));
                 push("/");
               }}
               className={classes["response-button"]}
@@ -72,7 +73,7 @@ export const ProfileDetails = ({
             color="primary"
             fullWidth
             onClick={() => {
-              dispatch(sendFriendRequest(buttonType.payload));
+              dispatch(sendFriendRequestClicked(buttonType.payload));
               push("/");
             }}
             className={classes["response-button"]}
@@ -87,7 +88,7 @@ export const ProfileDetails = ({
             color="primary"
             onClick={() => {
               buttonType.payload! &&
-                dispatch(deleteFriendRequest(buttonType.payload));
+                dispatch(deleteFriendRequestClicked(buttonType.payload));
               push("/");
             }}
             className={classes["response-button"]}
@@ -101,12 +102,10 @@ export const ProfileDetails = ({
             variant="outlined"
             color="primary"
             fullWidth
-            //  onClick={() => {
-            //    dispatch(
-            //      sendFriendRequest({ data: buttonType.payload!, token: token! })
-            //    );
-            //    push("/");
-            //  }}
+            onClick={() => {
+              dispatch(unlinkUserClicked(buttonType.payload!));
+              push("/");
+            }}
             className={classes["response-button"]}
           >
             Unlink
@@ -129,7 +128,9 @@ export const ProfileDetails = ({
             </p>
             <p
               className={`${classes["stat"]} ${classes["friend-stat"]}`}
-              onClick={() => setViewFriends(true)}
+              onClick={() =>
+                friendsCount && friendsCount > 0 && setViewFriends(true)
+              }
             >
               <span>{friendsCount}</span> friends
             </p>

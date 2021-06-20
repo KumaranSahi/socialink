@@ -57,7 +57,6 @@ function App() {
     let date = localStorage.getItem("expiresIn");
     let expiresIn: Date = new Date();
     if (date) expiresIn = new Date(date);
-
     if (expiresIn <= new Date()) {
       dispatch(signoutUser());
     } else {

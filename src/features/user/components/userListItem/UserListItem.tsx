@@ -2,9 +2,10 @@ import classes from "./UserListItem.module.css";
 import { UserListItemProps, ButtonToRender } from "../../user.types";
 import { Button } from "@material-ui/core";
 import {
-  sendFriendRequest,
-  deleteFriendRequest,
-  acceptFriendRequest,
+  sendFriendRequestClicked,
+  deleteFriendRequestClicked,
+  acceptFriendRequestClicked,
+  unlinkUserClicked,
 } from "../../userSlice";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -26,7 +27,7 @@ export const UserListItem = ({
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => dispatch(sendFriendRequest(userId!))}
+            onClick={() => dispatch(sendFriendRequestClicked(userId!))}
             className={classes["response-button"]}
           >
             Link up
@@ -38,7 +39,7 @@ export const UserListItem = ({
             variant="outlined"
             color="primary"
             onClick={() =>
-              requestId && dispatch(deleteFriendRequest(requestId))
+              requestId && dispatch(deleteFriendRequestClicked(requestId))
             }
             className={classes["response-button"]}
           >
@@ -52,7 +53,7 @@ export const UserListItem = ({
               variant="contained"
               color="primary"
               onClick={() =>
-                requestId && dispatch(acceptFriendRequest(requestId))
+                requestId && dispatch(acceptFriendRequestClicked(requestId))
               }
               className={classes["response-button"]}
             >
@@ -62,7 +63,7 @@ export const UserListItem = ({
               variant="outlined"
               color="primary"
               onClick={() =>
-                requestId && dispatch(deleteFriendRequest(requestId))
+                requestId && dispatch(deleteFriendRequestClicked(requestId))
               }
               className={classes["response-button"]}
             >
@@ -71,7 +72,16 @@ export const UserListItem = ({
           </div>
         );
       case "UNLINK":
-        return <div></div>;
+        return (
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => dispatch(unlinkUserClicked(userId!))}
+            className={classes["response-button"]}
+          >
+            Unlink
+          </Button>
+        );
       default:
         return <div></div>;
     }

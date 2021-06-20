@@ -1,6 +1,6 @@
 .homepage {
-  width: 100vw;
-  height: calc(100vh - 4.4rem);
+  width: 98vw;
+  min-height: calc(100vh - 4.4rem);
 }
 
 .homepage-container {

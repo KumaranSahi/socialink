@@ -29,7 +29,7 @@ export const getUserfriends = createAsyncThunk("user/friends", async () => {
   return data;
 });
 
-export const deleteFriendRequest = createAsyncThunk(
+export const deleteFriendRequestClicked = createAsyncThunk(
   "user/delete-request",
   async (requestId: string) => {
     const {
@@ -39,7 +39,7 @@ export const deleteFriendRequest = createAsyncThunk(
   }
 );
 
-export const sendFriendRequest = createAsyncThunk(
+export const sendFriendRequestClicked = createAsyncThunk(
   "user/send-request",
   async (linkTo: string) => {
     const {
@@ -51,12 +51,22 @@ export const sendFriendRequest = createAsyncThunk(
   }
 );
 
-export const acceptFriendRequest = createAsyncThunk(
+export const acceptFriendRequestClicked = createAsyncThunk(
   "user/accept-request",
   async (requestId: string) => {
     const {
       data: { data },
     } = await axios.put(`/api/friends/${requestId}`, null);
+    return data;
+  }
+);
+
+export const unlinkUserClicked = createAsyncThunk(
+  "user/unlink-user",
+  async (userId: string) => {
+    const {
+      data: { data },
+    } = await axios.delete(`/api/friends/unlink/${userId}`);
     return data;
   }
 );
@@ -102,8 +112,8 @@ const userSlice = createSlice({
     },
     [getTopUsers.rejected.toString()]: (state) => {
       state.userLoading = false;
-      warningToast("Unable to load top users");
     },
+
     [getUserfriends.pending.toString()]: (state) => {
       state.userLoading = true;
     },
@@ -116,22 +126,23 @@ const userSlice = createSlice({
     },
     [getUserfriends.rejected.toString()]: (state) => {
       state.userLoading = false;
-      warningToast("Unable to load user friends");
     },
-    [sendFriendRequest.pending.toString()]: (state) => {
+
+    [sendFriendRequestClicked.pending.toString()]: (state) => {
       state.userLoading = true;
     },
-    [sendFriendRequest.fulfilled.toString()]: (state, action) => {
+    [sendFriendRequestClicked.fulfilled.toString()]: (state, action) => {
       state.userLoading = false;
       successToast("Friend request sent");
       state.topUsers = state.topUsers.filter(
         ({ userId }) => action.payload.toUser !== userId
       );
     },
-    [sendFriendRequest.rejected.toString()]: (state) => {
+    [sendFriendRequestClicked.rejected.toString()]: (state) => {
       state.userLoading = false;
       warningToast("Unable to send friend request");
     },
+
     [getUserRequests.pending.toString()]: (state) => {
       state.userLoading = true;
     },
@@ -150,14 +161,29 @@ const userSlice = createSlice({
         })
       );
     },
-    [getUserRequests.rejected.toString()]: (state) => {
-      state.userLoading = false;
-      warningToast("Unable to load user requests");
-    },
-    [deleteFriendRequest.pending.toString()]: (state) => {
+
+    [unlinkUserClicked.pending.toString()]: (state) => {
       state.userLoading = true;
     },
-    [deleteFriendRequest.fulfilled.toString()]: (state, action) => {
+    [unlinkUserClicked.fulfilled.toString()]: (state, action) => {
+      state.userLoading = false;
+      state.friends = state.friends.filter(
+        ({ friendId }) => friendId !== action.payload
+      );
+      successToast("User unlinked successfully");
+    },
+    [unlinkUserClicked.rejected.toString()]: (state) => {
+      state.userLoading = false;
+      warningToast("Unable to unlink user please try again later");
+    },
+
+    [getUserRequests.rejected.toString()]: (state) => {
+      state.userLoading = false;
+    },
+    [deleteFriendRequestClicked.pending.toString()]: (state) => {
+      state.userLoading = true;
+    },
+    [deleteFriendRequestClicked.fulfilled.toString()]: (state, action) => {
       state.userLoading = false;
       successToast("Request deleted");
       const deletedRequestId = action.payload;
@@ -168,14 +194,14 @@ const userSlice = createSlice({
         ({ requestId }) => requestId !== deletedRequestId
       );
     },
-    [deleteFriendRequest.rejected.toString()]: (state) => {
+    [deleteFriendRequestClicked.rejected.toString()]: (state) => {
       state.userLoading = false;
       warningToast("Unable to delete request");
     },
-    [acceptFriendRequest.pending.toString()]: (state) => {
+    [acceptFriendRequestClicked.pending.toString()]: (state) => {
       state.userLoading = true;
     },
-    [acceptFriendRequest.fulfilled.toString()]: (state, action) => {
+    [acceptFriendRequestClicked.fulfilled.toString()]: (state, action) => {
       state.userLoading = false;
       successToast("Request accepted!");
       const deletedRequestId = action.payload;
@@ -186,7 +212,7 @@ const userSlice = createSlice({
         ({ requestId }) => requestId !== deletedRequestId
       );
     },
-    [acceptFriendRequest.rejected.toString()]: (state) => {
+    [acceptFriendRequestClicked.rejected.toString()]: (state) => {
       state.userLoading = false;
       warningToast("Unable to accept request");
     },

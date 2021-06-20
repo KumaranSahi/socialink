@@ -1,7 +1,12 @@
 import axios from 'axios';
 
-// const instance=axios.create({
-//     baseURL:"https://quizez-api.herokuapp.com/"
-// })
+const token= localStorage.getItem("token")
 
-export default axios;
+const instance = axios.create({
+  baseURL: "http://localhost:8000/",
+  headers: {
+    Authorization: "Bearer " + token,
+  },
+});
+
+export default instance;

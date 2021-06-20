@@ -8,10 +8,7 @@ import {
   EditUserData,
 } from "./auth.types";
 import axios from "../../useAxios";
-import {
-  ResponseTemplate,
-  AuthenticatedRequestsPayload,
-} from "../../Generics.types";
+import { ResponseTemplate } from "../../Generics.types";
 import { warningToast, successToast, infoToast } from "../../components";
 import defaultImage from "../../assets/profile_image.jpg";
 
@@ -28,22 +25,10 @@ const initialState: AuthState = {
 
 export const editProfile = createAsyncThunk(
   "user/edit-profile",
-  async ({
-    data: EditUserData,
-    token,
-  }: AuthenticatedRequestsPayload<EditUserData>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (EditUserData: EditUserData) => {
     const {
       data: { data },
-    } = await axios.put<ResponseTemplate>(
-      "/api/users/edit",
-      EditUserData,
-      config
-    );
+    } = await axios.put<ResponseTemplate>("/api/users/edit", EditUserData);
     return data;
   }
 );

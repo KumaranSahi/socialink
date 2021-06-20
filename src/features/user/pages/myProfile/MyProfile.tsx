@@ -12,13 +12,13 @@ import { Post } from "../../../post/components";
 
 export const MyProfile = () => {
   const dispatch = useDispatch();
-  const { token, userName, image: userImage, userId, bio } = useAuthSlice();
+  const { userName, image: userImage, userId, bio } = useAuthSlice();
   const { userPosts } = usePostSlice();
   const { friends } = useUserSlice();
 
   useEffect(() => {
-    if (token) dispatch(getUserPosts(token));
-  }, [token, dispatch]);
+    dispatch(getUserPosts());
+  }, [dispatch]);
 
   return (
     <div className={classes["my-profile-container"]}>

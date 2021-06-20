@@ -21,7 +21,6 @@ export const EditProfile = () => {
   const {
     image,
     userName,
-    token,
     authLoading,
     bio: currentBio,
     privacy: currentPrivacy,
@@ -48,19 +47,16 @@ export const EditProfile = () => {
         type: "ADD_BIO",
         payload: currentBio,
       });
-  }, []);
+  }, [userName, currentBio, currentPrivacy, editProfileDispatch]);
 
   const editProfileSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     dispatch(
       editProfile({
-        data: {
-          bio: bio,
-          name: name,
-          password: password.length > 0 ? password : null,
-          privacy: privacy,
-        },
-        token: token!,
+        bio: bio,
+        name: name,
+        password: password.length > 0 ? password : null,
+        privacy: privacy,
       })
     );
   };

@@ -1,7 +1,7 @@
 import classes from "./Home.module.css";
 import { CreatePost, Post } from "../../components";
 import { TopUsers } from "../../../user/components";
-import { useAuthSlice, usePostSlice } from "../../../../app/store";
+import { usePostSlice } from "../../../../app/store";
 import { getUserRequests, getUserfriends } from "../../../user/userSlice";
 import { getFeedPosts } from "../../../post/postSlice";
 import { useDispatch } from "react-redux";
@@ -9,20 +9,19 @@ import { useEffect } from "react";
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const { token } = useAuthSlice();
   const { feedPosts } = usePostSlice();
 
   useEffect(() => {
-    if (token) dispatch(getUserRequests(token));
-  }, [token, dispatch]);
+    dispatch(getUserRequests());
+  }, [dispatch]);
 
   useEffect(() => {
-    if (token) dispatch(getFeedPosts());
-  }, [token, dispatch]);
+    dispatch(getFeedPosts());
+  }, [dispatch]);
 
   useEffect(() => {
-    if (token) dispatch(getUserfriends(token));
-  }, [token, dispatch]);
+    dispatch(getUserfriends());
+  }, [dispatch]);
 
   return (
     <div className={classes["homepage"]}>

@@ -1,6 +1,6 @@
 import classes from "./TopUsers.module.css";
 import { getTopUsers } from "../../userSlice";
-import { useAuthSlice, useUserSlice } from "../../../../app/store";
+import { useUserSlice } from "../../../../app/store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { UserListItem } from "../";
@@ -8,11 +8,10 @@ import { UserListItem } from "../";
 export const TopUsers = () => {
   const dispatch = useDispatch();
   const { topUsers } = useUserSlice();
-  const { token } = useAuthSlice();
 
   useEffect(() => {
-    if (token) dispatch(getTopUsers(token));
-  }, []);
+    dispatch(getTopUsers());
+  }, [dispatch]);
 
   return (
     <div className={classes["top-users-container"]}>

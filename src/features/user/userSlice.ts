@@ -1,9 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../useAxios";
-import {
-  ResponseTemplate,
-  AuthenticatedRequestsPayload,
-} from "../../Generics.types";
+import { ResponseTemplate } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
 import { UserInitialState, User, Request, Friend } from "./user.types";
 import defaultImage from "../../assets/profile_image.jpg";
@@ -18,113 +15,68 @@ const initialState: UserInitialState = {
   loadedUser: null,
 };
 
-export const getTopUsers = createAsyncThunk(
-  "user/get-top-user",
-  async (token: string) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    const {
-      data: { data },
-    } = await axios.get<ResponseTemplate>("/api/friends/top-users", config);
-    return data;
-  }
-);
+export const getTopUsers = createAsyncThunk("user/get-top-user", async () => {
+  const {
+    data: { data },
+  } = await axios.get<ResponseTemplate>("/api/friends/top-users");
+  return data;
+});
 
-export const getUserfriends = createAsyncThunk(
-  "user/friends",
-  async (token: string) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    const {
-      data: { data },
-    } = await axios.get(`/api/friends`, config);
-    return data;
-  }
-);
+export const getUserfriends = createAsyncThunk("user/friends", async () => {
+  const {
+    data: { data },
+  } = await axios.get(`/api/friends`);
+  return data;
+});
 
 export const deleteFriendRequest = createAsyncThunk(
   "user/delete-request",
-  async ({ data: requestId, token }: AuthenticatedRequestsPayload<string>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (requestId: string) => {
     const {
       data: { data },
-    } = await axios.delete(`/api/friends/${requestId}`, config);
+    } = await axios.delete(`/api/friends/${requestId}`);
     return data;
   }
 );
 
 export const sendFriendRequest = createAsyncThunk(
   "user/send-request",
-  async ({ data: linkTo, token }: AuthenticatedRequestsPayload<string>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (linkTo: string) => {
     const {
       data: { data },
-    } = await axios.post(
-      "/api/friends/send-request",
-      {
-        linkTo: linkTo,
-      },
-      config
-    );
+    } = await axios.post("/api/friends/send-request", {
+      linkTo: linkTo,
+    });
     return data;
   }
 );
 
 export const acceptFriendRequest = createAsyncThunk(
   "user/accept-request",
-  async ({ data: requestId, token }: AuthenticatedRequestsPayload<string>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (requestId: string) => {
     const {
       data: { data },
-    } = await axios.put(`/api/friends/${requestId}`, null, config);
+    } = await axios.put(`/api/friends/${requestId}`, null);
     return data;
   }
 );
 
 export const getUserRequests = createAsyncThunk(
   "user/get-user-requests",
-  async (token: string) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async () => {
     const {
       data: { data },
-    } = await axios.get<ResponseTemplate>("/api/friends/requests", config);
+    } = await axios.get<ResponseTemplate>("/api/friends/requests");
     return data;
   }
 );
 
 export const getUserInfo = createAsyncThunk(
   "user/get-user-info",
-  async ({ data: userId, token }: AuthenticatedRequestsPayload<string>) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  async (userId: string) => {
     const {
       data: { data },
-    } = await axios.get<ResponseTemplate>(`/api/friends/${userId}`, config);
+    } = await axios.get<ResponseTemplate>(`/api/friends/${userId}`);
     return data;
   }
 );

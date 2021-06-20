@@ -1,7 +1,6 @@
 import classes from "./userProfile.module.css";
 import { ProfileDetails } from "../../components";
 import {
-  useAuthSlice,
   usePostSlice,
   useUserSlice,
 } from "../../../../app/store";
@@ -16,7 +15,6 @@ import { useDispatch } from "react-redux";
 export const UserProfile = () => {
   const { loadedUser, receivedRequests, sentRequests, friends } =
     useUserSlice();
-  const { token } = useAuthSlice();
   const { loadedUserPosts } = usePostSlice();
 
   const { search } = useLocation();
@@ -25,21 +23,15 @@ export const UserProfile = () => {
 
   useEffect(() => {
     dispatch(
-      getUserInfo({
-        data: userToLoad,
-        token: token!,
-      })
+      getUserInfo(userToLoad)
     );
-  }, [userToLoad, dispatch, token]);
+  }, [userToLoad, dispatch]);
 
   useEffect(() => {
     dispatch(
-      getLoadedUserPost({
-        data: userToLoad,
-        token: token!,
-      })
+      getLoadedUserPost(userToLoad)
     );
-  }, [userToLoad, dispatch, token]);
+  }, [userToLoad, dispatch]);
 
   const buttonToRender = (): MyProfileButton => {
     if (friends.some(({ friendId }) => loadedUser?.foundUserId === friendId)) {

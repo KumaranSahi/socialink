@@ -1,5 +1,5 @@
 import classes from "./ProfileDetails.module.css";
-import { ProfileDetailProps, MyProfileButton } from "../../user.types";
+import { ProfileDetailProps } from "../../user.types";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -10,7 +10,6 @@ import {
   deleteFriendRequest,
   acceptFriendRequest,
 } from "../../userSlice";
-import { useAuthSlice } from "../../../../app/store";
 
 export const ProfileDetails = ({
   userName,
@@ -24,7 +23,6 @@ export const ProfileDetails = ({
   const { push } = useHistory();
   const [viewFriends, setViewFriends] = useState(false);
   const dispatch = useDispatch();
-  const { token } = useAuthSlice();
 
   const buttonToRender = () => {
     switch (buttonType.type) {
@@ -46,12 +44,7 @@ export const ProfileDetails = ({
               color="primary"
               onClick={() => {
                 buttonType.payload &&
-                  dispatch(
-                    acceptFriendRequest({
-                      data: buttonType.payload,
-                      token: token!,
-                    })
-                  );
+                  dispatch(acceptFriendRequest(buttonType.payload));
                 push("/");
               }}
               className={classes["response-button"]}
@@ -63,12 +56,7 @@ export const ProfileDetails = ({
               color="primary"
               onClick={() => {
                 buttonType.payload &&
-                  dispatch(
-                    deleteFriendRequest({
-                      data: buttonType.payload,
-                      token: token!,
-                    })
-                  );
+                  dispatch(deleteFriendRequest(buttonType.payload));
                 push("/");
               }}
               className={classes["response-button"]}
@@ -84,9 +72,7 @@ export const ProfileDetails = ({
             color="primary"
             fullWidth
             onClick={() => {
-              dispatch(
-                sendFriendRequest({ data: buttonType.payload!, token: token! })
-              );
+              dispatch(sendFriendRequest(buttonType.payload));
               push("/");
             }}
             className={classes["response-button"]}
@@ -101,12 +87,7 @@ export const ProfileDetails = ({
             color="primary"
             onClick={() => {
               buttonType.payload! &&
-                dispatch(
-                  deleteFriendRequest({
-                    data: buttonType.payload!,
-                    token: token!,
-                  })
-                );
+                dispatch(deleteFriendRequest(buttonType.payload));
               push("/");
             }}
             className={classes["response-button"]}
@@ -115,22 +96,22 @@ export const ProfileDetails = ({
           </Button>
         );
       case "UNLINK":
-         return (
-           <Button
-             variant="outlined"
-             color="primary"
-             fullWidth
+        return (
+          <Button
+            variant="outlined"
+            color="primary"
+            fullWidth
             //  onClick={() => {
             //    dispatch(
             //      sendFriendRequest({ data: buttonType.payload!, token: token! })
             //    );
             //    push("/");
             //  }}
-             className={classes["response-button"]}
-           >
-             Unlink
-           </Button>
-         );
+            className={classes["response-button"]}
+          >
+            Unlink
+          </Button>
+        );
       default:
         return <div></div>;
     }

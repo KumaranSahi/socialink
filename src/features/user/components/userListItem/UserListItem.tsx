@@ -6,7 +6,6 @@ import {
   deleteFriendRequest,
   acceptFriendRequest,
 } from "../../userSlice";
-import { useAuthSlice } from "../../../../app/store";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -17,7 +16,6 @@ export const UserListItem = ({
   userItemType,
   requestId,
 }: UserListItemProps) => {
-  const { token } = useAuthSlice();
   const dispatch = useDispatch();
   const { push } = useHistory();
 
@@ -28,9 +26,7 @@ export const UserListItem = ({
           <Button
             variant="outlined"
             color="primary"
-            onClick={() =>
-              dispatch(sendFriendRequest({ data: userId!, token: token! }))
-            }
+            onClick={() => dispatch(sendFriendRequest(userId!))}
             className={classes["response-button"]}
           >
             Link up
@@ -42,8 +38,7 @@ export const UserListItem = ({
             variant="outlined"
             color="primary"
             onClick={() =>
-              requestId &&
-              dispatch(deleteFriendRequest({ data: requestId, token: token! }))
+              requestId && dispatch(deleteFriendRequest(requestId))
             }
             className={classes["response-button"]}
           >
@@ -57,10 +52,7 @@ export const UserListItem = ({
               variant="contained"
               color="primary"
               onClick={() =>
-                requestId &&
-                dispatch(
-                  acceptFriendRequest({ data: requestId, token: token! })
-                )
+                requestId && dispatch(acceptFriendRequest(requestId))
               }
               className={classes["response-button"]}
             >
@@ -70,10 +62,7 @@ export const UserListItem = ({
               variant="outlined"
               color="primary"
               onClick={() =>
-                requestId &&
-                dispatch(
-                  deleteFriendRequest({ data: requestId, token: token! })
-                )
+                requestId && dispatch(deleteFriendRequest(requestId))
               }
               className={classes["response-button"]}
             >

@@ -1,0 +1,13 @@
+.search-history-container {
+  position: relative;
+}
+
+.search-history {
+  width: 100%;
+  height: 10rem;
+  box-shadow: 4px 3px 4px 0px grey;
+  background-color: white;
+  position: absolute;
+  top: 104%;
+  left: 2%;
+}

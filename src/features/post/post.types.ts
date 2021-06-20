@@ -79,6 +79,7 @@ export type PostProps = {
   isUserPost: boolean;
   postUserId: string;
   postEdited: boolean;
+  loadUser:boolean
 };
 
 export type PostOptionsTypes = {

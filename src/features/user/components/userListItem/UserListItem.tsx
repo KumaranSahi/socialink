@@ -89,16 +89,16 @@ export const UserListItem = ({
   };
 
   return (
-    <div
-      className={classes["user-list-item-container"]}
-      onClick={() =>
-        push({
-          pathname: "/user-profile",
-          search: userId,
-        })
-      }
-    >
-      <div className={classes["user-image-name"]}>
+    <div className={classes["user-list-item-container"]}>
+      <div
+        className={classes["user-image-name"]}
+        onClick={() =>
+          push({
+            pathname: "/user-profile",
+            search: userId!,
+          })
+        }
+      >
         <img src={image!} alt="users" className={classes["user-image"]} />
         <p className={classes["user-name"]}>{name}</p>
       </div>

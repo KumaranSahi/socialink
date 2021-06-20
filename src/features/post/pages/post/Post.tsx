@@ -24,7 +24,7 @@ export type RouterState = {
 
 export const Post = () => {
   const { search, state } = useLocation();
-  const { feedPosts, userPosts } = usePostSlice();
+  const { feedPosts, userPosts, loadedUserPosts } = usePostSlice();
   const { token, userName, image: userImage, userId } = useAuthSlice();
   const postIdToLoad = search.substring(1);
   const dispatch = useDispatch();
@@ -43,8 +43,12 @@ export const Post = () => {
     } else {
       const feedPost = feedPosts.find(({ postId }) => postId === postIdToLoad);
       if (feedPost) setPost(feedPost);
+      const loadedUserPost = loadedUserPosts.find(
+        ({ postId }) => postId === postIdToLoad
+      );
+      if (loadedUserPost) setPost(loadedUserPost);
     }
-  }, [postIdToLoad, feedPosts, userPosts, state]);
+  }, [postIdToLoad, feedPosts, userPosts, state, loadedUserPosts]);
 
   const likeButtonToBeRendered = () => {
     const like = post!.likes.find(({ likeUserId }) => likeUserId === userId);
@@ -174,28 +178,23 @@ export const Post = () => {
               value={comment}
               onChange={(event) => setComment(event.target.value)}
             />
-            <div>
-              <span className={classes["like-count"]}>
-                {post.comments.length}
-              </span>
-              <IconButton
-                onClick={() => {
-                  if (comment.length > 0)
-                    dispatch(
-                      addCommentButtonClicked({
-                        data: {
-                          content: comment,
-                          postId: postIdToLoad,
-                        },
-                        token: token!,
-                      })
-                    );
-                  setComment("");
-                }}
-              >
-                <AddComment />
-              </IconButton>
-            </div>
+            <IconButton
+              onClick={() => {
+                if (comment.length > 0)
+                  dispatch(
+                    addCommentButtonClicked({
+                      data: {
+                        content: comment,
+                        postId: postIdToLoad,
+                      },
+                      token: token!,
+                    })
+                  );
+                setComment("");
+              }}
+            >
+              <AddComment />
+            </IconButton>
           </div>
           {post.comments && (
             <ul className={classes["comment-list"]}>

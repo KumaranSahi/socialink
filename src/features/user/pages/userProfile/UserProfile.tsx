@@ -10,10 +10,12 @@ import { Post } from "../../../post/components";
 import { useLocation } from "react-router-dom";
 import { getUserInfo } from "../../userSlice";
 import { getLoadedUserPost } from "../../../post/postSlice";
+import { MyProfileButton } from "../../user.types";
 import { useDispatch } from "react-redux";
 
 export const UserProfile = () => {
-  const { loadedUser } = useUserSlice();
+  const { loadedUser, receivedRequests, sentRequests, friends } =
+    useUserSlice();
   const { token } = useAuthSlice();
   const { loadedUserPosts } = usePostSlice();
 
@@ -39,6 +41,31 @@ export const UserProfile = () => {
     );
   }, [userToLoad, dispatch, token]);
 
+  const buttonToRender = (): MyProfileButton => {
+    if (friends.some(({ friendId }) => loadedUser?.foundUserId === friendId)) {
+      return { type: "UNLINK", payload: loadedUser!.foundUserId };
+    }
+    const pendingRecievedRequest = receivedRequests.find(
+      ({ userId }) => loadedUser?.foundUserId === userId
+    );
+    if (pendingRecievedRequest) {
+      return {
+        type: "ACCEPT_AND_DELETE",
+        payload: pendingRecievedRequest.requestId,
+      };
+    }
+    const pendingSentRequest = sentRequests.find(
+      ({ userId }) => userId === loadedUser?.foundUserId
+    );
+    if (pendingSentRequest) {
+      return {
+        type: "DELETE",
+        payload: pendingSentRequest.requestId,
+      };
+    }
+    return { type: "LINK_UP", payload: loadedUser!.foundUserId };
+  };
+
   return (
     loadedUser && (
       <div className={classes["user-profile-container"]}>
@@ -49,6 +76,7 @@ export const UserProfile = () => {
           postCount={loadedUser!.foundUserPostCount}
           friends={loadedUser!.foundUserFriends || null}
           friendsCount={loadedUser!.foundUserFriendsCount}
+          buttonType={buttonToRender()}
         />
         {loadedUser?.foundUserPrivacy && (
           <h1>Link up with the user to see the posts</h1>
@@ -76,6 +104,7 @@ export const UserProfile = () => {
                 likes={likes}
                 postCommentCount={comments.length}
                 postUserId={postId}
+                loadUser={false}
                 postEdited={postEdited}
               />
             )

@@ -69,7 +69,15 @@ export type ProfileDetailProps = {
   postCount: number;
   friends: Friend[] | null;
   friendsCount?: number;
+  buttonType: MyProfileButton;
 };
+
+export type MyProfileButton =
+  | { type: "EDIT_PROFILE" }
+  | { type: "LINK_UP"; payload: string }
+  | { type: "ACCEPT_AND_DELETE"; payload: string }
+  | { type: "DELETE"; payload: string }
+  | { type: "UNLINK"; payload: string };
 
 export type FriendStatus =
   | "FRIEND"

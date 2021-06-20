@@ -54,6 +54,10 @@
   font-size: 1rem;
 }
 
+.response-button {
+  border-radius: 0 !important;
+}
+
 @media (min-width: 700px) {
   .profile-image {
     width: 10rem;

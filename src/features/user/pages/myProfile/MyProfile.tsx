@@ -28,6 +28,8 @@ export const MyProfile = () => {
         userName={userName!}
         friends={friends}
         postCount={userPosts.length}
+        friendsCount={friends.length}
+        buttonType={{ type: "EDIT_PROFILE" }}
       />
       {userPosts.length > 0 ? (
         userPosts.map(
@@ -52,6 +54,7 @@ export const MyProfile = () => {
               key={postId}
               likes={likes}
               postUserId={userId!}
+              loadUser={false}
               postEdited={postEdited}
             />
           )

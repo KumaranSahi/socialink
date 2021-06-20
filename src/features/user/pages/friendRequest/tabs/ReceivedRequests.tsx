@@ -6,12 +6,13 @@ export const ReceivedRequests = () => {
   const { receivedRequests } = useUserSlice();
   return receivedRequests.length > 0 ? (
     <ul className={classes["request-list"]}>
-      {receivedRequests.map(({ name, requestId, image }) => (
-        <li className={classes["request-list-item"]}>
+      {receivedRequests.map(({ name, requestId, image, userId }) => (
+        <li className={classes["request-list-item"]} key={requestId}>
           <UserListItem
             image={image!}
             name={name}
             requestId={requestId}
+            userId={userId}
             userItemType="LINK_AND_DELETE"
           />
         </li>

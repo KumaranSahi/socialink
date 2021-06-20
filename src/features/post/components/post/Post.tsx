@@ -23,6 +23,7 @@ export const Post = ({
   postUserId,
   postEdited,
   postCommentCount,
+  loadUser,
 }: PostProps) => {
   const { token, userId } = useAuthSlice();
   const dispatch = useDispatch();
@@ -79,12 +80,13 @@ export const Post = ({
     <div className={classes["post-container"]}>
       <div
         className={classes["user-info"]}
-        onClick={() =>
-          push({
-            pathname: "/user-profile",
-            search: postUserId,
-          })
-        }
+        onClick={() => {
+          if (loadUser)
+            push({
+              pathname: "/user-profile",
+              search: postUserId,
+            });
+        }}
       >
         <img src={userImage} alt="Profile" className={classes["user-image"]} />
         <div className={classes["username-timestamp"]}>

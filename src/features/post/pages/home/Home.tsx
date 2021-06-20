@@ -56,6 +56,7 @@ export const Home = () => {
                   key={postId}
                   postUserId={postUserId!}
                   postEdited={postEdited}
+                  loadUser={true}
                 />
               )
             )}

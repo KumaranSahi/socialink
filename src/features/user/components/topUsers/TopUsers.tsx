@@ -17,7 +17,7 @@ export const TopUsers = () => {
     <div className={classes["top-users-container"]}>
       <ul className={classes["top-user-list"]}>
         {topUsers.map(({ name, userId, image }) => (
-          <li>
+          <li key={userId}>
             <UserListItem
               key={userId}
               image={image || null}

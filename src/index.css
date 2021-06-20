@@ -35,3 +35,19 @@ a {
   --z-index-mid: 100;
   --z-index-low: 1;
 }
+
+::-webkit-scrollbar {
+  width: 0.2rem;
+  height: 0.2rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #58595a;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #282c34;
+  border-radius: 2rem;
+}

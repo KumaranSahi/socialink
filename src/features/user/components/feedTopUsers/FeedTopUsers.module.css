@@ -1,0 +1,7 @@
+.feed-top-user-list {
+  display: flex;
+  height: 30vh;
+  overflow-x: scroll;
+  list-style: none;
+  padding: 0.5rem;
+}

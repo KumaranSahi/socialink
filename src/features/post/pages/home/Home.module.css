@@ -16,6 +16,7 @@
   margin: 1rem;
   width: 98%;
   height: 100%;
+  overflow-x: hidden;
 }
 
 .people-you-may-know-container {

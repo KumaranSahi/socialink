@@ -1,4 +1,16 @@
-.App {
+.light-mode {
+  --text-color: black;
+  --primary-background: white;
+  --secondary-background: #fafafa;
+  --shadow: lightgray;
+  text-align: center;
+}
+
+.dark-mode {
+  --text-color: white;
+  --primary-background: #202225;
+  --secondary-background: #36393f;
+  --shadow: #3c3d3f;
   text-align: center;
 }
 
@@ -7,7 +19,7 @@
   margin-bottom: 4.4rem;
   width: 100%;
   min-height: calc(100vh - 4.4rem);
-  background-color: var( --background);
+  background-color: var(--secondary-background);
 }
 
 @media (min-width: 700px) {

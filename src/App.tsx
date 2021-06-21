@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import { Navbar } from "./components";
 import { Signup } from "./features/auth/pages";
 import { Post, Home } from "./features/post/pages";
@@ -42,6 +42,7 @@ function App() {
   const { authLoading, token } = useAuthSlice();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const [darkMode, setDarkMode] = useState(false);
 
   const checkAuthTimeout = useCallback(
     (expirationTime: number) => {
@@ -86,9 +87,25 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  const loaded = useRef(false);
+
+  useEffect(() => {
+    if (loaded.current) {
+      localStorage.setItem("darkMode", "" + darkMode);
+    } else {
+      loaded.current = true;
+    }
+  }, [darkMode]);
+
+  useEffect(() => {
+    const darkModeValue = localStorage.getItem("darkMode");
+    setDarkMode(darkModeValue === "true");
+  }, []);
+
   return (
-    <div className="App">
-      {token && <Navbar />}
+    <div className={darkMode ? "dark-mode" : "light-mode"}>
+      {token && <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />}
       <div className={token ? "main-container" : ""}>
         <Switch>
           <LockSignup path="/sign-up" component={Signup} />

@@ -9,7 +9,7 @@
   font-size: 1.2rem;
   margin-bottom: 1.7rem;
   font-weight: 600;
-  color: black;
+  color: var(--text-color);
   cursor: pointer;
   display: none;
 }
@@ -29,10 +29,15 @@
   position: relative;
 }
 
-.recieved-requests{
+.recieved-requests {
   color: var(--primary);
   margin-left: 1rem;
   font-weight: 700;
+}
+
+.theme-selector {
+  display: flex;
+  align-items: center;
 }
 
 @media (min-width: 700px) {

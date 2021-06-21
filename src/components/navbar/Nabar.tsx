@@ -4,9 +4,15 @@ import { useHistory } from "react-router-dom";
 import { SearchBar } from "./searchBar/SearchBar";
 import { Search, Cancel } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
-export const Navbar = () => {
+export const Navbar = ({
+  darkMode,
+  setDarkMode,
+}: {
+  darkMode: boolean;
+  setDarkMode: Dispatch<SetStateAction<boolean>>;
+}) => {
   const { push } = useHistory();
   const [showSearch, setShowSearch] = useState(false);
 
@@ -15,7 +21,7 @@ export const Navbar = () => {
       <div className={classes["grouping-container"]}>
         {showSearch ? (
           <div className={classes["mobile-searchbar"]}>
-            <SearchBar />
+            <SearchBar darkMode={darkMode} />
           </div>
         ) : (
           <h1 className={classes["navbar-logo"]} onClick={() => push("/")}>
@@ -26,14 +32,18 @@ export const Navbar = () => {
           onClick={() => setShowSearch((state) => !state)}
           className={classes["mobile-search-button"]}
         >
-          {showSearch ? <Cancel /> : <Search />}
+          {showSearch ? (
+            <Cancel />
+          ) : (
+            <Search style={{ color: darkMode ? "lightgray" : "black" }} />
+          )}
         </IconButton>
       </div>
       <div className={classes["grouping-container"]}>
         <div className={classes["desktop-searchbar"]}>
-          <SearchBar />
+          <SearchBar darkMode={darkMode} />
         </div>
-        <Avatar />
+        <Avatar darkMode={darkMode} setDarkMode={setDarkMode} />
       </div>
     </div>
   );

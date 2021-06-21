@@ -4,6 +4,7 @@
   width: 100%;
   justify-content: space-between;
   cursor: pointer;
+  color: var(--text-color) !important;
 }
 
 .user-image-name {

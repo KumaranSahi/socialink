@@ -29,7 +29,7 @@
   color: gray;
 }
 
-.edited-tag{
+.edited-tag {
   color: gray;
   font-size: 0.7rem;
 }
@@ -39,7 +39,7 @@
   padding: 1rem;
 }
 
-
 .comment-container {
   position: relative;
+  color: var(--text-color);
 }

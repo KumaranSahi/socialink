@@ -1,6 +1,7 @@
 import classes from "./MyProfile.module.css";
 import { ProfileDetails } from "../../components";
 import { getUserPosts } from "../../../post/postSlice";
+import { getUserfriends } from "../../userSlice";
 import {
   useAuthSlice,
   usePostSlice,
@@ -18,6 +19,10 @@ export const MyProfile = () => {
 
   useEffect(() => {
     dispatch(getUserPosts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getUserfriends());
   }, [dispatch]);
 
   return (
@@ -50,7 +55,7 @@ export const MyProfile = () => {
               userName={userName!}
               postId={postId}
               isUserPost={true}
-              postCommentCount={comments.length}
+              postCommentCount={(comments && comments.length) || 0}
               key={postId}
               likes={likes}
               postUserId={userId!}

@@ -1,11 +1,10 @@
 import classes from "./CreatePost.module.css";
 import { TextField, Button, IconButton } from "@material-ui/core";
-import { PhotoCamera } from "@material-ui/icons";
+import { PhotoCamera, Delete } from "@material-ui/icons";
 import { SyntheticEvent, useState } from "react";
 import { usePostSlice } from "../../../../app/store";
 import { useDispatch } from "react-redux";
 import { setPostLoading, createPost } from "../../postSlice";
-import axios from "../../../../useAxios";
 import { Modal, warningToast, successToast } from "../../../../components";
 
 export const CreatePost = () => {
@@ -25,17 +24,11 @@ export const CreatePost = () => {
       file[0].size <= 4000000
     ) {
       try {
-        dispatch(setPostLoading(true));
-        const data = new FormData();
-        data.append("file", file[0]);
-        data.append("upload_preset", "conclave");
-        data.append("cloud_name", "conclave");
-        const { data: imageData } = await axios.post(
-          "https://api.cloudinary.com/v1_1/conclave/image/upload",
-          data
-        );
-        setImage(imageData.url);
-        dispatch(setPostLoading(false));
+        const reader = new FileReader();
+        reader.readAsDataURL(file[0]);
+        reader.onloadend = () => {
+          setImage(reader.result! as string);
+        };
         successToast("Image uploaded successfully");
       } catch (error) {
         dispatch(setPostLoading(false));
@@ -68,6 +61,7 @@ export const CreatePost = () => {
       <form onSubmit={addPost}>
         <TextField
           multiline
+          className={classes["post-text-area"]}
           rows={4}
           fullWidth
           value={post}
@@ -77,7 +71,15 @@ export const CreatePost = () => {
         />
         <div className={classes["upload-post-buttons"]}>
           {image ? (
-            <img src={image} alt="Post" className={classes["post-picture"]} />
+            <div className={classes["post-picture-container"]}>
+              <img src={image} alt="Post" className={classes["post-picture"]} />
+              <IconButton
+                className={classes["image-delete-icon"]}
+                onClick={() => setImage("")}
+              >
+                <Delete />
+              </IconButton>
+            </div>
           ) : (
             <>
               <input

@@ -216,6 +216,7 @@ export const EditProfile = () => {
           />
         </FormControl>
         <FormControlLabel
+          style={{ margin: "0" }}
           control={
             <Switch
               color="primary"

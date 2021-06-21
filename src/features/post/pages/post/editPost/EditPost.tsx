@@ -31,6 +31,7 @@ export const EditPost = ({
         multiline
         rows={4}
         fullWidth
+        className={classes["post-text-area"]}
         value={postContent}
         onChange={(event) => setPostContent(event.target.value)}
         variant="outlined"

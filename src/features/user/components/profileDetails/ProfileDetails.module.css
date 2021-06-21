@@ -3,7 +3,9 @@
   height: 22rem;
   display: flex;
   padding: 1rem;
-  box-shadow: 1px 0px 20px 0px;
+  background-color: var(--primary-background);
+  box-shadow: 1px 0px 20px 0px var(--shadow);
+  color: var(--text-color);
 }
 
 .profile-image {
@@ -46,7 +48,7 @@
 .stat span {
   font-weight: bolder;
   font-size: larger;
-  color: black;
+  color: var(--text-color);
 }
 
 .profile-description {

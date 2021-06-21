@@ -1,13 +1,19 @@
 import classes from "./Avatar.module.css";
-import { useState, SyntheticEvent } from "react";
-import profileImage from "../../../assets/profile_image.jpg";
+import { useState, SyntheticEvent, Dispatch, SetStateAction } from "react";
 import { Menu, MenuItem } from "@material-ui/core";
+import { WbSunny, Brightness2 } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signoutUser } from "../../../features/auth/authSlice";
 import { useAuthSlice, useUserSlice } from "../../../app/store";
 
-export const Avatar = () => {
+export const Avatar = ({
+  darkMode,
+  setDarkMode,
+}: {
+  darkMode: boolean;
+  setDarkMode: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const { push } = useHistory();
   const dispatch = useDispatch();
@@ -36,16 +42,34 @@ export const Avatar = () => {
     handleClose();
   };
 
+  const themeSelectorToRender = () => {
+    return (
+      <MenuItem
+        onClick={() => {
+          setDarkMode((state) => !state);
+          handleClose();
+        }}
+      >
+        {darkMode ? (
+          <span className={classes["theme-selector"]}>
+            {" "}
+            <WbSunny /> Light Mode
+          </span>
+        ) : (
+          <span className={classes["theme-selector"]}>
+            <Brightness2 /> Dark Mode
+          </span>
+        )}
+      </MenuItem>
+    );
+  };
+
   return (
     <>
       <div className={classes["name-avatar-container"]} onClick={handleClick}>
         <p className={classes["name-container"]}>Hello, {userName}</p>
         <div className={classes["avatar-container"]}>
-          <img
-            src={image ? image : profileImage}
-            className={classes["avatar"]}
-            alt="Active avatar"
-          />
+          <img src={image!} className={classes["avatar"]} alt="Active avatar" />
         </div>
       </div>
       <Menu
@@ -64,6 +88,7 @@ export const Avatar = () => {
         </MenuItem>
         <MenuItem onClick={myProfileClicked}>My Profile</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        {themeSelectorToRender()}
       </Menu>
     </>
   );

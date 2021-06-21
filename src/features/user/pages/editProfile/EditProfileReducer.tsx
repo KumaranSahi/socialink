@@ -6,6 +6,8 @@ export const useEditProfileReducer = () => {
     name: "",
     bio: "",
     password: "",
+    profileImage: "",
+    fileUploadInfo: "",
     privacy: false,
     formTouched: false,
   };
@@ -38,6 +40,17 @@ export const useEditProfileReducer = () => {
           ...state,
           privacy: action.payload,
           formTouched: true,
+        };
+      case "ADD_IMAGE":
+        return {
+          ...state,
+          profileImage: action.payload,
+          formTouched: true,
+        };
+      case "SET_FILE_UPLOAD_INFO":
+        return {
+          ...state,
+          fileUploadInfo: action.payload,
         };
       default:
         return state;

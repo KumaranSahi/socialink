@@ -8,7 +8,12 @@ import {
   InputAdornment,
   IconButton,
 } from "@material-ui/core";
-import { Visibility, VisibilityOff, PhotoCamera } from "@material-ui/icons";
+import {
+  Visibility,
+  VisibilityOff,
+  PhotoCamera,
+  Delete,
+} from "@material-ui/icons";
 import { SignupContainerProps } from "../signup.types";
 import {
   KeyboardDatePicker,
@@ -39,11 +44,24 @@ export const SignupContainer = ({
       <h1>Sign Up:</h1>
       <form className={classes["signup-container"]} onSubmit={signUpSubmit}>
         {image ? (
-          <img
-            src={image}
-            alt="Profile"
-            className={classes["profile-picture"]}
-          />
+          <div className={classes["image-container"]}>
+            <img
+              src={image}
+              alt="Profile"
+              className={classes["profile-picture"]}
+            />
+            <IconButton
+              className={classes["image-delete-icon"]}
+              onClick={() =>
+                signupDispatch({
+                  type: "ADD_IMAGE",
+                  payload: "",
+                })
+              }
+            >
+              <Delete />
+            </IconButton>
+          </div>
         ) : (
           <div>
             <input

@@ -2,7 +2,6 @@ import classes from "./Singup.module.css";
 import { SyntheticEvent } from "react";
 import { successToast, warningToast } from "../../../../components";
 import { useSignupReducer } from "./SignupReducer";
-import axios from "axios";
 import {
   SigninContainer,
   SignupContainer,
@@ -63,20 +62,15 @@ export const Signup = () => {
       file[0].size <= 4000000
     ) {
       try {
-        dispatch(setAuthLoading(true));
-        const data = new FormData();
-        data.append("file", file[0]);
-        data.append("upload_preset", "conclave");
-        data.append("cloud_name", "conclave");
-        const { data: imageData } = await axios.post(
-          "https://api.cloudinary.com/v1_1/conclave/image/upload",
-          data
-        );
-        signupDispatch({
-          type: "ADD_IMAGE",
-          payload: imageData.url,
-        });
-        dispatch(setAuthLoading(false));
+        const reader = new FileReader();
+        reader.readAsDataURL(file[0]);
+        reader.onloadend = () => {
+          signupDispatch({
+            type: "ADD_IMAGE",
+            payload: reader.result! as string,
+          });
+        };
+
         successToast("Image uploaded successfully");
       } catch (error) {
         console.log(error);

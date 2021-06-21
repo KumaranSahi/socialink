@@ -14,7 +14,13 @@ import {
 } from "@material-ui/core";
 import { useEditProfileReducer } from "./EditProfileReducer";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+import {
+  Visibility,
+  VisibilityOff,
+  Delete,
+  PhotoCamera,
+} from "@material-ui/icons";
+import { successToast, warningToast } from "../../../../components";
 import { editProfile } from "../../../auth/authSlice";
 
 export const EditProfile = () => {
@@ -26,8 +32,15 @@ export const EditProfile = () => {
     privacy: currentPrivacy,
   } = useAuthSlice();
   const dispatch = useDispatch();
-  const { editProfileDispatch, name, bio, password, privacy } =
-    useEditProfileReducer();
+  const {
+    editProfileDispatch,
+    name,
+    bio,
+    password,
+    privacy,
+    fileUploadInfo,
+    profileImage,
+  } = useEditProfileReducer();
 
   const [showPassword, setShowPassword] = useState(true);
 
@@ -42,12 +55,48 @@ export const EditProfile = () => {
       payload: currentPrivacy,
     });
 
-    if (currentBio && currentBio.length > 0)
+    if (currentBio && currentBio.length > 0 && currentBio !== "undefined")
       editProfileDispatch({
         type: "ADD_BIO",
         payload: currentBio,
       });
-  }, [userName, currentBio, currentPrivacy, editProfileDispatch]);
+
+    if (image && image.includes("res.cloudinary.com"))
+      editProfileDispatch({
+        type: "ADD_IMAGE",
+        payload: image,
+      });
+  }, [userName, currentBio, currentPrivacy, editProfileDispatch, image]);
+
+  const fileUpload = async (file: FileList | null) => {
+    const allowedExtensions = new RegExp("^.*(.jpg|.jpeg|.png)");
+    if (
+      file &&
+      allowedExtensions.test(file[0].name.toLowerCase()) &&
+      file[0].size <= 4000000
+    ) {
+      try {
+        const reader = new FileReader();
+        reader.readAsDataURL(file[0]);
+        reader.onloadend = () => {
+          editProfileDispatch({
+            type: "ADD_IMAGE",
+            payload: reader.result! as string,
+          });
+        };
+
+        successToast("Image uploaded successfully");
+      } catch (error) {
+        console.log(error);
+        warningToast("Unable to upload image");
+      }
+    } else {
+      editProfileDispatch({
+        type: "SET_FILE_UPLOAD_INFO",
+        payload: "Please upload a .jpg or .png file under 4mb",
+      });
+    }
+  };
 
   const editProfileSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -57,13 +106,58 @@ export const EditProfile = () => {
         name: name,
         password: password.length > 0 ? password : null,
         privacy: privacy,
+        image: profileImage,
       })
     );
   };
 
   return (
     <div className={classes["edit-profile-container"]}>
-      <img src={image!} alt="Profile" className={classes["profile-picture"]} />
+      {profileImage ? (
+        <div className={classes["image-container"]}>
+          <img
+            src={profileImage}
+            alt="Profile"
+            className={classes["profile-picture"]}
+          />
+          <IconButton
+            className={classes["image-delete-icon"]}
+            onClick={() =>
+              editProfileDispatch({
+                type: "ADD_IMAGE",
+                payload: "",
+              })
+            }
+          >
+            <Delete />
+          </IconButton>
+        </div>
+      ) : (
+        <div>
+          <input
+            accept="image/*"
+            style={{ display: "none" }}
+            id="icon-button-file"
+            type="file"
+            onChange={(event) => fileUpload(event.target.files)}
+          />
+          <label htmlFor="icon-button-file">
+            <IconButton
+              color="primary"
+              aria-label="upload picture"
+              component="span"
+            >
+              <PhotoCamera />
+            </IconButton>
+            <span className={classes["upload-profile-picture"]}>
+              Upload Profile picture
+            </span>
+          </label>
+          {fileUploadInfo && (
+            <p className={classes["file-upload-info"]}>{fileUploadInfo}</p>
+          )}
+        </div>
+      )}
       <form
         className={classes["edit-profile-form"]}
         onSubmit={editProfileSubmit}

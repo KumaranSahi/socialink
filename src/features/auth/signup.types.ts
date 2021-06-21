@@ -48,7 +48,7 @@ export type SignupContainerProps = {
   authLoading: boolean;
   signupDispatch: Dispatch<SignupAction>;
   dob: Date;
-  addDob: (date:MaterialUiPickersDate) => void;
+  addDob: (date: MaterialUiPickersDate) => void;
   dobValid: boolean;
 };
 

@@ -137,7 +137,7 @@ const authSlice = createSlice({
       localStorage.setItem("expiresIn", "" + expiresIn);
       state.token = token;
       state.userId = userId;
-      state.image = image ? image : defaultImage;
+      state.image = image || defaultImage;
       state.userName = userName;
       state.bio = bio;
       state.privacy = privacy || false;
@@ -165,13 +165,15 @@ const authSlice = createSlice({
     },
     [editProfile.fulfilled.toString()]: (state, action) => {
       state.authLoading = false;
-      const { name, bio, privacy } = action.payload;
+      const { name, bio, privacy, image } = action.payload;
       state.userName = name;
       state.bio = bio;
       state.privacy = privacy;
+      state.image = image || defaultImage;
       localStorage.setItem("userName", name);
       localStorage.setItem("bio", bio);
       localStorage.setItem("privacy", privacy);
+      action.payload?.image && localStorage.setItem("image", image);
       successToast("User details updated");
     },
     [editProfile.rejected.toString()]: (state, action) => {

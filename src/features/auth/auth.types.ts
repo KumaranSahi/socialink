@@ -43,4 +43,5 @@ export type EditUserData = {
   bio: string;
   privacy: boolean;
   password: string | null;
+  image: string;
 };

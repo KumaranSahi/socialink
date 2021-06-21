@@ -16,6 +16,12 @@ export type Friend = {
   friendImage: string;
 };
 
+export type SearchUser = {
+  searchUserId: string;
+  searchUserName: string;
+  searchUserImage: string;
+};
+
 export type UserInitialState = {
   topUsers: User[];
   userProfile: User | null;
@@ -24,6 +30,7 @@ export type UserInitialState = {
   receivedRequests: Request[];
   friends: Friend[];
   loadedUser: LoadedUser | null;
+  searchResult: SearchUser[];
 };
 
 export type Request = {

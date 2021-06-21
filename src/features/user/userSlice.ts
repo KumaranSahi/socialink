@@ -2,7 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../useAxios";
 import { ResponseTemplate } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
-import { UserInitialState, User, Request, Friend } from "./user.types";
+import {
+  UserInitialState,
+  User,
+  Request,
+  Friend,
+  SearchUser,
+} from "./user.types";
 import defaultImage from "../../assets/profile_image.jpg";
 
 const initialState: UserInitialState = {
@@ -13,6 +19,7 @@ const initialState: UserInitialState = {
   receivedRequests: [],
   friends: [],
   loadedUser: null,
+  searchResult: [],
 };
 
 export const getTopUsers = createAsyncThunk("user/get-top-user", async () => {
@@ -87,6 +94,18 @@ export const getUserInfo = createAsyncThunk(
     const {
       data: { data },
     } = await axios.get<ResponseTemplate>(`/api/friends/${userId}`);
+    return data;
+  }
+);
+
+export const searchUserTyped = createAsyncThunk(
+  "user/search-user",
+  async (userToSearch: string) => {
+    const {
+      data: { data },
+    } = await axios.get<ResponseTemplate>(
+      `/api/friends/search/${userToSearch}`
+    );
     return data;
   }
 );
@@ -176,10 +195,10 @@ const userSlice = createSlice({
       state.userLoading = false;
       warningToast("Unable to unlink user please try again later");
     },
-
     [getUserRequests.rejected.toString()]: (state) => {
       state.userLoading = false;
     },
+
     [deleteFriendRequestClicked.pending.toString()]: (state) => {
       state.userLoading = true;
     },
@@ -198,6 +217,7 @@ const userSlice = createSlice({
       state.userLoading = false;
       warningToast("Unable to delete request");
     },
+
     [acceptFriendRequestClicked.pending.toString()]: (state) => {
       state.userLoading = true;
     },
@@ -216,6 +236,7 @@ const userSlice = createSlice({
       state.userLoading = false;
       warningToast("Unable to accept request");
     },
+
     [getUserInfo.pending.toString()]: (state) => {
       state.userLoading = true;
     },
@@ -235,6 +256,21 @@ const userSlice = createSlice({
     [getUserInfo.rejected.toString()]: (state) => {
       state.userLoading = false;
       warningToast("Unable to load the user");
+    },
+
+    [searchUserTyped.pending.toString()]: (state) => {
+      state.userLoading = true;
+    },
+    [searchUserTyped.fulfilled.toString()]: (state, action) => {
+      state.userLoading = false;
+      state.searchResult = action.payload.map((user: SearchUser) => ({
+        ...user,
+        searchUserImage: user.searchUserImage || defaultImage,
+      }));
+    },
+    [getUserInfo.rejected.toString()]: (state) => {
+      state.userLoading = false;
+      warningToast("Unable to search user");
     },
   },
 });

@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
-const token= localStorage.getItem("token")
+const token = localStorage.getItem("token");
 
 const instance = axios.create({
-  baseURL: "http://localhost:8000/",
+  baseURL: "https://socialink-api.herokuapp.com/",
   headers: {
     Authorization: "Bearer " + token,
   },

@@ -10,7 +10,7 @@ import {
   UserProfile,
 } from "./features/user/pages";
 import { useDispatch } from "react-redux";
-import { useAuthSlice } from "./app/store";
+import { useAuthSlice, usePostSlice, useUserSlice } from "./app/store";
 import {
   signoutUser,
   setUserDetailsAfterReload,
@@ -41,6 +41,8 @@ const LockSignup = ({ ...props }) => {
 
 function App() {
   const { authLoading, token } = useAuthSlice();
+  const { userLoading } = useUserSlice();
+  const { postLoading } = usePostSlice();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [darkMode, setDarkMode] = useState(false);
@@ -119,7 +121,7 @@ function App() {
           <PrivateLink path="/" component={Home} />
         </Switch>
       </div>
-      {authLoading && <Spinner />}
+      {authLoading && userLoading && postLoading && <Spinner />}
     </div>
   );
 }

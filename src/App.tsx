@@ -56,6 +56,7 @@ function App() {
 
   const onReload = useCallback(() => {
     const token = localStorage.getItem("token");
+    setupAuthHeaderForServiceCalls(token!);
     let date = localStorage.getItem("expiresIn");
     let expiresIn: Date = new Date();
     if (date) expiresIn = new Date(date);
@@ -68,7 +69,6 @@ function App() {
       const privacy = localStorage.getItem("privacy");
       const bio = localStorage.getItem("bio");
       checkAuthTimeout((expiresIn.getTime() - new Date().getTime()) / 1000);
-      setupAuthHeaderForServiceCalls(token!);
       dispatch(
         setUserDetailsAfterReload({
           token: token,

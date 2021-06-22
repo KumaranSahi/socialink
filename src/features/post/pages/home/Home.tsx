@@ -1,7 +1,11 @@
 import classes from "./Home.module.css";
 import { CreatePost, Post } from "../../components";
 import { TopUsers, FeedTopUsers } from "../../../user/components";
-import { usePostSlice, useUserSlice } from "../../../../app/store";
+import {
+  useAuthSlice,
+  usePostSlice,
+  useUserSlice,
+} from "../../../../app/store";
 import { getUserRequests, getUserfriends } from "../../../user/userSlice";
 import { getFeedPosts } from "../../../post/postSlice";
 import { useDispatch } from "react-redux";
@@ -11,18 +15,19 @@ export const Home = () => {
   const dispatch = useDispatch();
   const { feedPosts } = usePostSlice();
   const { topUsers } = useUserSlice();
+  const { token } = useAuthSlice();
 
   useEffect(() => {
-    dispatch(getUserRequests());
-  }, [dispatch]);
+    token && dispatch(getUserRequests());
+  }, [dispatch, token]);
 
   useEffect(() => {
-    dispatch(getFeedPosts());
-  }, [dispatch]);
+    token && dispatch(getFeedPosts());
+  }, [dispatch, token]);
 
   useEffect(() => {
-    dispatch(getUserfriends());
-  }, [dispatch]);
+    token && dispatch(getUserfriends());
+  }, [dispatch, token]);
 
   return (
     <div className={classes["homepage"]}>
@@ -30,7 +35,7 @@ export const Home = () => {
         <div className={classes["posts-container"]}>
           <CreatePost />
           {topUsers.length > 0 && <FeedTopUsers />}
-          {feedPosts.length > 0?
+          {feedPosts.length > 0 ? (
             feedPosts.map(
               ({
                 content,
@@ -60,9 +65,10 @@ export const Home = () => {
                   loadUser={true}
                 />
               )
-            ):<h1>
-              Link up with people!😃  
-            </h1>}
+            )
+          ) : (
+            <h1>Link up with people!😃</h1>
+          )}
         </div>
         <div className={classes["people-you-may-know-container"]}>
           <TopUsers />

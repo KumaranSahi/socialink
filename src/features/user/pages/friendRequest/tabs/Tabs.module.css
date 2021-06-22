@@ -5,5 +5,5 @@
 }
 
 .request-list-item{
-    background-color: white;
+  background-color: var(--primary-background);
 }

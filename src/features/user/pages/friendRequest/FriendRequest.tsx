@@ -34,8 +34,8 @@ export const FriendRequest = () => {
             variant="fullWidth"
             aria-label="full width tabs example"
           >
-            <Tab label="Recieved " />
-            <Tab label="Sent " />
+            <Tab label="Recieved " className={classes["tab-style"]} />
+            <Tab label="Sent " className={classes["tab-style"]} />
           </Tabs>
         </AppBar>
         <SwipeableViews

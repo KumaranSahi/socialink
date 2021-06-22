@@ -1,16 +1,23 @@
 import classes from "./FriendRequest.module.css";
 import { AppBar, Tabs, Tab, useTheme } from "@material-ui/core";
 import SwipeableViews from "react-swipeable-views";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SentRequests } from "./tabs/SentRequests";
 import { ReceivedRequests } from "./tabs/ReceivedRequests";
+import { useDispatch } from "react-redux";
+import { getUserRequests } from "../../userSlice";
 
 export const FriendRequest = () => {
   const [value, setValue] = useState(0);
+  const dispatch = useDispatch();
   const theme = useTheme();
   const handleChange = (newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    dispatch(getUserRequests());
+  }, [dispatch]);
 
   const handleChangeIndex = (index: number) => {
     setValue(index);

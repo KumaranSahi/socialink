@@ -7,4 +7,4 @@ export const setupAuthHeaderForServiceCalls = (token: string) => {
   delete axios.defaults.headers.common["Authorization"];
 };
 
-export const APP_URL = "http://socialink-api.herokuapp.com/";
+export const APP_URL = "https://socialink-api.herokuapp.com/";

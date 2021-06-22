@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "../../useAxios";
+import { APP_URL } from "../../axiosUtils";
+import axios from "axios";
 import { ResponseTemplate } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
 import {
@@ -25,14 +26,14 @@ const initialState: UserInitialState = {
 export const getTopUsers = createAsyncThunk("user/get-top-user", async () => {
   const {
     data: { data },
-  } = await axios.get<ResponseTemplate>("/api/friends/top-users");
+  } = await axios.get<ResponseTemplate>(`${APP_URL}api/friends/top-users`);
   return data;
 });
 
 export const getUserfriends = createAsyncThunk("user/friends", async () => {
   const {
     data: { data },
-  } = await axios.get(`/api/friends`);
+  } = await axios.get(`${APP_URL}api/friends`);
   return data;
 });
 
@@ -41,7 +42,7 @@ export const deleteFriendRequestClicked = createAsyncThunk(
   async (requestId: string) => {
     const {
       data: { data },
-    } = await axios.delete(`/api/friends/${requestId}`);
+    } = await axios.delete(`${APP_URL}api/friends/${requestId}`);
     return data;
   }
 );
@@ -51,7 +52,7 @@ export const sendFriendRequestClicked = createAsyncThunk(
   async (linkTo: string) => {
     const {
       data: { data },
-    } = await axios.post("/api/friends/send-request", {
+    } = await axios.post(`${APP_URL}api/friends/send-request`, {
       linkTo: linkTo,
     });
     return data;
@@ -63,7 +64,7 @@ export const acceptFriendRequestClicked = createAsyncThunk(
   async (requestId: string) => {
     const {
       data: { data },
-    } = await axios.put(`/api/friends/${requestId}`, null);
+    } = await axios.put(`${APP_URL}api/friends/${requestId}`, null);
     return data;
   }
 );
@@ -73,7 +74,7 @@ export const unlinkUserClicked = createAsyncThunk(
   async (userId: string) => {
     const {
       data: { data },
-    } = await axios.delete(`/api/friends/unlink/${userId}`);
+    } = await axios.delete(`${APP_URL}api/friends/unlink/${userId}`);
     return data;
   }
 );
@@ -83,7 +84,7 @@ export const getUserRequests = createAsyncThunk(
   async () => {
     const {
       data: { data },
-    } = await axios.get<ResponseTemplate>("/api/friends/requests");
+    } = await axios.get<ResponseTemplate>(`${APP_URL}api/friends/requests`);
     return data;
   }
 );
@@ -93,7 +94,7 @@ export const getUserInfo = createAsyncThunk(
   async (userId: string) => {
     const {
       data: { data },
-    } = await axios.get<ResponseTemplate>(`/api/friends/${userId}`);
+    } = await axios.get<ResponseTemplate>(`${APP_URL}api/friends/${userId}`);
     return data;
   }
 );
@@ -104,7 +105,7 @@ export const searchUserTyped = createAsyncThunk(
     const {
       data: { data },
     } = await axios.get<ResponseTemplate>(
-      `/api/friends/search/${userToSearch}`
+      `${APP_URL}api/friends/search/${userToSearch}`
     );
     return data;
   }

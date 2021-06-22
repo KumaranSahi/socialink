@@ -23,6 +23,7 @@ import {
   Redirect,
   useLocation,
 } from "react-router-dom";
+import { setupAuthHeaderForServiceCalls } from "./axiosUtils";
 
 const PrivateLink = ({ ...props }) => {
   const token = localStorage.getItem("token");
@@ -67,6 +68,7 @@ function App() {
       const privacy = localStorage.getItem("privacy");
       const bio = localStorage.getItem("bio");
       checkAuthTimeout((expiresIn.getTime() - new Date().getTime()) / 1000);
+      setupAuthHeaderForServiceCalls(token!);
       dispatch(
         setUserDetailsAfterReload({
           token: token,

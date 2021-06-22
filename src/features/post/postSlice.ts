@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "../../useAxios";
+import { APP_URL } from "../../axiosUtils";
+import axios from "axios";
 import { ResponseTemplate } from "../../Generics.types";
 import { warningToast, successToast } from "../../components";
 import {
@@ -24,7 +25,7 @@ export const getFeedPosts = createAsyncThunk(
   async () => {
     const {
       data: { data },
-    } = await axios.get<ResponseTemplate>("/api/posts");
+    } = await axios.get<ResponseTemplate>(`${APP_URL}api/posts`);
     return data;
   }
 );
@@ -34,7 +35,7 @@ export const createPost = createAsyncThunk(
   async (postData: PostData) => {
     const {
       data: { data },
-    } = await axios.post<ResponseTemplate>("/api/posts", postData);
+    } = await axios.post<ResponseTemplate>(`${APP_URL}api/posts`, postData);
     return data;
   }
 );
@@ -44,7 +45,7 @@ export const getUserPosts = createAsyncThunk(
   async () => {
     const {
       data: { data },
-    } = await axios.get<ResponseTemplate>("/api/posts/user-posts");
+    } = await axios.get<ResponseTemplate>(`${APP_URL}api/posts/user-posts`);
     return data;
   }
 );
@@ -54,7 +55,10 @@ export const postLikeButtonClicked = createAsyncThunk(
   async (postId: string) => {
     const {
       data: { data },
-    } = await axios.put<ResponseTemplate>(`/api/likes/${postId}`, null);
+    } = await axios.put<ResponseTemplate>(
+      `${APP_URL}api/likes/${postId}`,
+      null
+    );
     return data;
   }
 );
@@ -64,7 +68,7 @@ export const editPostButtonClicked = createAsyncThunk(
   async ({ content: postContent, postId }: PostEditData) => {
     const {
       data: { data },
-    } = await axios.put<ResponseTemplate>(`/api/posts/${postId}`, {
+    } = await axios.put<ResponseTemplate>(`${APP_URL}api/posts/${postId}`, {
       content: postContent,
     });
     return data;
@@ -76,7 +80,7 @@ export const deletePostButtonClicked = createAsyncThunk(
   async (postId: string) => {
     const {
       data: { data },
-    } = await axios.delete<ResponseTemplate>(`/api/posts/${postId}`);
+    } = await axios.delete<ResponseTemplate>(`${APP_URL}api/posts/${postId}`);
     return data;
   }
 );
@@ -86,7 +90,7 @@ export const postActiveLikedButtonClicked = createAsyncThunk(
   async (likeId: string) => {
     const {
       data: { data },
-    } = await axios.delete<ResponseTemplate>(`/api/likes/${likeId}`);
+    } = await axios.delete<ResponseTemplate>(`${APP_URL}api/likes/${likeId}`);
     return data;
   }
 );
@@ -96,9 +100,12 @@ export const addCommentButtonClicked = createAsyncThunk(
   async ({ content: commentContent, postId }: CommentData) => {
     const {
       data: { data },
-    } = await axios.post<ResponseTemplate>(`/api/comments/${postId}`, {
-      content: commentContent,
-    });
+    } = await axios.post<ResponseTemplate>(
+      `${APP_URL}api/comments/${postId}`,
+      {
+        content: commentContent,
+      }
+    );
     return data;
   }
 );
@@ -108,9 +115,12 @@ export const editCommentButtonClicked = createAsyncThunk(
   async ({ content: commentContent, commentId }: CommentEditData) => {
     const {
       data: { data },
-    } = await axios.put<ResponseTemplate>(`/api/comments/${commentId}`, {
-      content: commentContent,
-    });
+    } = await axios.put<ResponseTemplate>(
+      `${APP_URL}api/comments/${commentId}`,
+      {
+        content: commentContent,
+      }
+    );
     return data;
   }
 );
@@ -120,7 +130,9 @@ export const deleteCommentButtonClicked = createAsyncThunk(
   async (commentId: string) => {
     const {
       data: { data },
-    } = await axios.delete<ResponseTemplate>(`/api/comments/${commentId}`);
+    } = await axios.delete<ResponseTemplate>(
+      `${APP_URL}api/comments/${commentId}`
+    );
     return data;
   }
 );
@@ -130,7 +142,7 @@ export const getLoadedUserPost = createAsyncThunk(
   async (userId: string) => {
     const {
       data: { data },
-    } = await axios.get<ResponseTemplate>(`/api/posts/${userId}`);
+    } = await axios.get<ResponseTemplate>(`${APP_URL}api/posts/${userId}`);
     return data;
   }
 );

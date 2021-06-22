@@ -7,7 +7,8 @@ import {
   ChangePassword,
   EditUserData,
 } from "./auth.types";
-import axios from "../../useAxios";
+import axios from "axios";
+import { setupAuthHeaderForServiceCalls, APP_URL } from "../../axiosUtils";
 import { ResponseTemplate } from "../../Generics.types";
 import { warningToast, successToast, infoToast } from "../../components";
 import defaultImage from "../../assets/profile_image.jpg";
@@ -28,7 +29,10 @@ export const editProfile = createAsyncThunk(
   async (EditUserData: EditUserData) => {
     const {
       data: { data },
-    } = await axios.put<ResponseTemplate>("/api/users/edit", EditUserData);
+    } = await axios.put<ResponseTemplate>(
+      `${APP_URL}api/users/edit`,
+      EditUserData
+    );
     return data;
   }
 );
@@ -37,7 +41,7 @@ export const signUpUser = createAsyncThunk(
   "user/signup",
   async (userData: UserData) => {
     const { data } = await axios.post<ResponseTemplate>(
-      "/api/users/signup",
+      `${APP_URL}api/users/signup`,
       userData
     );
     return data;
@@ -50,7 +54,7 @@ export const signinUser = createAsyncThunk(
     const {
       data: { data },
     } = await axios.post<ResponseTemplate<SignedInUserInfo>>(
-      "/api/users/signin",
+      `${APP_URL}api/users/signin`,
       emailAndPassword
     );
     return data;
@@ -61,7 +65,7 @@ export const changePassword = createAsyncThunk(
   "user/change-password",
   async (userData: ChangePassword) => {
     const { data } = await axios.post<ResponseTemplate>(
-      "/api/users/password",
+      `${APP_URL}api/users/password`,
       userData
     );
     return data;
@@ -135,6 +139,7 @@ const authSlice = createSlice({
       action.payload?.image && localStorage.setItem("image", image);
       const expiresIn = new Date(new Date().getTime() + 24 * 3600000);
       localStorage.setItem("expiresIn", "" + expiresIn);
+      setupAuthHeaderForServiceCalls(token);
       state.token = token;
       state.userId = userId;
       state.image = image || defaultImage;

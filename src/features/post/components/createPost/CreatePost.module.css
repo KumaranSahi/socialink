@@ -57,7 +57,8 @@
 }
 
 .image-error-model {
-  background-color: var(--primary-background);
+  background-color: white;
+  color: black;
   padding: 1rem;
   border-radius: 0.5rem;
   font-size: 1rem;

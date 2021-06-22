@@ -4,8 +4,8 @@
 }
 
 .tab-style {
-  background-color: var(--primary-background);
-  color: var(--text-color);
+  background-color: var(--primary-background) !important;
+  color: var(--text-color) !important;
 }
 
 @media (min-width: 700px) {

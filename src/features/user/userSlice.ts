@@ -269,7 +269,7 @@ const userSlice = createSlice({
         searchUserImage: user.searchUserImage || defaultImage,
       }));
     },
-    [getUserInfo.rejected.toString()]: (state) => {
+    [searchUserTyped.rejected.toString()]: (state) => {
       state.userLoading = false;
       warningToast("Unable to search user");
     },

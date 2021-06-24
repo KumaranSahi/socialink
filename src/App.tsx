@@ -121,7 +121,7 @@ function App() {
           <PrivateLink path="/" component={Home} />
         </Switch>
       </div>
-      {authLoading && userLoading && postLoading && <Spinner />}
+      {(authLoading || userLoading || postLoading) && <Spinner />}
     </div>
   );
 }

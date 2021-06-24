@@ -6,7 +6,8 @@
   width: 100%;
   height: auto;
   box-shadow: 4px 3px 4px 0px grey;
-  background-color: white;
+  background-color: var(--primary-background);
+  color: (--text-color);
   position: absolute;
   top: 104%;
   left: 2%;

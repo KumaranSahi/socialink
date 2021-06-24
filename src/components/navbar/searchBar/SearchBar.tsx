@@ -66,7 +66,7 @@ export const SearchBar = ({ darkMode }: { darkMode: boolean }) => {
   useEffect(() => {
     if (pathname === "/user-profile") setUserToSearch("");
   }, [pathname]);
-
+  /*eslint-disable*/
   const debouncedSearch = useCallback(
     debounce(
       (searchText: string) => dispatch(searchUserTyped(searchText)),

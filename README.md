@@ -6,4 +6,4 @@ Socialink is a social media website
 
 > API link : https://quizez-api.herokuapp.com
 
-> Backend : https://github.com/KumaranSahi/socialink-api
+> Backend repo : https://github.com/KumaranSahi/socialink-api

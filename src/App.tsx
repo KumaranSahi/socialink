@@ -47,6 +47,9 @@ function App() {
   const { pathname } = useLocation();
   const [darkMode, setDarkMode] = useState(false);
 
+  const tokenFromLocal = localStorage.getItem("token");
+  setupAuthHeaderForServiceCalls(tokenFromLocal!);
+
   const checkAuthTimeout = useCallback(
     (expirationTime: number) => {
       setTimeout(() => {

@@ -1,6 +1,6 @@
 .likes-list {
   list-style: none;
-  background-color: var(--primary-background);
+  background-color: white;
   padding: 0.5rem;
   min-width: 20rem;
 }

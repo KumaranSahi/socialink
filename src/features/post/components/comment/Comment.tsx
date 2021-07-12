@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { AddComment } from "@material-ui/icons";
 import { TextField, IconButton } from "@material-ui/core";
 import { CommentOptions } from "./commentOptions/CommentOptions";
+import { useHistory } from "react-router-dom";
 
 export interface CommentProps extends CommentTypes {
   commentPostId: string;
@@ -31,6 +32,8 @@ export const Comment = ({
 
   const dispatch = useDispatch();
 
+  const { push } = useHistory();
+
   const displayOptions = () =>
     commentUserId === userId ||
     userPosts.some(({ postId }) => postId === commentPostId);
@@ -49,7 +52,16 @@ export const Comment = ({
 
   return (
     <div className={classes["comment-container"]}>
-      <div className={classes["user-info"]}>
+      <div
+        className={classes["user-info"]}
+        onClick={() =>
+          commentUserId &&
+          push({
+            pathname: "/user-profile",
+            search: commentUserId!,
+          })
+        }
+      >
         <img
           src={commentUserImage}
           alt="Profile"

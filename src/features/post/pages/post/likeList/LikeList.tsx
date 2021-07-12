@@ -34,6 +34,7 @@ export const LikeList = ({ handleClose, likes, open }: LikeListProps) => {
           image={likeUserImage}
           name={likeUserName}
           requestId={recievedRequest.requestId}
+          userId={likeUserId}
           userItemType="LINK_AND_DELETE"
         />
       );
@@ -46,6 +47,7 @@ export const LikeList = ({ handleClose, likes, open }: LikeListProps) => {
           image={likeUserImage}
           name={likeUserName}
           requestId={sentRequest.requestId}
+          userId={likeUserId}
           userItemType="ONLY_DELETE"
         />
       );

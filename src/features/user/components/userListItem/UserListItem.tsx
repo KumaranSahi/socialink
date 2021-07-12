@@ -86,12 +86,12 @@ export const UserListItem = ({
         return <div></div>;
     }
   };
-
   return (
     <div className={classes["user-list-item-container"]}>
       <div
         className={classes["user-image-name"]}
         onClick={() =>
+          userId &&
           push({
             pathname: "/user-profile",
             search: userId!,

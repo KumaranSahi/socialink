@@ -42,7 +42,7 @@ export const EditProfile = () => {
     profileImage,
   } = useEditProfileReducer();
 
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (userName && userName.length > 0)

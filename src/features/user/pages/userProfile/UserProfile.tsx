@@ -1,9 +1,6 @@
 import classes from "./userProfile.module.css";
 import { ProfileDetails } from "../../components";
-import {
-  usePostSlice,
-  useUserSlice,
-} from "../../../../app/store";
+import { usePostSlice, useUserSlice } from "../../../../app/store";
 import { useEffect } from "react";
 import { Post } from "../../../post/components";
 import { useLocation } from "react-router-dom";
@@ -22,15 +19,11 @@ export const UserProfile = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(
-      getUserInfo(userToLoad)
-    );
+    dispatch(getUserInfo(userToLoad));
   }, [userToLoad, dispatch]);
 
   useEffect(() => {
-    dispatch(
-      getLoadedUserPost(userToLoad)
-    );
+    dispatch(getLoadedUserPost(userToLoad));
   }, [userToLoad, dispatch]);
 
   const buttonToRender = (): MyProfileButton => {
@@ -57,7 +50,7 @@ export const UserProfile = () => {
     }
     return { type: "LINK_UP", payload: loadedUser!.foundUserId };
   };
-
+  console.log(loadedUser && loadedUser.friend.friendStatus === "FRIEND");
   return (
     loadedUser && (
       <div className={classes["user-profile-container"]}>
@@ -70,10 +63,14 @@ export const UserProfile = () => {
           friendsCount={loadedUser!.foundUserFriendsCount}
           buttonType={buttonToRender()}
         />
-        {loadedUser?.foundUserPrivacy && (
-          <h1>Link up with the user to see the posts</h1>
-        )}
-        {!loadedUser?.foundUserPrivacy && loadedUserPosts.length > 0 ? (
+        {loadedUser &&
+          loadedUser.friend.friendStatus !== "FRIEND" &&
+          loadedUser.foundUserPrivacy && (
+            <h1>Link up with the user to see the posts</h1>
+          )}
+        {(!loadedUser?.foundUserPrivacy ||
+          loadedUser.friend.friendStatus === "FRIEND") &&
+        loadedUserPosts.length > 0 ? (
           loadedUserPosts.map(
             ({
               content,

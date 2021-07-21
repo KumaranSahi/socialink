@@ -90,7 +90,7 @@ export const Comment = ({
       {editMode && (
         <div className={classes["add-comment"]}>
           <TextField
-            label="Filled"
+            label="Comment"
             variant="filled"
             fullWidth
             value={comment}

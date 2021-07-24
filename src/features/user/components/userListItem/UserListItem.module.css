@@ -10,13 +10,13 @@
 .user-image-name {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 8rem;
 }
 
 .user-name {
   font-size: 1.1rem;
   margin: 0;
+  margin-left: 1rem;
   font-weight: 500;
 }
 

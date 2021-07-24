@@ -6,7 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 import { searchUserTyped } from "../../../features/user/userSlice";
 import { useDispatch } from "react-redux";
-import { SearchSpinner } from "./searchSpinner/SearchSpinner";
 import { UserListItem } from "../../../features/user/components";
 import { useUserSlice } from "../../../app/store";
 import { useLocation } from "react-router-dom";
@@ -60,7 +59,7 @@ export const SearchBar = ({ darkMode }: { darkMode: boolean }) => {
   const searchStyle = useStyles();
   const [userToSearch, setUserToSearch] = useState("");
   const dispatch = useDispatch();
-  const { searchResult, userLoading } = useUserSlice();
+  const { searchResult } = useUserSlice();
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -69,7 +68,8 @@ export const SearchBar = ({ darkMode }: { darkMode: boolean }) => {
   /*eslint-disable*/
   const debouncedSearch = useCallback(
     debounce(
-      (searchText: string) => dispatch(searchUserTyped(searchText)),
+      (searchText: string) =>
+        searchText.length > 0 && dispatch(searchUserTyped(searchText)),
       1000
     ),
     []
@@ -99,7 +99,6 @@ export const SearchBar = ({ darkMode }: { darkMode: boolean }) => {
       </div>
       {userToSearch.length > 0 && (
         <div className={classes["search-history"]}>
-          {userLoading && <SearchSpinner />}
           <ul className={classes["search-result-list"]}>
             {searchResult.map(
               ({ searchUserId, searchUserImage, searchUserName }) => (

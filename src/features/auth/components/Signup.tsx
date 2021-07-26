@@ -158,7 +158,7 @@ export const SignupContainer = ({
             <KeyboardDatePicker
               margin="normal"
               id="date-picker-dialog"
-              label="Date picker dialog"
+              label="Date of Birth"
               format="MM/dd/yyyy"
               value={dob}
               onChange={addDob}

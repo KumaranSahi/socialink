@@ -37,6 +37,7 @@ export const SignupContainer = ({
   addDob,
   dob,
   dobValid,
+  passwordValid,
 }: SignupContainerProps) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -152,6 +153,12 @@ export const SignupContainer = ({
               </InputAdornment>
             }
           />
+
+          {!passwordValid && (
+            <p className={classes["error-text"]}>
+              Password should be atleast 8 characters with atleast 1 number
+            </p>
+          )}
         </FormControl>
         <div>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>

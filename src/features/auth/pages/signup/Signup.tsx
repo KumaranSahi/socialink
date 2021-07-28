@@ -36,22 +36,41 @@ export const Signup = () => {
       userNameValid,
       DOB,
       DOBValid,
+      passwordValid,
     },
   } = useSignupReducer();
 
-  const validateUserName = () => {
-    if (userName.length === 0)
+  const validateUserName = (userName: string) => {
+    if (userName.length === 0) {
       signupDispatch({ type: "SET_USERNAME_VALID", payload: false });
-    else signupDispatch({ type: "SET_USERNAME_VALID", payload: true });
+      return false;
+    }
+    signupDispatch({ type: "SET_USERNAME_VALID", payload: true });
+    return true;
   };
 
-  const validateEmail = () => {
+  const validateEmail = (email: string) => {
     if (
       email.length > 0 &&
       new RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(email)
-    )
+    ) {
       signupDispatch({ type: "SET_EMAIL_VALID", payload: true });
-    else signupDispatch({ type: "SET_EMAIL_VALID", payload: false });
+      return true;
+    }
+    signupDispatch({ type: "SET_EMAIL_VALID", payload: false });
+    return false;
+  };
+
+  const validatePassword = (password: string) => {
+    if (
+      password.length > 0 &&
+      new RegExp("^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{8,16}$").test(password)
+    ) {
+      signupDispatch({ type: "SET_PASSWORD_VALID", payload: true });
+      return true;
+    }
+    signupDispatch({ type: "SET_PASSWORD_VALID", payload: false });
+    return false;
   };
 
   const fileUpload = async (file: FileList | null) => {
@@ -106,9 +125,19 @@ export const Signup = () => {
 
   const signUpSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    validateUserName();
-    validateEmail();
-    if (userNameValid && emailValid) {
+    if (
+      validateUserName(userName) &&
+      validateEmail(email) &&
+      validatePassword(password) &&
+      DOBValid
+    ) {
+      console.log({
+        name: userName,
+        email: email,
+        password: password,
+        image: image,
+        DOB: DOB,
+      });
       dispatch(
         signUpUser({
           name: userName,
@@ -123,8 +152,7 @@ export const Signup = () => {
 
   const signInSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    validateEmail();
-    if (emailValid)
+    if (validateEmail(email))
       dispatch(
         signinUser({
           email: email,
@@ -135,8 +163,11 @@ export const Signup = () => {
 
   const changePasswordSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    validateEmail();
-    if (password === confirmPassword) {
+    if (
+      password === confirmPassword &&
+      validateEmail(email) &&
+      validatePassword(password)
+    ) {
       dispatch(
         changePassword({
           email: email,
@@ -147,6 +178,18 @@ export const Signup = () => {
     } else {
       warningToast("Passwords do not match");
     }
+  };
+
+  const updateGuestCredentials = () => {
+    signupDispatch({
+      type: "ADD_EMAIL",
+      payload: "testuser@test.com",
+    });
+    signupDispatch({
+      type: "ADD_PASSWORD",
+      payload: "testuser1",
+    });
+    dispatch(switchPage("SIGNIN_PAGE"));
   };
 
   const pageToRender = (currentPage: SigninPages) => {
@@ -168,6 +211,7 @@ export const Signup = () => {
             dob={DOB}
             dobValid={DOBValid}
             addDob={addDob}
+            passwordValid={passwordValid}
           />
         );
       case "SIGNIN_PAGE":
@@ -190,6 +234,7 @@ export const Signup = () => {
             email={email}
             password={password}
             signupDispatch={signupDispatch}
+            passwordValid={passwordValid}
           />
         );
       default:
@@ -209,6 +254,7 @@ export const Signup = () => {
             dobValid={DOBValid}
             addDob={addDob}
             userNameValid={userNameValid}
+            passwordValid={passwordValid}
           />
         );
     }
@@ -224,6 +270,10 @@ export const Signup = () => {
       </div>
       <div className={classes["signin-signup-container"]}>
         {pageToRender(currentPage)}
+        <Button color="primary" onClick={updateGuestCredentials}>
+          Sign-in as guest
+        </Button>
+        <br />
         {currentPage === "SIGNIN_PAGE" && (
           <Button
             color="primary"

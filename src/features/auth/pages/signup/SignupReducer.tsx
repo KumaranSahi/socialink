@@ -9,6 +9,7 @@ export const useSignupReducer = () => {
     emailValid: true,
     password: "",
     confirmPassword: "",
+    passwordValid: true,
     image: "",
     fileUploadInfo: "",
     DOB: new Date(),
@@ -47,6 +48,11 @@ export const useSignupReducer = () => {
           ...state,
           confirmPassword: action.payload,
         };
+      case "SET_PASSWORD_VALID":
+        return {
+          ...state,
+          passwordValid: action.payload,
+        };
       case "ADD_IMAGE":
         return {
           ...state,
@@ -65,7 +71,7 @@ export const useSignupReducer = () => {
       case "SET_DOB_VALID":
         return {
           ...state,
-          DOBValid:action.payload,
+          DOBValid: action.payload,
         };
       default:
         return state;

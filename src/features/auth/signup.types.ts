@@ -8,6 +8,7 @@ export type SignupInitialState = {
   emailValid: boolean;
   password: string;
   confirmPassword: string;
+  passwordValid: boolean;
   image: string;
   fileUploadInfo: string;
   DOB: Date;
@@ -21,6 +22,7 @@ export type SignupAction =
   | { type: "SET_USERNAME_VALID"; payload: boolean }
   | { type: "ADD_PASSWORD"; payload: string }
   | { type: "ADD_CONFIRM_PASSWORD"; payload: string }
+  | { type: "SET_PASSWORD_VALID"; payload: boolean }
   | { type: "ADD_IMAGE"; payload: string }
   | { type: "SET_FILE_UPLOAD_INFO"; payload: string }
   | { type: "ADD_DOB"; payload: Date }
@@ -50,6 +52,7 @@ export type SignupContainerProps = {
   dob: Date;
   addDob: (date: MaterialUiPickersDate) => void;
   dobValid: boolean;
+  passwordValid: boolean;
 };
 
 export type ConfirmPasswordContainerProps = {
@@ -59,4 +62,5 @@ export type ConfirmPasswordContainerProps = {
   authLoading: boolean;
   changePasswordSubmit: (event: SyntheticEvent) => void;
   signupDispatch: Dispatch<SignupAction>;
+  passwordValid: boolean;
 };

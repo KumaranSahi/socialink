@@ -107,9 +107,26 @@ const authSlice = createSlice({
     [signUpUser.pending.toString()]: (state) => {
       state.authLoading = true;
     },
-    [signUpUser.fulfilled.toString()]: (state) => {
+    [signUpUser.fulfilled.toString()]: (state, action) => {
       successToast("User Added Successfully");
-      state.currentPage = "SIGNIN_PAGE";
+      const {
+        data: { image, token, userId, userName, bio, privacy },
+      } = action.payload;
+      localStorage.setItem("token", token);
+      localStorage.setItem("userName", userName);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("bio", bio);
+      localStorage.setItem("privacy", privacy);
+      action.payload?.image && localStorage.setItem("image", image);
+      const expiresIn = new Date(new Date().getTime() + 24 * 3600000);
+      localStorage.setItem("expiresIn", "" + expiresIn);
+      setupAuthHeaderForServiceCalls(token);
+      state.token = token;
+      state.userId = userId;
+      state.image = image || defaultImage;
+      state.userName = userName;
+      state.bio = bio;
+      state.privacy = privacy || false;
       state.authLoading = false;
     },
     [signUpUser.rejected.toString()]: (state, error) => {

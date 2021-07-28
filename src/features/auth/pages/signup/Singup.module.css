@@ -4,12 +4,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background-color: var(--primary-mild);
 }
 
 .signup-container {
-  height: 78%;
+  height: 77%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -18,7 +17,7 @@
 .signin-signup-container {
   border-radius: 1rem;
   width: 22rem;
-  height: 35rem;
+  height: 37rem;
   margin-top: 0;
   padding: 1rem;
   padding-bottom: 2rem;

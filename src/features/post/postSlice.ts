@@ -100,12 +100,9 @@ export const addCommentButtonClicked = createAsyncThunk(
   async ({ content: commentContent, postId }: CommentData) => {
     const {
       data: { data },
-    } = await axios.post<ResponseTemplate>(
-      `${APP_URL}api/comments/${postId}`,
-      {
-        content: commentContent,
-      }
-    );
+    } = await axios.post<ResponseTemplate>(`${APP_URL}api/comments/${postId}`, {
+      content: commentContent,
+    });
     return data;
   }
 );
@@ -160,7 +157,8 @@ export const postSlice = createSlice({
       state.postLoading = true;
     },
     [createPost.fulfilled.toString()]: (state, action) => {
-      state.userPosts.push(action.payload);
+      state.feedPosts.unshift(action.payload);
+      state.userPosts.unshift(action.payload);
       state.postLoading = false;
       successToast("Post added");
     },

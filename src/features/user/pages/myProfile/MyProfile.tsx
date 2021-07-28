@@ -9,7 +9,7 @@ import {
 } from "../../../../app/store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { Post } from "../../../post/components";
+import { Post, CreatePost } from "../../../post/components";
 
 export const MyProfile = () => {
   const dispatch = useDispatch();
@@ -36,6 +36,7 @@ export const MyProfile = () => {
         friendsCount={friends.length}
         buttonType={{ type: "EDIT_PROFILE" }}
       />
+      <CreatePost />
       {userPosts.length > 0 ? (
         userPosts.map(
           ({

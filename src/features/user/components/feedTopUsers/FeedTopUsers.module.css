@@ -5,3 +5,9 @@
   list-style: none;
   padding: 0.5rem;
 }
+
+@media (min-width: 700px) {
+  .feed-top-user-list {
+    display: none;
+  }
+}

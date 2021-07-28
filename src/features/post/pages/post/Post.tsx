@@ -130,7 +130,7 @@ export const Post = () => {
             setPost={setPostContent}
           />
         )}
-        {post.image && (
+        {post.image && post.image.length > 0 && (
           <img src={post.image} alt="Post" className={classes["post-image"]} />
         )}{" "}
         {editMode ? (

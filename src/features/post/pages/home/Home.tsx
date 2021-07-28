@@ -1,5 +1,5 @@
 import classes from "./Home.module.css";
-import { CreatePost, Post } from "../../components";
+import { Post, CreatePost } from "../../components";
 import { TopUsers, FeedTopUsers } from "../../../user/components";
 import {
   useAuthSlice,

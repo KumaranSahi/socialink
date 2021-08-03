@@ -5,7 +5,6 @@ export const useEditProfileReducer = () => {
   const initialState: EditProfile = {
     name: "",
     bio: "",
-    password: "",
     profileImage: "",
     fileUploadInfo: "",
     privacy: false,
@@ -27,12 +26,6 @@ export const useEditProfileReducer = () => {
         return {
           ...state,
           bio: action.payload,
-          formTouched: true,
-        };
-      case "ADD_PASSWORD":
-        return {
-          ...state,
-          password: action.payload,
           formTouched: true,
         };
       case "SET_PRIVACY":

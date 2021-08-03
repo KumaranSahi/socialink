@@ -46,14 +46,12 @@ export type EditProfile = {
   profileImage: string;
   fileUploadInfo: string;
   privacy: boolean;
-  password: string;
   formTouched: boolean;
 };
 
 export type EditProfileAction =
   | { type: "ADD_NAME"; payload: string }
   | { type: "ADD_BIO"; payload: string }
-  | { type: "ADD_PASSWORD"; payload: string }
   | { type: "ADD_IMAGE"; payload: string }
   | { type: "SET_FILE_UPLOAD_INFO"; payload: string }
   | { type: "SET_PRIVACY"; payload: boolean };

@@ -3,23 +3,14 @@ import { useDispatch } from "react-redux";
 import { useAuthSlice } from "../../../../app/store";
 import {
   TextField,
-  InputLabel,
-  FormControl,
-  Input,
-  InputAdornment,
   IconButton,
   Switch,
   FormControlLabel,
   Button,
 } from "@material-ui/core";
 import { useEditProfileReducer } from "./EditProfileReducer";
-import { SyntheticEvent, useEffect, useState } from "react";
-import {
-  Visibility,
-  VisibilityOff,
-  Delete,
-  PhotoCamera,
-} from "@material-ui/icons";
+import { SyntheticEvent, useEffect } from "react";
+import { Delete, PhotoCamera } from "@material-ui/icons";
 import { successToast, warningToast } from "../../../../components";
 import { editProfile } from "../../../auth/authSlice";
 
@@ -36,13 +27,10 @@ export const EditProfile = () => {
     editProfileDispatch,
     name,
     bio,
-    password,
     privacy,
     fileUploadInfo,
     profileImage,
   } = useEditProfileReducer();
-
-  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (userName && userName.length > 0)
@@ -104,7 +92,6 @@ export const EditProfile = () => {
       editProfile({
         bio: bio,
         name: name,
-        password: password.length > 0 ? password : null,
         privacy: privacy,
         image: profileImage,
       })
@@ -188,33 +175,6 @@ export const EditProfile = () => {
             })
           }
         />
-        <FormControl fullWidth>
-          <InputLabel htmlFor="standard-adornment-password">
-            Password
-          </InputLabel>
-          <Input
-            type={showPassword ? "text" : "password"}
-            value={password}
-            className={classes["edit-form-element"]}
-            onChange={(event) =>
-              editProfileDispatch({
-                type: "ADD_PASSWORD",
-                payload: event.target.value,
-              })
-            }
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={() => setShowPassword((state) => !state)}
-                  onMouseDown={(event) => event.preventDefault()}
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
         <FormControlLabel
           style={{ margin: "0" }}
           control={

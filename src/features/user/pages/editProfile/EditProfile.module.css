@@ -1,0 +1,61 @@
+.edit-profile-container {
+  width: 100%;
+  margin: auto;
+  min-height: calc(100vh - 4.4rem);
+  background-color: var(--primary-background);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.image-container {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  align-self: center;
+}
+
+.image-delete-icon {
+  position: absolute !important;
+  top: 10%;
+  left: 10%;
+  display: none !important;
+}
+
+.image-delete-icon svg {
+  font-size: 2.5rem;
+  color: black;
+}
+
+.image-container:hover .image-delete-icon {
+  display: block !important;
+}
+
+.image-container:hover .profile-picture {
+  filter: grayscale(100%);
+}
+
+.edit-profile-form {
+  width: 100%;
+  padding: 1rem;
+}
+
+.edit-form-element {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  background-color: var(--secondary-background);
+}
+
+@media (min-width: 700px) {
+  .edit-profile-container {
+    width: 60%;
+  }
+}

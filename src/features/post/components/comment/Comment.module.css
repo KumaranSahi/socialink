@@ -1,0 +1,46 @@
+.user-info {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-image {
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.username-timestamp {
+  margin-left: 1rem;
+  text-align: left;
+}
+
+.username {
+  margin: 0;
+  font-weight: bolder;
+}
+
+.comment-content {
+  padding-left: 3.5rem;
+}
+
+.timestamp {
+  margin: 0;
+  color: gray;
+}
+
+.edited-tag {
+  color: gray;
+  font-size: 0.7rem;
+}
+
+.add-comment {
+  display: flex;
+  padding: 1rem;
+}
+
+.comment-container {
+  position: relative;
+  color: var(--text-color);
+}

@@ -1,0 +1,31 @@
+.user-list-item-container {
+  display: flex;
+  padding: 0.5rem;
+  width: 100%;
+  justify-content: space-between;
+  cursor: pointer;
+  color: var(--text-color) !important;
+}
+
+.user-image-name {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.user-name {
+  font-size: 1.1rem;
+  margin: 0;
+  margin-left: 1rem;
+  font-weight: 500;
+}
+
+.user-image {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+.response-button {
+  border-radius: 0 !important;
+}

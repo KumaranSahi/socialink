@@ -1,0 +1,10 @@
+.my-profile-container {
+  width: 100%;
+  margin: auto;
+}
+
+@media (min-width: 700px) {
+  .my-profile-container {
+    width: 40rem;
+  }
+}

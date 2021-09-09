@@ -1,0 +1,11 @@
+.user-profile-container {
+  width: 100%;
+  margin: auto;
+  padding: 1rem;
+}
+
+@media (min-width: 700px) {
+  .user-profile-container {
+    width: 40rem;
+  }
+}

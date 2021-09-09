@@ -1,0 +1,9 @@
+.edit-post {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.post-text-area {
+  background-color: var(--secondary-background);
+}

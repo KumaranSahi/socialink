@@ -1,0 +1,18 @@
+.search-history-container {
+  position: relative;
+}
+
+.search-history {
+  width: 100%;
+  height: auto;
+  box-shadow: 4px 3px 4px 0px grey;
+  background-color: var(--primary-background);
+  color: (--text-color);
+  position: absolute;
+  top: 104%;
+  left: 2%;
+}
+
+.search-result-list {
+  list-style: none;
+}

@@ -1,0 +1,15 @@
+.request-container {
+  width: 100%;
+  margin: auto;
+}
+
+.tab-style {
+  background-color: var(--primary-background) !important;
+  color: var(--text-color) !important;
+}
+
+@media (min-width: 700px) {
+  .request-container {
+    width: 70%;
+  }
+}

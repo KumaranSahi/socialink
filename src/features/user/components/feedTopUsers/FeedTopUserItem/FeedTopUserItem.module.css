@@ -1,0 +1,28 @@
+.user-item-container {
+  height: 100%;
+  width: 15rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  box-shadow: 1px 1px 1px 1px var(--shadow);
+  color: var(--text-color);
+  background-color: var(--primary-background);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-image {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  box-shadow: 0px 3px 20px 1px  var(--shadow);
+}
+
+.user-name {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
+}

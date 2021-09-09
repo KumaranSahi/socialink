@@ -1,0 +1,7 @@
+.friends-list {
+  list-style: none;
+  background-color: white;
+  color: black;
+  padding: 0.5rem;
+  min-width: 20rem;
+}

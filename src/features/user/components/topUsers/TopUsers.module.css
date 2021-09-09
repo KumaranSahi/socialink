@@ -1,0 +1,12 @@
+.top-users-container {
+  width: 95%;
+  height: fit-content;
+  background-color: var(--primary-background);
+  color: var(--text-color);
+  border-radius: 1rem;
+}
+
+.top-user-list {
+  list-style: none;
+  padding: 0.5rem;
+}
